@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{The Ising model using the Metropolis algorithm}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{The Metropolis algorithm for the Ising model}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Effective computing of the thermodynamic quantities}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Solving for a 2 \0402 lattice}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Analytical solutions}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Results after numerically solving for the system}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Reaching the most likely state}{}% 8
+\BOOKMARK [1][-]{section.5}{Phase transitions}{}% 9
+\BOOKMARK [1][-]{section.6}{Critical temperature}{}% 10
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 11
+\BOOKMARK [1][-]{section.8}{Appendix A: Selected results for the two-spin system for different total number of Monte Carlo cycles}{}% 12

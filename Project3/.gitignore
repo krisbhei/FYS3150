@@ -1,0 +1,43 @@
+#Text
+part1b.pdf
+*.txt
+*.dat
+
+# Compiled Object files
+*.o
+*.obj
+
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+*.bbl
+*.blg
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Figures
+*.png
+*.pdf
+
+*.pyc
+
+### LaTeX ###
+## Core latex/pdflatex auxiliary files:
+*.synctex.gz
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2

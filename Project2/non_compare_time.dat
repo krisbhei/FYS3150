@@ -1,0 +1,20 @@
+
+Time used for non-interacting with N = 75:
+            - solver from jacobi.cpp used 0.1457 seconds
+            - numpy.linalg.eig from eig.py used 0.1163 seconds
+
+Time used for non-interacting with N = 175:
+            - solver from jacobi.cpp used 4.1019 seconds
+            - numpy.linalg.eig from eig.py used 0.1130 seconds
+
+Time used for non-interacting with N = 300:
+            - solver from jacobi.cpp used 35.1530 seconds
+            - numpy.linalg.eig from eig.py used 0.3143 seconds
+
+Time used for non-interacting with N = 400:
+            - solver from jacobi.cpp used 116.7054 seconds
+            - numpy.linalg.eig from eig.py used 0.6180 seconds
+
+Time used for non-interacting with N = 650:
+            - solver from jacobi.cpp used 875.4539 seconds
+            - numpy.linalg.eig from eig.py used 1.8550 seconds

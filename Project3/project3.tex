@@ -1,0 +1,580 @@
+\documentclass[12pt]{article}
+\usepackage{relsize}
+\usepackage{setspace}
+ \usepackage{amsmath, amsthm, amssymb}
+ \usepackage[utf8]{inputenc}
+ \usepackage[T1]{fontenc}
+ \usepackage[margin=0.75in]{geometry}
+ \usepackage{abstract}
+ \usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{wrapfig,lipsum,booktabs}
+\usepackage{mathrsfs}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{color}
+\pagestyle{fancy}
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot{}
+\usepackage{lastpage}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
+\newcommand{\Ms}{M_\odot}
+\usepackage{multicol}
+\usepackage{todonotes}
+\newcommand{\fancyfootnotetext}[2]{%
+	\fancypagestyle{dingens}{%
+		\fancyfoot[LO,RE]{\parbox{12cm}{\footnotemark[#1]\footnotesize #2}}%
+	}%
+	\thispagestyle{dingens}%
+}
+\lstdefinestyle{plain} {frame=none}
+\lstset{
+	frame=single,
+	language=c++,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	keywordstyle=\bf,
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+\usepackage[hang,small,bf]{caption}
+
+\begin{document}
+	\centerline{\Large \textbf{Project3 - FYS3150}} \hfill \\
+	\centerline{\normalsize Kristine Baluka Hein}
+	\begin{abstract}
+		The aim in this report is to describe the process of developing a simple mathematical model of the solar system. We will then implement numerically the model using two methods. The methods presented to compute the trajectory of planets in our solar system will be the Forward Euler method and the Verlet method. However, the Euler algorithm provides us not as exact results as the Verlet algorithm does. Therefore, the resulting simulation will then be completely based on Verlet. The end result will be a visualization of the planets in our solar system in two dimensions.  
+	\end{abstract}
+		The project files can be found at \href{https://github.com/krisbhei/FYS3150/tree/master/Project3}{\textcolor{blue}{\textbf{github}}}
+	\section{Introduction} 
+	One who has not developed any simulations before might think of simulating a system found in Nature is a difficult, if not an impossible task. However, by just using Newton's second law and Newton's law of gravitational force, we can develop a simple mathematical model of the planetary orbits. We will see how the remarkable strength of the laws derived by Newton can describe the position and velocity of a celestial body within a system. The numerical methods we will base our simulation on are derived from nothing but Taylor polynomials. So, much of the physics and mathematics used for our simulation is not counterintuitive as one might think.  Even though we will focus on simulating planetary orbits, the same ideas for the simulation done in this report can be used to model molecular dynamics. \\ \\
+	For simplicity, we will first consider a two-body solar system.  After we have set up a method to solve for the two-body system, we will then consider a system with three bodies and finally for a general number of bodies.
+	\section{Model of the solar system\protect\footnotemark[1]} 
+	\fancyfootnotetext{1}{Most the physics derived in this section was done in similar fashion as in \cite{astrophysics} with some parts taken from \cite{odeNotes}. These works provided to be very useful for a non-physicist throughout the development to understand the simple, yet elegant physics behind the simulation.} 
+		
+	As we will see, the solar system can be modeled using the laws of Newton. The bodies in our system will move in a circular orbits around an object assumed to be stationary; in this case the Sun.  We can assume that the Sun does not move relatively to the other bodies, as the Sun has mass $\Ms$ which is considerably larger than the other bodies in our system. \\
+	From Newton we have the law of universal gravitation: 
+	\begin{equation}\label{eq:prepre}
+	F_m = G\dfrac{\Ms m}{r^2}
+	\end{equation}
+	where F is the magnitude of the force between the object with mass $m$ and the Sun. 
+	The constant G is the gravitational constant and $m$ the mass of a body. For convenience we will use astronomical units (AU), scale all the masses with $\Ms$ and use year (yr) as unit of time. Since we assume circular motion, we have to consider the centripetal force in our system. Using Newton's second law this gives us:
+	\begin{equation} \label{eq:pre}
+		\begin{aligned}
+		F_m &= ma \\
+		F_m &= m\dfrac{v_m^2}{r}
+		\end{aligned}
+	\end{equation}
+	where $v_m$ is the speed of the object with mass $m$ and $r$ the distance between the Sun and the Earth.  Combining \ref{eq:prepre} and \ref{eq:pre} gives:
+	\begin{equation} \label{eq:g}
+	\begin{aligned}
+	m\dfrac{v_m^2}{r} &=  G\dfrac{\Ms m}{r^2} \\
+	rv_m^2 &=  G\Ms\\
+	\end{aligned}
+	\end{equation}
+	If we use astronomical units (AU), which is the distance between the Earth and Sun, and letting the body with mass $m$ be the Earth in equation \ref{eq:g}, we can then use that the speed fo the Earth is $v_{earth} = \dfrac{2\pi r}{1 yr} = \dfrac{2\pi\:AU}{1\:yr} $
+	and get from \ref{eq:g} that 
+	\begin{equation*}
+	\begin{aligned}
+	r_{earth-sun}\left(\dfrac{2\pi\:AU}{1\:yr}\right)^2 &=  G\Ms \\
+	\dfrac{4\pi^2\:(AU)^3}{1\:(yr)^2}\Ms^{-1}&=  G
+	\end{aligned}
+	\end{equation*}
+	Therefore, the chosen units can be used to simplify our calculation by not using large values for the mass of our planets and time. 
+	 \\In our model, we will assume that gravitation is the only force apparent. Since the gravitation force is the only force we consider in our system, we can find the change of position and velocity just by using Newton's second law. We will first consider the case for modeling a system with only the Sun and the Earth (of course, any other planet than Earth could also do). Then we will extend the model of the binary system to model for N bodies. \\ We will also assume that the motion is co-planar, that is the orbits will be represented in the xy-plane.  
+	 \subsection{Two-body system: Earth and Sun}\label{subsec:2.1}
+	 Since the Sun is assumed to be stationary, we can neglect that the Sun will be affected by $F$. So Earth is the only body we have to take in consideration for our calculations. The problem is that we have to solve for the position and velocity within a time interval given an initial velocity and position at the start time $t_0$. This will become clear when we will discuss two methods to solve our ODEs numerically; namely the Forward Euler method and the Verlet method.\\
+	 We have from Newton's second law that
+	\begin{equation}\label{eq:1}
+	\begin{aligned}
+	\dfrac{\partial^2 x}{\partial t^2}&= \dfrac{F_{m_{earth}}}{m_{earth}} \\
+	\end{aligned}		
+	\end{equation}
+	 We can rewrite this equation by introducing the velocity $\dfrac{\partial x}{\partial t} = v_{x}$ . Rewriting the equation in \ref{eq:1} gives: 
+	 \begin{equation}\label{eq:2}
+	 \begin{aligned}
+	 \dfrac{\partial x}{\partial t} &= v_{x} \\ 
+	 \dfrac{\partial v_{x}}{\partial t} &= \dfrac{F_{x,m_{earth}}}{m_{earth}} 
+	 \end{aligned}
+	 \end{equation}
+	 Note that the equations in \ref*{eq:1} and \ref*{eq:2} also applies to the position $y$ and velocity $v_y$ along the y-axis. \\ 
+	We use polar coordinates analytically to express the forces along the x- and y-axis. That is, $x = r\cos\theta$ and $y = r\sin\theta$. We also assume that the Sun is located at origin. However, it is more convenient to use Cartesian coordinates to solve for numerically. \\
+	Since the force is exerted \textit{from} the Sun to the Earth, we would expect the force $F_{m_{earth}}$will be negative, that is 
+	\begin{equation*}
+	\begin{aligned}
+		F_{x,m_{earth}}  &= - \dfrac{G\Ms m_{earth}\cos\theta}{r^2} &=
+		- \dfrac{G\Ms m_{earth}x}{r^3} \\
+		 F_{y,m_{earth}}  &= - \dfrac{G\Ms m_{earth}\sin\theta}{r^2} &=
+		 - \dfrac{G\Ms m_{earth}y}{r^3} 
+	\end{aligned}
+	\end{equation*}
+	 We have now set up the necessary equations to solve for the position and velocity within a given time interval in the xy-plane. In conclusion, we have to solve for:
+	 \begin{equation}\label{eq:6}
+	 \begin{aligned}
+	 \dfrac{\partial x}{\partial t} &= v_{x} \\ 
+	 \dfrac{\partial v_{x}}{\partial t} &= \dfrac{F_{x,m_{earth}}}{m_{earth}} = 
+	 - \dfrac{G\Ms x}{r^3} = - \dfrac{4\pi^2 x}{r^3} 
+	 \end{aligned}
+	 \end{equation} 
+	 \begin{equation}\label{eq:7}
+	 \begin{aligned}
+	 \dfrac{\partial y}{\partial t} &= v_{y} \\ 
+	 \dfrac{\partial v_{y}}{\partial t} &= \dfrac{F_{y,m_{earth}}}{m_{earth}} = - \dfrac{G\Ms y}{r^3} =- \dfrac{4\pi^2 y}{r^3} 
+	 \end{aligned}
+	 \end{equation}
+	 
+	 If we wish to solve for a third dimension z, it is sufficient to solve for the position and velocity along the z-axis as in \ref*{eq:1} and \ref*{eq:2}. \\
+	 Now that we have set up a model for a two-body system, we can generalize this to a N-body system. 
+	 \subsection{M-body system} \label{sec:mbody}
+	 We will assume that all the objects in out system will orbit around the Sun, and the Sun is still considered stationary.
+	 Therefore, the only modifications we have to do in \ref{eq:6} and \ref{eq:7} is to extend the number of forces we have to consider for the x- and y- direction respectively. If we have two bodies, one with mass $m_1$ at position $(x_1,y_1)$ and one other with mass $m_2$ at position $(x_2,y_2)$, we will have some interacting gravitational force between them. The object with mass $m_1$ will be affected by the force pointing toward the object from the other object with mass $m_2$. That is, the force $F_{m_1}$ will be given as:
+	 \begin{equation*}
+	 	F_{m_1} = - \dfrac{G m_2 m_1}{r_{m_1-m_2}^2}
+	 \end{equation*}
+	 where $r_{m_1-m_2}$ is the distance between the bodies. This can be generalized for N bodies with mass $m_j$ for $j = 1, \dots, N$:
+	 \begin{equation*}
+	 	F_{m_j} = -m_j\sum_{i = 1, i \not = j}^{N} \dfrac{G m_i}{r_{m_j-m_i}^2}
+	 \end{equation*} which can be inserted into \ref{eq:6} and \ref{eq:7} for every body j. Here,$x_{m_j}$ and $v_{m_j}$ is the position and velocity respectively of the body with mass $m_j$ which is the mass of the body divided by $\Ms$: 
+	 \begin{align} 
+	 	\dfrac{\partial x_{m_j}}{\partial t} &= v_{x_{m_j}} \label{eq:8}\quad\quad\quad &\text{for j }&= 1,\dots N\\ 
+	 	\dfrac{\partial v_{x_{m_j}}}{\partial t} &= \dfrac{F_{x,m_{j}}}{m_{j}} = 
+	 	- \dfrac{4\pi^2 x_{m_j}}{r^3} - \sum_{i = 1, i \not = j}^{N} \dfrac{G m_i}{r_{m_j-m_i}^2}(x_{m_j}-x_{m_i}) \label{eq:9}\\
+	 	\hfill \nonumber\\
+	 	\dfrac{\partial y_{m_j}}{\partial t} &= v_{y_{m_j}} \label{eq:10}\quad\quad\qquad &\text{for j }&= 1,\dots N\\ 
+	 	\dfrac{\partial v_{y_{m_j}}}{\partial t} &=\dfrac{F_{y,m_{j}}}{m_{j}} =	- \dfrac{4\pi^2 y_{m_j}}{r^3} - \sum_{i = 1, i \not = j}^{N} \dfrac{G m_i}{r_{m_j-m_i}^2}(y_{m_j}-y_{m_i}) \label{eq:11}
+	 \end{align}\\
+	 with $r_{m_j-m_i}^2=\sqrt{(x_{m_j}-x_{m_i})^2 + (y_{m_j}-y_{m_i})^2 }$.\\
+	 Note that if we wish to include a third dimension, z, we only have to solve for the position and velocity in the same manner as for x and y. \\ \\We have now found a model for a N-particle system with bodies orbiting around the Sun. We can see that for N = 1, we get the same model as discussed in section \ref{subsec:2.1}. \\ Now we have to see how we can use the forward method of Euler and Verlet to solve the equations \ref{eq:8} - \ref{eq:11}.
+	\section{Solving ordinary differential equations numerically}
+	As there exists numerous different methods to solve a coupled ordinary differential equations such as the equations \ref{eq:8} - \ref{eq:11} presented in the previous section, we will focus on the forward Euler method and the Verlet method because of their simplicity. The methods presented use fixed step size, as we assume that the solutions for position and velocity in equations \ref{eq:8} - \ref{eq:11} are continuous and smooth.\\ \\
+	For both of the methods, we define a step length for $t\in[a,b]$, $h = \frac{b-a}{N-1}$ where $N$ is the number of uniformly spaced values of $t$ in $[a,b]$. Also, let $t_i = a + ih$. 
+	\subsection{Forward Euler}\label{sec:3.1}
+	Assume that we have a function $y(t)$ which is well-behaved in $t\in[a,b]$ and we have given an initial value, $y(t=0) = y(t_0) = y_0$. Also, assume that we have given the behavior of $y'(t_0)$ and let $y_i = y(t_i)$.  
+	\\ \\
+	The procedure of finding the value of $y_{i+1}$ is to use the previous step, $y_i$. We can express  $y_{i+1}$  in terms of $y_i$ by 
+	\begin{equation}\label{eq:12}
+		y_{i+1} = y_i + h\Delta(t_i,y_i) + \mathcal{O}(h^{p+1})
+	\end{equation} 
+	 The expression of $y_{i+1}$ can be interpreted as we are taking a step $h$ along the tangent $\Delta(t_i,y_i)$ from $y_i$.   The tangent $\Delta(t_i,y_i)$ can be found by using the Taylor expansion of $y_{i+1}$: 
+	 \begin{equation}\label{eq:13}
+	 \begin{aligned}
+	 y(t_i + h) &= y(t_i) + h\left(y'(t_i) + \dots + \dfrac{h^{p-1}}{p!}y^{(p)}(t_i)\right) + \mathcal{O}(h^{p+1}), \qquad p\geq 2 \text{ and } p\in \mathbb{N}
+	 \end{aligned}
+	 \end{equation}
+	 By  comparing equation \ref{eq:12} and equation \ref{eq:13}, we can see that 
+	 \begin{equation*}
+	 	\Delta(t_i,y_i) = y'(t_i) + \dots + \dfrac{h^{p-1}}{p!}y^{(p)}(t_i)
+	 \end{equation*}
+	 The function $\Delta(t_i,y_i)$ can therefore not be calculated exact and we have to do a truncation. If we truncate $\Delta(t_i,y_i)$ at the first derivative, that is letting $\Delta(t_i,y_i) = y'(t_i)$, we will get 
+	 \begin{equation}\label{eq:euler}
+	\begin{aligned}
+	\Delta(t_i,y_i)  &= y'(t_i)\\
+	y_{i+1} &= y_i + h\Delta(t_i,y_i) + \mathcal{O}(h^2)
+	\end{aligned}
+	 \end{equation}
+	 which is the forward Euler algorithm. 
+	 \subsubsection{Numerical error} \label{subsub:err_e}
+		We have a local error which has an order of $\mathcal{O}(h^2)$. However, our numerical result will also depend on the behavior of the global error, which is defined as
+		\begin{equation} \label{eq:error}
+		\epsilon_{global} = \sum_{i=1}^{n_{end}} (e_i - e_{i-1}) = \sum_{i=1}^{n_{end}}  \Delta e_i
+		\end{equation}
+		where $e_i$ is the local error at step $i$. Since we have a local error of order $\mathcal{O}(h^2)$, we will get that $\Delta e_i \approx \mathcal{O}(h^2)$ for all $i$. But then the global error defined in \ref{eq:error} becomes $\epsilon_{global} \approx n_{end} \mathcal{O}(h^2)$. But $n_{end}$ is a timestep, so $n_{end} = \frac{T_{end}}{h}$. Therefore, our global error becomes
+		\begin{equation*}
+			\epsilon_{global} \approx \mathcal{O}(h)
+		\end{equation*}
+		Since the global error of Euler scales linearly with h, we cannot expect to have precise results even for small values of h. 
+	\subsection{Velocity Verlet}
+	Assume that we have given a function of position, $x(t)$ and a function of velocity $v(x)$.  \\
+	Using Taylor expansion, we get that (see \cite{odeNotes}) 
+	\begin{equation}
+		x_{i+1} = 2x_i - x_{i-1} + h^2x_i^{''} + \mathcal{O}(h^4)
+	\end{equation} However, we run into problems when $i = 0$ because of the term $x_{-1}$. This can be avoided at the cost of getting a calculation of position with local error $\mathcal{O}(h^3)$. \\ \\
+	Since we have assumed x to be a function of position, we have defined the second derivative of x by Newton's second law:
+	\begin{equation}\label{eq:15}
+	\dfrac{\partial ^2x}{\partial t^2} = \dfrac{F}{m} \\ 
+	\end{equation} 
+	We can rewrite equation \ref{eq:15} in terms of velocity:
+	\begin{equation*}
+	\begin{aligned}
+	\dfrac{\partial x}{\partial t} &= v(x,t) \\
+	\dfrac{\partial v}{\partial t} &= \dfrac{F(x_i,t_i)}{m} = a(x,t)
+	\end{aligned}
+	\end{equation*}
+	Since we know the value of the second derivative as well, we can calculate the Taylor expansion of $x(t + h) = x(t_{i+1}) = x_{i+1}$:
+	\begin{equation}\label{eq:16}
+	\begin{aligned}
+	x_{i+1} &= x_i + hx_i' + \dfrac{h^2}{2}x_i'' + \mathcal{O}(h^3)  \\
+	&= x_i + hv_i + \dfrac{h^2}{2}v_i' + \mathcal{O}(h^3)
+	\end{aligned}
+	\end{equation} 
+	We have also that 
+	\begin{equation}\label{eq:17}
+	\begin{aligned}
+		v(x_{i+1},t_{i+1}) &=v_{i+1} \\
+		&= v_i + hv_i' + \dfrac{h^2}{2}v_i'' + \mathcal{O}(h^3)
+	\end{aligned}
+	\end{equation}
+	where $v_i' = \frac{F(x_i,t_i)}{m}$.\\Since we do not have given the second derivative og $v_i$, We can approximate $v_i''$ by 
+	\begin{equation}\label{eq:18}
+	v_i'' \approx \dfrac{v_{i+1}' - v_i'}{h}
+	\end{equation}
+	Here we introduce an error which scales as $\mathcal{O}(h^2)$.
+	Inserting equation \ref{eq:18} into equation \ref{eq:17} gives us
+	\begin{equation} \label{eq:19}
+	\begin{aligned}
+	v(x_{i+1},t_{i+1}) &=v_{i+1} \\
+	&= v_i + hv_i' + \dfrac{h}{2} \left( v_{i+1}' - v_i' \right) + \mathcal{O}(h^3) 
+	\end{aligned}
+	\end{equation}
+	We still have this error scaled by $\mathcal{O}(h^3)$. This is because the error from \ref{eq:18} scaled by $h^2$ gives us $h^2\mathcal{O}(h^2) \approx \mathcal{O}(h^4) < \mathcal{O}(h^3)$. \\
+	Collecting what we have done, we get
+	\begin{align}
+		x_{i+1} &\approx x_i + hv_i + \dfrac{h^2}{2}v_i' \label{eq:20} \\
+		v_{i+1} &\approx v_i + hv_i' + \dfrac{h}{2} \left( v_{i+1}' - v_i' \right)\label{eq:21}
+	\end{align}
+	where
+	\begin{equation*}
+		v_i' = \dfrac{F(x_i,t_i)}{m}
+	\end{equation*}
+	with $m$ being the mass which we calculate the force on. 
+	The equations \ref{eq:20} and \ref{eq:21} gives us the Verlet velocity algorithm. The local error of the position and velocity is $\mathcal{O}(h^3)$. \\ \\Here we have to be careful in which order we solve the equations. At the i-th timestep, we can solve $v_i'$ by using Newton's second law. \\ However, the term $v_{i+1}'$ has to be computed for positions at $i+1$. Therefore, it is sufficient to first solve for the positions $x_{i+1}$ and just a part of $v_{i+1}$, that is $\tilde{v_{i+1}} = v_i + hv_i' + \frac{h}{2} v_{i}'$ such that we do not need to store $v_i'$ anymore. \\We can then update our system with the new positions $x_{i+1}$ and compute $v_{i+1}'$ by $v_{i+1} = \tilde{v_{i+1}}  + \dfrac{h}{2}v_{i+1}' $. \\ 
+	\subsubsection{Numerical error} \label{subsub:err_v}
+	As we can see in \ref{eq:17}, the local error is $\mathcal{O}(h^3)$. Therefore, we have the difference between the steps to be $\Delta e_i \approx \mathcal{O}(h^3)$. The global error, as defined in \ref{eq:error} will then become 
+	\begin{equation*}
+		\epsilon_{global} \approx \mathcal{O}(h^2)
+	\end{equation*}
+	This applies to the calculation of both position and velocity. 
+	\section{The simulation}
+	Now we have presented two methods which can be used to solve for the equations \ref{eq:8} - \ref{eq:11}. We are now ready to begin implementing the simulation. \\
+	The simulation in this report will be in 2D. However, it is possible to extend the simulation into 3 dimensions by including the z-component in our computations. 
+	\subsection{Two-body system}
+	First, we will consider a simple case where the solar system only consists of the Sun and the Earth where the Earth is supposed to have a circular orbit around the Sun. This binary system makes it easier to check for stability for each of the methods and for which method gives us sufficient results. \\
+	Since the motion of the Earth is supposed to be circular around the Sun, we can set the speed to be\footnotemark[2]
+	\begin{equation*} 
+	v_{orbit} = \sqrt{\dfrac{G(m_{earth} + \Ms)}{r_{earth-sun}}} \\
+	\end{equation*}
+	\fancyfootnotetext{2}{\url{https://en.wikipedia.org/wiki/Orbital_speed}} 
+	where $r_{earth-sun}$ is the distance between the Earth and the Sun.
+	However, since $m_{earth} \ll \Ms$
+	we can assume $m_{earth}$ to be zero relative to the Sun, and therefore set:
+	\begin{equation*}
+	\begin{aligned}
+	v_{orbit} &= \sqrt{\dfrac{G\Ms}{r_{earth-sun}}} \\
+	&= \sqrt{\dfrac{4\pi^2}{1\: AU}} \\
+	&= 2\pi 
+	\end{aligned}
+	\end{equation*}
+	We can then, for example, set either the x- or y- component to be $v_{orbit}$ in the simulation to make sure that the orbit of Earth is circular. 
+	\subsubsection{Comparison between the forward Euler algorithm and Verlet algorithm}\label{subsub:comparison}
+	As seen in sections \ref{subsub:err_e} and \ref{subsub:err_v},the Euler and Verlet algorithm has different orders of globals- and local errors. Therefore, we could expect the results from Euler and Verlet to differ. Euler has global error of order $\mathcal{O}(h)$, whereas Verlet has global error of order $\mathcal{O}(h^2)$. We could therefore expect Verlet to give us more precise results than Euler. To see if this is the case, a simulation of the Sun-Earth system has been done for $N = 10^2,10^4 \text{ and } 10^5$. \\
+	The following plots in this subsection have been generated by calling \texttt{run\_earth\_sun} in \texttt{project3.py}:\\
+	\begin{figure}[h]
+		\includegraphics[scale = .5]{e_n=100_earth-sun.pdf}
+		\includegraphics[scale = .5]{v_n=100_earth-sun.pdf}
+	\end{figure}
+	\captionof{figure}{Here we see that Euler is giving us errorneous results for $N = 100$. Verlet, however gives us very good results compared to Euler. These plots shows how much the global error affects the endresult, as the Euler method does not give us as good results as the Verlet method. The time duration of Earth's orbit is one year.}		\label{fig:1}\hfill \\
+	Indeed, we can look at the plots and see if it gives us a circular orbit, but our simulation is more realistic if we can prove it also preserves some physical quantities. \\ \\The only force we have in our system is the gravitational force, which is conservative. In this case, the total mechanical energy becomes $E_{mechanical} = E_{kinetic,Earth} + E_{potential,Earth}$ since the Sun is assumed to have zero velocity. So the mechanical energy should be constant for every time step, or have a difference from the initial energy, say less than $10^{-10}$, due to the limited numerical representation which may cause some truncation error throughout the computations.
+	\begin{figure}[h]
+		\includegraphics[scale=.5]{n=100Euler_energy.pdf}
+		\includegraphics[scale=.5]{n=100Verlet_energy.pdf}
+	\end{figure}
+	\captionof{figure} {Yet again we see how much the values of the physical properties differ from Euler and Verlet. Our plot of the total energy explains also why the Earth in figure \ref{fig:1} using Euler gave an orbit which did not follow a circular path; there are done so many errors within Euler such that it impacts on the movement and therefore energy of the Earth. The Verlet algorithm, however, gives us a much more stable total energy which is in accordance to what we saw in figure \ref{fig:1}. }\label{fig:2} \hfill \\
+	The length of the angular momentum $\vec{a}_{momentum} =  |\vec{r} \times \vec{F}| $ should also be conserved in our system. This is because the gravitational force on the Earth is directed toward the center, the Sun. So, there will be no torque on the Earth with respect to the Sun. Therefore the angular momentum will be held constant. We can check if this is the case for Euler and Verlet after running for $N = 100$ steps: 
+	\begin{figure}[h]
+		\includegraphics[scale = .5]{n=100Euler_angMoment.pdf}
+		\includegraphics[scale = .5]{n=100Verlet_angMoment.pdf}
+	\end{figure}
+	\captionof{figure}{Plots of the magnitude of the angular momentum. Here, we can see that in Euler the momentum grows almost linearly, as Verlet is almost flat, which is what we should expect.}
+		As we can see from the plots with so small as $N=100$ mesh points, Verlet seems to be more promising as Euler to use further in the simulation. However, this was somewhat expected from the analytical results in sections \ref{subsub:err_e} and \ref{subsub:err_v}. There have also been done similar plots for Euler and Verlet for to compare with $N = 10^4 \text{ and } 10^5$, see Appendix A. We can therefore see that the results we get from Verlet are good for $N = 1000$. We could increase $N$, but that gives us results that are almost as good as with $N= 1000$. The lower mesh points we can use, the better it is because Verlet takes much more time than Euler.
+		\\ \\We have now seen that the Verlet gives us much better results than Euler. However, the number of floating points operations done in Verlet is considerably larger than Euler. In Appendix B we found that for every function call we have
+		\begin{align*}
+			\text{FLOP}_{euler} &=  12M + 30M(M-1) \\
+			\text{FLOP}_{verlet} &= 18M + 60M(M-1)
+		\end{align*}
+		  Since the number of FLOPs are larger in Verlet than Euler, we could expend Verlet to spend more time than Euler to compute for the movement. If we look at the ratio for this specific case when $M = 2$, we have that
+		  \begin{equation*}
+		  	\dfrac{\text{FLOP}_{verlet}}{\text{FLOP}_{euler} } \approx 1.85
+		  \end{equation*}\\
+		  So we could expect Verlet to use time which is approximately $1.85$larger than Euler. 
+		   To check if this is the case, we can call \texttt{run\_time\_euler\_verlet} in \texttt{project3.py} which calls Euler and Verlet 10 times for $N = 10^6, 10^7, 10^8 $, takes the average time of the results and stores the times for each step to files: \\ \\
+		\begin{multicols}{3}
+			\textbf{For} $\mathbf{N = 10^6}$: 
+			\lstinputlisting[firstline=19,lastline=21,style=plain]{n=1000000_time_euler_vs_verlet.dat}
+			\textbf{For} $\mathbf{N = 10^7}$: 
+			\lstinputlisting[firstline=19,lastline=21,style = plain]{n=10000000_time_euler_vs_verlet.dat}
+			\textbf{For} $\mathbf{N = 10^8}$: 
+			\lstinputlisting[firstline=19,lastline=21,style=plain]{n=100000000_time_euler_vs_verlet.dat}
+		\end{multicols}
+		\captionof{table}{We have taken the time using Euler and Verlet to solve for our Sun-Earth system for one year. The time has been run for large values of $N$ to see how much impact higher $N$ has on the time Verlet uses. Here we see that Verlet uses much more time than Euler, which is expected. We can also see that the time taken by Verler is approximately 1.85 bigger than Euler. The timing was done on a MacBook mid-2010 with 2.4 GHz Intel Core 2 Duo CPU.} \hfill \\ \\
+		Despite Verlet is slower than Euler, it gives ut sufficient results. Therefore the Verlet solver will be used in our simulation throughout the remaining parts in this report. 
+	\subsubsection{Finding an escape velocity}
+	We have until now used a speed for the Earth which makes its orbit circular around the Sun. However, we can also give the Earth a speed such that the Earth escapes the Sun's gravitational well. \\
+	In our system we have only the gravitation force which is conservative. This implies that the mechanical energy of an object in our system must be constant, that is
+	\begin{equation*}
+	\begin{aligned}
+			E_{total} &= E_{kinetic} + E_{potential} \\
+			&= \dfrac{1}{2}m_{earth}v_{earth}^2 - \dfrac{Gm_{earth}\Ms}{r_{earth}}
+	\end{aligned}
+	\end{equation*}
+	where $r_{earth}$ is the distance between the Earth and the planet it is orbiting around (Sun) and $v_{earth}$ the speed of the Earth. The kinetic energy is defined as 
+	\begin{equation*}
+		E_{kinetic} = \dfrac{m_{earth}v_{earth}^2}{2}
+	\end{equation*}
+	and the potential
+	\begin{equation*}
+		E_{potential} = - \dfrac{G\Ms m_{earth}}{r_{earth-sun}}
+	\end{equation*}
+	If we now assume that Earth has the possibility to be infinitely far away from the Sun, $r_{earth} \to \infty$, then the term $\dfrac{Gm_{earth}\Ms}{r_{earth}} \to 0$. Since the Earth will be far away from the Sun, its speed $v_{earth}$ goes to zero. Since the mechanical energy is conserved within an object, we must have that $E_{total} = 0$ at all times. But then we have that
+	\begin{equation}\label{eq:22}
+	\begin{aligned}
+	 0 &= \dfrac{1}{2}m_{earth}v_{earth}^2 - \dfrac{Gm_{earth}\Ms}{r_{earth}} \\
+	  \dfrac{1}{2}m_{earth}v_{earth}^2 &= \dfrac{Gm_{earth}\Ms}{r_{earth}} \\
+	  v_{earth}&= \sqrt{\dfrac{2G\Ms}{r_{earth}}}
+	\end{aligned}
+	\end{equation}
+	So we have now found a speed which makes it possible for the Earth to escape the Sun. It is then enough in our simulator to create a velocity vector such that its length is equal to the found escape speed.The following plots have been generated by calling \texttt{run\_escape\_sun} in \texttt{project3.py}.\\
+
+		\centering
+		\includegraphics[scale = .55]{velocity_experiment_escapeSun.pdf}
+
+		\captionof{figure}{How the Earth is escaping the Sun with velocity found from trial-and-error, that being $2.8\pi$. Here we see that the Earth starts an orbit around the Sun, but at some point managing to escape the Sun. The time duration of the orbit is one year. }
+
+			\includegraphics[scale = .55]{velocity_exact_escapeSun.pdf}
+
+		\captionof{figure}{How the Earth is escaping the Sun with velocity found in equation \ref*{eq:22}, that being $\sqrt{8\pi^2}$. We can see that the orbit of the experimental shows approximately same behaviour as in this plot. The time duration of the orbit is one year. }\hfill \\
+	\flushleft
+	
+	\subsubsection{Relativistic correction to the orbit of Mercury}
+	Using pure Newtonian forces makes predictions of Mercury's  trajectory which are not in accordance with observed orbits. When Einstein discovered the laws of general relativity, it was possible to explain why exactly Mercury's orbit did not 'follow' laws found by Newton. The curvature of spacetime due to the Sun's mass curves space. Since Mercury is relatively close to the Sun as other planets, the orbit of Mercury will be affected by the curvature so much that it is observable by the astronomers. It has been discovered\footnotemark[2] that the change of orbit due to the curvature is done by a certain factor:	
+	\begin{equation*}
+	F_{relativistic} = F_{{Newtonian}_{mercury}}\left(1+\dfrac{3l^2}{c^2r_{mercury - sun}^2} \right)
+	\end{equation*}
+	\fancyfootnotetext{2}{see \\ \url{https://en.wikipedia.org/wiki/Tests\_of\_general\_relativity\#Perihelion\_precession\_of\_Mercury}}
+	where $r_{mercury - sun} = | \vec{r}_{mercury - sun} |$ is the distance between Mercury and the Sun, $l = |\vec{r}_{mercury - sun} \times \vec{v}|$ and $c = 63198 \: AU/yr$ being the speed of light in vacuum.  \\ \hfill \\
+	We could in principle use the factor to account for the curvature Mercury is subject to and therefore force Mercury to have an elliptical orbit. This could be done by checking if the perihelion of Mercury stays the same for every year up to, say 100 years. However, the simulation fails in this test, which has been calculated in \texttt{relativisticCorrection} found in \texttt{solarsys.cpp}. \hfill \\
+	Running the test for  $N = 10^7$ gives:\\
+	\begin{figure}[h]
+		\includegraphics[scale=.45]{n=100000000_perihelion_relativistic.pdf}
+		\includegraphics[scale=.45]{n=100000000_totenergy_relativistic.pdf}
+	\end{figure}
+	\captionof{figure}{The values of the perihelions were expected to go to $\approx 43$ arcseconds, see \cite{projectDescription} page 4. However, we see that the magnitude of the perihelions from our simulation are not converging towards 43. This is likely caused by errorneous implementation of the relativistic interaction as the Newtonian seems to behave well (we will see that in the further sections when simulation for 3 or more bodies). At the other side, the total energy of the system is conserved, which shows that there is at least no new 'force' introduced by the system through the computation of interaction between the bodies.}
+	\hfill \\ We have also found the perihelions after using Verlet, which gives (this has been done by manually changing solvers in \texttt{computeMovementRelativistic}): \\
+	\centering
+	\includegraphics[scale=.5]{n=100000000_nonperihelion_relativistic.pdf} \captionof{figure}{Here we have used Verlet to find the perihelions. As we can see, the computations for finding the perihelions are almost similar. This was not supposed to happen.} \flushleft\hfill \\ \newpage
+	\subsection{Three-body system}
+	We saw in section \ref{sec:mbody} how the bodies will interact. \\First, we will simulate a system with three bodies which further can be extended to simulate for M bodies. 
+	\subsubsection{Sun-Earth-Jupiter}
+	We chose to include Jupiter in our simulation, as Jupiter the most massive planet in our solar system. Therefore, we can see if by increasing Jupiter's mass will affect the orbit of the Earth. First, we have to see for which number of mesh points $N$ gives stable results for the simulation run over 15 years:\\
+	\textbf{For} $\mathbf{N = 10^2}$: \\
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=.45]{n=100sun_earth_jupiter_incF=1}
+		\caption{Here we see that $N= 10^2$ certainly does not gives us sufficient results, as the Earth's orbit fluctates a lot. }
+	\end{figure}
+	\hfill \\ \pagebreak
+	\textbf{For} $\mathbf{N = 10^3 \textbf{ and } N = 10^4 }$: \\
+		\includegraphics[scale=.5]{n=1000sun_earth_jupiter_incF=1}\includegraphics[scale=.5]{n=10000sun_earth_jupiter_incF=1}
+		\caption{The orbit of the Earth is now much better using $N = 10^4 \text{ and } N = 10^5$. The Earth is following approximately the same orbit for every year, as the can see the circle visualizing the Earth's trajectory is thinner than for $N = 10^2$. We can see that the plots seems to give approximately results. }
+	\hfill\\
+	Now we have found the number of mesh points which gives stable results for Verlet. \\We can test if really our simulation takes account for the interaction between bodies by on purpose making the system unstable. This can be done by increasing the mass of Jupiter. Jupiter is the most massive planet of the solar system, so we could expect by increasing the mass to make considerable changes in our system. \newpage 
+	 We can now see how the system behaves by increasing Jupiter's mass using $N = 10^5$ over 15 years, just to be sure that we wont get inaccurate results. The plots have been generated by calling \texttt{project3.py} which calls \texttt{run\_sun\_earth\_jupiter} : \\ 
+		\includegraphics[scale=.5]{n=10000sun_earth_jupiter_incF=10.pdf}\includegraphics[scale=.5]{n=10000sun_earth_jupiter_incF=1000.pdf}
+		\caption{By just increasing Jupiter's mass by 10 , we see that the orbit of the Earth will be affected. The Earth is still moving around the Sun due the force exerted from the Sun is larger than for Jupiter since Jupiter is still not as massive as the Sun. \\
+			However, by increasing the mass of Jupiter by 1000, Jupiter will be as massive as 0.95 solarmass.  This clearly makes the orbit of the Earth unstable because of the almost equal sized bodies are exerting force upon the Earth.  }
+\hfill \\
+	We can see in the rightmost plot that the force exerted from the Sun is much stronger than Jupiter's. This is because of the Earth follows more the Sun's orbit than Jupiter's. The Earth will follow the Sun's orbit so closely that it will collide into the Sun, which makes the system unstable. The Sun is at motion because the size of Jupiter is almost as large as the Sun, making the force exerted from Jupiter also impact the motion of the Sun. \\ \hfill \\
+	We have now seen that the interaction between the systems seems to behave as expected. We can therefore add the remaining planets to create a simulation of our solar system.\newpage 
+	\subsection{All planets}
+	Now we have everything set up the run the simulation for all of the planets in the solar system.The data of the initial positions and velocities has been collected from \href{http://ssd.jpl.nasa.gov/horizons.cgi#top}{\textcolor{blue}{\textbf{NASA}}} We have chosen the number of years to be 100 and $N = 10^6$: 
+	
+		\centering
+		\includegraphics[scale = 1]{0yr=100_n=1000000_allPlanets.pdf}
+			\caption{The final simulation of our solar system. The markers indicates where the planets are after 100 years. }\label{fig:planets}
+	\flushleft
+\newpage
+	Since the names of the planets makes it difficult to see the center of the system, we have made plots of the system zooming in toward the center in our system presented in Appendix C. We can see that the Verlet solver is giving us elliptical orbits around the Sun. The Sun will also move throughout the years, however at small distances compared to the other planets. This can be seen in figure \ref{fig:sunmove}: from Appendix C\\
+
+		\centering
+		\includegraphics[scale = .5]{7yr=100_n=1000000_allPlanets.pdf}
+		\caption{The center of our solar system.} 
+	\flushleft
+	\hfill \\
+	We have chosen the barycenter to be at the origin instead of the Sun, as it makes it easier from the visualization to see how the bodies will move relative to each other. \\ 
+	We have also chosen the velocity of the Sun such that the solar system has zero total linear momentum. This is because we have to be sure that the Sun itself does not cause instability in the system. So, by requiring the total momentum to be zero, we get
+	\begin{equation*}
+	\begin{aligned}
+	\sum_{i = \text{sun}}^{M \text{planets}} m_i\vec{v}_i &= 0 \\
+	m_{sun}\vec{v}_{sun} &= - \underset{M-1\text{ remaining planets}}{\sum m_i\vec{v}_i}
+	\end{aligned}
+	\end{equation*}
+	which is implemented in the function \texttt{setInitialVelocitySun} in \texttt{solarsys.cpp}. We have tested that the total momentum is zero by testing for tha Sun - Erath - Jupiter system. The testing has been done in \texttt{project3.py} by calling the function \texttt{testForZeroMomentum} in the function \texttt{run\_all\_planets}.
+	\section{Conclusion} 
+	 The model of our solar system is based on Newton's second law and Newton's law of gravitation. We assumed that no other forces than the gravitational force were present in our system such that we could check if Euler and Verlet conserved the kinetic and potential energy.The numerical method which gave us desirable results was Verlet. Therefore, the Verlet was chosen to simulate the orbit of all the planets. Using data from NASA we could generate the orbit of all the planets in our solar system, including Pluto.  \hfill \\However, as the simulation gave decent results for the simulations using Newtonian force, it could not show us how we could apply a relativistic correction to Mercury to correct its orbit to be elliptical.This part of the simulation is certainly in need for improvement. \\ 
+	\nocite{orbitalSpeed}
+	\nocite{errorshereandthere}
+	\bibliography{ref}{}
+	\bibliographystyle{plain}
+	\newpage
+	\section*{Appendix A: Plots from the Earth-Sun system by using forward Euler and Verlet to solve for the Earth's movement} \label{app:A}
+	Here are presented the remaining plots generated from the \texttt{run\_earth\_sun} function call in \texttt{project3.py}.
+	The time duration of every orbit is one year.
+	\subsection*{For N = 10000}
+
+		\includegraphics[scale =.45 ]{e_n=10000_earth-sun.pdf}\includegraphics[scale =.45 ]{v_n=10000_earth-sun.pdf}
+	\captionof{figure}{Now the results are more decent compared to \ref{fig:1} in section \ref{subsub:comparison}. However, after one year, the Earth misses at its initial position in contrast to Verlet. }
+	
+		\includegraphics[scale=.5]{n=10000Euler_energy.pdf}\includegraphics[scale=.5]{n=10000Verlet_energy.pdf}
+	
+	\captionof{figure}{We see that the total energy stil grows linearly. We see that the energy in Verlet is of much smaller magnitude than in \ref{fig:2} and does not grow in the same undesiarble matter as with Euler.}\label{fig:energy}
+
+		\includegraphics[scale=.5]{n=10000Euler_angMoment.pdf}\includegraphics[scale=.5]{n=10000Verlet_angMoment.pdf}
+	
+	\captionof{figure}{Here, the angular momentum is conserved using Verlet. The angular moment in Euler grows, which again is undesirable.} \newpage
+	\subsection*{For N = 100000}
+
+		\includegraphics[scale =.5 ]{e_n=100000_earth-sun.pdf}\includegraphics[scale =.5 ]{v_n=100000_earth-sun.pdf}
+	\captionof{figure}{From the plots it appears that we have small or non-apparent change of the orbits using either Euler and Verlet}
+
+		\includegraphics[scale=.5]{n=100000Euler_energy.pdf}\includegraphics[scale=.5]{n=100000Verlet_energy.pdf}
+	\captionof{figure}{The shape of the total energy is approximately the same as in \ref{fig:energy}. The difference is only the magnitude of the energy. In Euler we had the total energy scaled by 1, wheras here we have the total energy scaled by $\approx 10^{-5}$ for Euler. This shows that we have a smaller energy contribution for higher $N$. Verlet, however does not generate total energy that differ as much for higher values of $N$. } \pagebreak
+
+		\includegraphics[scale=.5]{n=100000Euler_angMoment.pdf}\includegraphics[scale=.5]{n=100000Verlet_angMoment.pdf}
+	\captionof{figure}{Euler gives a smaller angular momentum, but yet it grows linearly. However, Verlet gives still an approximate constant function for magnitude of the angular momentum. }
+	\newpage
+	\section*{Appendix B: Number of FLOPs in the implementation of Verlet and Euler}
+	 We will now count the number of FLOPs which are done in \texttt{differential.cpp} to see how the counting correspond to the time taken running the algorithms. Let the symbols $-,*,+,/,\sqrt{}$ indicate which operation we are counting. So, for example, $3(+)$ means that we count 3 additions. Here, we assume that every operation counts as 1 FLOP. \\ \hfill \\
+	 \textbf{Number of FLOPs, computing the interaction} \\Since both of the methods have go though all of the bodies within our system to calculate the acceleration, we have also to consider the number of FLOPs done during this process. The computing of acceleration is done in \texttt{solarsys.cpp} in the function \texttt{computeInteraction}:
+	 \begin{lstlisting}
+	 	for (size_t i = 0; i < _numBodies; i++)
+	 	{
+		 	CelestialBody &body1 = _celestialBodies[i];
+	 	
+		 	for (size_t j = i+1; j < _numBodies; j++)
+		 	{
+			 	CelestialBody &body2 = _celestialBodies[j];
+	 	
+			 	vec3 force = newtonianGravitationalForce(body1,body2);
+	 	
+			 	body1.interaction() += force*body2.getMass();
+			 	body2.interaction() -= force*body1.getMass();
+			 	_potentialEnergy += -(G*body2.getMass()*body1.getMass())/(body1.position() - body2.position()).length();
+	 	}
+	 	
+	 	double mass_body1 = body1.getMass();
+	 	vec3 velocity_body1 = body1.velocity();
+	 	vec3 position_body1 = body1.position();
+	 	
+	 	_momentum += mass_body1 * velocity_body1;
+	 	_kineticEnergy += .5*mass_body1 * velocity_body1.lengthSquared();
+	 	_angularMomentum += position_body1.cross( (velocity_body1 * mass_body1) );
+	 	}
+	 \end{lstlisting}
+	 we will not include the FLOPs that computes the energies and momentum, as they are irrelevant in our case.\\ \newpage For every pair of bodies, we call the function \texttt{newtonianGravitationalForce} which is implemented as such:
+	 \begin{lstlisting}
+	 	  vec3 pos1 = body1.position();
+	 	  vec3 pos2 = body2.position();
+	 	  
+	 	  double dr = (pos1-pos2).length();
+	 	  double dr3 = dr*dr*dr;
+	 	  double gm = -G/dr3;
+	 	  
+	 	  vec3 acc = gm*(pos1-pos2);
+	 \end{lstlisting}
+	 \begin{itemize}
+	 	\item \texttt{dr} gives $3(-)$ from subtraction and $3(*) + 2(+) +1(\sqrt{})$ to find length
+	 	\item \texttt{dr} gives $2(*)$
+	 	\item \texttt{gm} gives $1(/)$ since G is a global variable
+	 	\item \texttt{acc} gives $3(*)+ 3(-)$
+	 \end{itemize}
+	   In total, for one function call, we have the total number of FLOPs to be $3(-)+3(*) + 2(+) +1(\sqrt{})+ 2(*)+1(/)+3(*)+ 3(-) = 18 $. \\
+	So \texttt{newtonianGravitationalForce} uses 18 FLOPs for every call. \\ \hfill \\ In \texttt{computeInteraction} we have that:
+	\begin{itemize}
+		\item \texttt{newtonianGravitationalForce}  gives 18 FLOPs
+		\item \texttt{body1.interaction() += force*body2.getMass()} gives $3(*) + 3(+)$ 
+		\item \texttt{body2.interaction() -= force*body1.getMass()} gives $3(*) + 3(+)$ 
+	\end{itemize} 
+	Therefore, we have in total for one iteration within the loop in \texttt{computeInteraction}  $2(3(*) + 3(+)) + 18 = 30$  FLOPs.  \\ \hfill \\
+	Let $M$ be the number of bodies in our system. For every iteration $i$, we start start at the inner for-loop at $j = i +1$. So the inner for-loop runs $M-1, M-2 ,\dots M-(M-1)$ times .This gives the total number of FLOPs after one functional call of \texttt{computeInteraction}:
+	\begin{equation} \label{eq:flop}
+				\text{FLOP}_{interaction} = 30\sum_{i = 1}^{M-1} M-i = 30M(M-1) 
+	\end{equation} \hfill \\
+	 \textbf{Number of FLOPs, Euler} \\ We have the following implementation in the function \texttt{calculateOneStep} in class \texttt{Euler} from \texttt{differential.cpp}
+	 \begin{lstlisting}
+	 	system->computeInteraction();
+	 	for (CelestialBody &body : system->_celestialBodies)
+	 	{
+		 	body.position() += _dt*body.velocity();
+		 	body.velocity() += _dt*body.interaction();
+	 	}
+	 \end{lstlisting}
+	 From \ref{eq:flop} we have that \texttt{computeInteraction} gives $30M(M-1)$ FLOPs. We have then
+	 \begin{itemize}
+	 	\item \texttt{computeInteraction} gives $30M(M-1)$ FLOPs
+	 	\item for every body up to body M:
+	 	\begin{itemize}
+	 		\item \texttt{ body.position() += \_dt*body.velocity()} gives $3(+) + 3(*)$
+	 		\item \texttt{  body.velocity() += \_dt*body.interaction()} gives $3(+) + 3(*)$
+	 	\end{itemize}
+	 \end{itemize}We have therefore the total number of flops in the Euler implementation 
+	 \begin{equation*}
+	 \text{FLOP}_{euler} = 2M(3(+) + 3(*)) + 30M(M-1) = 12M + 30M(M-1)
+	\end{equation*} \\
+	 \hfill \\ 
+	 \textbf{Number of FLOPs, Verlet} \\ 
+	 We have the following implementation of Verlet in the function \texttt{calculateOneStep} in class \texttt{Verlet} in \texttt{differential.cpp}
+	 \begin{lstlisting}
+	 	  double dt2 = 0.5*_dt;
+	 	  system -> computeInteraction();
+	 	  for(CelestialBody &body : system->_celestialBodies)
+	 	  {
+		 	  body.velocity() += 0.5*_dt*body.interaction();
+		 	  body.position() += _dt*body.velocity();
+	 	  }
+	 	  
+	 	  system -> computeInteraction();
+	 	  for(CelestialBody &body : system->_celestialBodies)
+	 	  {
+		 	  body.velocity() += dt2*body.interaction();
+	 	  }
+	 \end{lstlisting}
+	 We have:
+	 \begin{itemize}
+	 	\item \texttt{dt2} gives $1(*)$
+	 	\item \texttt{computeInteraction} gives $30M(M-1)$ FLOPs
+	 	\item for every body up to body M:
+	 	\begin{itemize}
+	 		\item \texttt{body.velocity() += dt2*body.interaction()} gives $3(+) + 3(*)$
+	 		\item \texttt{body.position() += \_dt*body.velocity()} gives $3(+) + 3(*)$ 
+	 	\end{itemize}
+	 	\item after the loop, we have $2M(3(+) + 3(*)) = 12M$ FLOPs
+	 	\item \texttt{computeInteraction} gives $30M(M-1)$ FLOPs
+	 	\item for every body up to body M:
+	 	\begin{itemize}
+	 		\item \texttt{body.velocity() += dt2*body.interaction()} gives $3(*) + 3(+)$
+	 	\end{itemize}
+	 	\item after the loop, we have $M(3(*) + 3(+)) = 6M$
+	 \end{itemize}
+	 In total, we have 
+	\begin{equation*}
+		\text{FLOP}_{verlet} = 2\cdot(30M(M-1)) + 6M + 12M = 60M(M -1) + 18M
+	\end{equation*}
+	\newpage
+	\section*{Appendix C: A closer look at the solar system}
+	Here we present the final simulation of our solar system. The plots are generated in \texttt{project3.py} by calling \texttt{run\_all\_planets}(\texttt{allPlanets} in the simple commando-line interface)\\We have the plot from figure\\ \ref{fig:planets}:  \\
+	\centering
+	\includegraphics[scale = 1]{0yr=100_n=1000000_allPlanets.pdf}
+	\captionof{figure}{The plot of the final simulation of the solar system after running \texttt{run\_all\_planets}}\hfill \\
+	\textit{continued on the next page}
+	\includegraphics[scale=.65]{2yr=100_n=1000000_allPlanets.pdf}
+	\captionof{figure}{The same figure as figure \ref{fig:planets}, but zoomed in as the center in figure \ref{fig:planets} is covered by the names of the planets}\hfill \\
+	\includegraphics[scale=.65]{4yr=100_n=1000000_allPlanets.pdf}
+	\captionof{figure}{An even closer look at figure \ref{fig:planets}. Notice that the orbits gives thickes lines than in \ref{fig:planets}. This is due to the solver making small errors when computing the orbits over time. At the same time, the lines are not that thick that the  }\label{fig:planetss}
+	\includegraphics[scale=.65]{7yr=100_n=1000000_allPlanets.pdf}
+	\captionof{figure}{Here we can see the orbits of the Sun along with the center of mass. We see that thoughout 100 years, the Sun has made some movement due to all the forces exerted from the other planets. However, the movement is small compared to the other planets as seen in figure \ref{fig:planetss}.}\label{fig:sunmove}
+	\flushleft
+\end{document}
