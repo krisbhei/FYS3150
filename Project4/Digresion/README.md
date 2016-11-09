@@ -7,3 +7,4 @@ proved to be decent.
 
 * To run the visualization, run ising.exe found in ising/Debug.
   The executable will not work if moved to another folder or all the files in in this folder are not cloned
+  For now, Microsoft Visual Studio 2013 Runtime Libraries must be installed to run the .exe file,otherwise the system will not find         MSVCP120D.dll This is under investigation how this can be fixed.
