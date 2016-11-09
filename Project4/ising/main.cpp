@@ -13,31 +13,55 @@
 
 using namespace std;
 ofstream ofile;
+/*
+    E2_NonRandom /= trials;
+    E_NonRandom /= trials;
+    energyVarianceNonRandom = ( E2_NonRandom- E_NonRandom*E_NonRandom)/dim/dim;
 
-void initializeRandom(int dim, int** spins,double & energy, double & magnetization)
-{
-    std::random_device rd;
-    std::mt19937_64 gen(rd());
-    std::uniform_real_distribution<double> distr(0.0,1.0);
+    E2_Random /= trials;
+    E_Random /= trials;
+    energyVarianceRandom = ( E2_Random- E_Random*E_Random)/dim/dim;
+    */
+/*
+if (abs(normalizedEnergyNonRandom - searchEnergy) < tol ) ++occurenceEnergyNonRandom;
+if (abs(normalizedEnergyRandom -searchEnergy) < tol ) ++occurenceEnergyRandom;
+*/
+/*
+E_NonRandom += energyNonRandom;
+E2_NonRandom += energyNonRandom*energyNonRandom;
+absM_NonRandom += fabs(magnetizationNonRandom);
 
-    for (int i = 0; i<dim ; i++)
-    {
-        for (int j = 0; j<dim ; j++)
-        {
-            if(distr(gen) <= .5) spins[i][j] = -1;
-            else                 spins[i][j] = 1;
-            magnetization += (double) spins[i][j];
-        }
-    }
-    for (int i = 0; i<dim ; i++)
-    {
-        for (int j = 0; j<dim ; j++)
-        {
-            energy -= (double) spins[i][j]*(spins[periodic(i,dim,-1)][j] + spins[i][periodic(j,dim,-1)]);
-        }
-    }
-    return;
-}
+E_Random += energyRandom;
+E2_Random += energyRandom*energyRandom;
+absM_Random += fabs(magnetizationRandom);
+*/
+/*
+            normalizedEnergyNonRandom = energyNonRandom*norm;
+            normalizedEnergyRandom = energyRandom*norm;
+            normalizedMagnetizationNonRandom = fabs(magnetizationNonRandom)*norm;
+            normalizedMagnetizationRandom = fabs(magnetizationRandom)*norm;
+*/
+/*
+                filename = string("mostLikelyEnergy");
+                ss.str(string());
+                ss << setprecision(8) << trials;
+                filename += string("_trials=")+ss.str();
+                ss.str(string());
+                ss << setprecision(8) << T;
+                filename+=string("_temp=")+ss.str();
+                filename += string(".dat");
+
+                ofile.open(filename);
+                ofile << "Energy: " << likelyEnergies[j] << endl;
+                ofile << "Probability to find the energy: "<<likelyEnergies[j] << endl;
+                ofile <<"   -in non random: "<< ((double)counterNonRandom)/trials/L/L << endl;
+                ofile <<"   -in random: "<< ((double)counterRandom)/trials/L/L << endl;
+
+                ofile << "variance random: " << energyVarianceRandom << endl;
+                ofile << "variance non random: " << energyVarianceNonRandom << endl;
+                ofile.close();
+                */
+
 
 
 void writeExpectedValuesTwoSpin(int dim, double temp, double expectations[5],long trials)
@@ -120,9 +144,115 @@ void twoSpinTest()
 
     return;
 }
+void metropolisOneCycle(int dim, int ** spins,double & energy, double & magnetization, double w[17])
+{
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_real_distribution<double> distr(0.0,1.0);
 
-void metropolisTimesFoundEnergy(int dim, int trials, double T,int & occurenceEnergyNonRandom, int & occurenceEnergyRandom,\
-                           double searchEnergy,double & energyVarianceRandom, double & energyVarianceNonRandom)
+    for(int i = 0 ; i< dim*dim ; i++)
+    {
+        int r_x = (int) (distr(gen)*(double)dim);
+        int r_y = (int) (distr(gen)*(double)dim);
+
+        int deltaEnergy = 2*spins[r_y][r_x]*
+                (spins[r_y][periodic(r_x,dim,-1)] +
+                spins[periodic(r_y,dim,-1)][r_x] +
+                spins[r_y][periodic(r_x,dim,1)] +
+                spins[periodic(r_y,dim,1)][r_x]);
+
+        if( distr(gen) <= w[deltaEnergy + 8])
+        {
+            spins[r_y][r_x] *= -1;
+            magnetization += (double) 2*spins[r_y][r_x];
+            energy += (double) deltaEnergy;
+        }
+    }
+}
+
+void metropolisProbability(int ** spins,int dim, int trials, double T, double w[17], double energy, double magnetization,double searchEnergy)
+{
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_real_distribution<double> distr(0.0,1.0);
+
+    double norm = 1./dim/dim;
+
+    double normalizedEnergyNonRandom=0;
+    double normalizedEnergyRandom=0;
+    double normalizedMagnetizationNonRandom=0;
+    double normalizedMagnetizationRandom=0;
+
+    double E_Prev = 0;
+    double absM_Prev = 0;
+    double E2 = 0;
+
+    double E = energy*norm;
+    double absM = magnetization*norm;
+
+    double tol = 1E-5;
+    int numCyclesBeforeLikely = 1;
+    //Start: Metropolis for inital configurations
+    while(((fabs((E - E_Prev))/numCyclesBeforeLikely)*norm > tol) || (((fabs((absM - absM_Prev)))/numCyclesBeforeLikely)*norm > tol))
+    {
+        //cout << numCyclesBeforeLikely << endl;
+        metropolisOneCycle(dim,spins,energy,magnetization,w);
+        E_Prev = E;
+        absM_Prev = absM;
+
+        E += energy;
+        E2 += energy*energy;
+        absM += fabs(magnetization);
+        ++numCyclesBeforeLikely;
+        cout << numCyclesBeforeLikely << endl;
+    }
+    tol = 1E-8;
+    int searchEnergyOccurence = 0;
+    //Start computation to count the number of searchEnergy
+    for(int cycles = numCyclesBeforeLikely ; cycles <= trials ; cycles ++)
+    {
+        metropolisOneCycle(dim,spins,energy,magnetization,w);
+        if(fabs(energy - searchEnergy) < tol) ++searchEnergyOccurence;
+    }
+    cout << searchEnergyOccurence << endl;
+    return;
+}
+
+void probableEnergy()
+{
+    const int L = 20;
+    int trials = 1E6;
+    double searchEnergies[] = {-2};
+    for (double T = 1.; T <= 2.4 ; T +=1.4)
+    {
+
+                //to count the number of apperance of an energy
+                int counterNonRandom = 0;
+                int counterRandom = 0;
+
+                double energyVarianceRandom = 0;
+                double energyVarianceNonRandom = 0;
+
+                double w[17];
+                for(int i = 0; i < 17 ; i++) w[i] = 0;
+                for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
+
+                int ** spinsNonRandom = init_matr(L);
+                double energyNonRandom = 0, magnetizationNonRandom = 0;
+                initialize(L,spinsNonRandom,energyNonRandom, magnetizationNonRandom);
+
+                double energyRandom = 0, magnetizationRandom = 0;
+                int ** spinsRandom = init_matr(L);
+                initializeRandom(L,spinsRandom,energyRandom,magnetizationRandom);
+
+                metropolisProbability(spinsNonRandom,L,trials,T,w,energyNonRandom,magnetizationNonRandom,-1.996);
+        //ofile.close();
+
+    }
+    return;
+}
+
+void metropolisLikelyState(int dim, int trials, double T)
 {
     std::random_device rd;
     std::mt19937_64 gen(rd());
@@ -143,9 +273,6 @@ void metropolisTimesFoundEnergy(int dim, int trials, double T,int & occurenceEne
 
     int acceptedNonRandom = 0;
     int acceptedRandom = 0;
-
-
-    double tol = 1E-14;
 
     //Initializing expectation values to calculate variance and plot
     double E_Random = 0;
@@ -205,26 +332,14 @@ void metropolisTimesFoundEnergy(int dim, int trials, double T,int & occurenceEne
                 ++acceptedRandom;
             }
             //End: Spend a MC-cycle at a random configuration
+            E_NonRandom += energyNonRandom;
+            E2_NonRandom += energyNonRandom*energyNonRandom;
+            absM_NonRandom += fabs(magnetizationNonRandom);
 
-            normalizedEnergyNonRandom = energyNonRandom*norm;
-            normalizedEnergyRandom = energyRandom*norm;
-            normalizedMagnetizationNonRandom = fabs(magnetizationNonRandom)*norm;
-            normalizedMagnetizationRandom = fabs(magnetizationRandom)*norm;
-
-            if (abs(normalizedEnergyNonRandom - searchEnergy) < tol ) ++occurenceEnergyNonRandom;
-            if (abs(normalizedEnergyRandom -searchEnergy) < tol ) ++occurenceEnergyRandom;
-
-
-
+            E_Random += energyRandom;
+            E2_Random += energyRandom*energyRandom;
+            absM_Random += fabs(magnetizationRandom);
         }
-        E_NonRandom += energyNonRandom;
-        E2_NonRandom += energyNonRandom*energyNonRandom;
-        absM_NonRandom += fabs(magnetizationNonRandom);
-
-        E_Random += energyRandom;
-        E2_Random += energyRandom*energyRandom;
-        absM_Random += fabs(magnetizationRandom);
-
 
         if (cycle%100 == 0 )
         {
@@ -235,34 +350,16 @@ void metropolisTimesFoundEnergy(int dim, int trials, double T,int & occurenceEne
         }
     }
 
-    E2_NonRandom /= trials;
-    E_NonRandom /= trials;
-    energyVarianceNonRandom = ( E2_NonRandom- E_NonRandom*E_NonRandom)/dim/dim;
-
-    E2_Random /= trials;
-    E_Random /= trials;
-    energyVarianceRandom = ( E2_Random- E_Random*E_Random)/dim/dim;
     return;
 }
 
-void mostLikelyStateAndEnergy()
+void mostLikelyState()
 {
     const int L = 20;
-    int trials = 1E6;
-
-    double likelyEnergies[] ={-2};
+    int trials = 1E7;
 
     for (double T = 1.; T <= 2.4 ; T +=1.4)
     {
-
-            for (int j = 0 ; j < 1 ; j++)
-            {
-                //to count the number of apperance of an energy
-                int counterNonRandom = 0;
-                int counterRandom = 0;
-
-                double energyVarianceRandom = 0;
-                double energyVarianceNonRandom = 0;
 
                 string filename = string("mostLikelyState");
                 stringstream ss;
@@ -275,29 +372,9 @@ void mostLikelyStateAndEnergy()
 
                 ofile.open(filename);
                 ofile << T << setw(10) << trials << endl;
-                metropolisTimesFoundEnergy(L,trials,T,counterNonRandom,counterRandom,\
-                                      likelyEnergies[j],energyVarianceRandom,energyVarianceNonRandom);
+                metropolisLikelyState(L,trials,T);
                 ofile.close();
 
-                filename = string("mostLikelyEnergy");
-                ss.str(string());
-                ss << setprecision(8) << trials;
-                filename += string("_trials=")+ss.str();
-                ss.str(string());
-                ss << setprecision(8) << T;
-                filename+=string("_temp=")+ss.str();
-                filename += string(".dat");
-
-                ofile.open(filename);
-                ofile << "Energy: " << likelyEnergies[j] << endl;
-                ofile << "Probability to find the energy: "<<likelyEnergies[j] << endl;
-                ofile <<"   -in non random: "<< ((double)counterNonRandom)/trials/L/L << endl;
-                ofile <<"   -in random: "<< ((double)counterRandom)/trials/L/L << endl;
-
-                ofile << "variance random: " << energyVarianceRandom << endl;
-                ofile << "variance non random: " << energyVarianceNonRandom << endl;
-                ofile.close();
-        }
     }
     return;
 }
@@ -360,9 +437,9 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
     double avgAbsM = totalExpectations[4]*normalizing;
     double susceptibility = (avgM2 - avgAbsM*avgAbsM)*norm_numSpins*inverse_temp;
 
-    cout << heatCapacity << endl;
-    cout << susceptibility << endl;
-    ofile << numSpins <<setw(10) << avgE*norm_numSpins << setw(10) << heatCapacity << setw(10);
+    //cout << heatCapacity << endl;
+    //cout << susceptibility << endl;
+    ofile << avgE*norm_numSpins << setw(10) << heatCapacity << setw(10);
     ofile << avgAbsM*norm_numSpins << setw(10) << susceptibility << endl;
 
 }
@@ -378,7 +455,7 @@ void phaseTransitions()
     double end_T = 2.3;
     double step_T = .05;
 
-    int trials = 1E6;
+    int trials = 1E5;
 
     int trialsPrProc = (int)((double)trials/num_processors);
     int this_cycleStart = this_rank*trialsPrProc + 1;
@@ -405,7 +482,7 @@ void phaseTransitions()
 
         filename += string(".dat");
         ofile.open(filename);
-        for(double T = start_T ; T <= end_T ; T += step_T) ofile << T << setw(10);
+        for(double T = start_T ; T <= end_T ; T += step_T) ofile <<setw(10)<< T;
         ofile << endl;
     }
 
@@ -414,7 +491,6 @@ void phaseTransitions()
     {
         int numSpins = L[i];
         MPI_Bcast (&numSpins, 1, MPI_INT, 0, MPI_COMM_WORLD);
-        if(this_rank == 0) ofile << numSpins << endl;
         for(double T = start_T ; T <= end_T ; T += step_T)
         {
             int ** spins = init_matr(numSpins);
@@ -430,7 +506,6 @@ void phaseTransitions()
             MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
             if(this_rank == 0)
             {
-
                 writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
 //                cout << "L : " << numSpins << endl;
 //                cout << "Temp: " << T << endl;
@@ -448,7 +523,8 @@ void phaseTransitions()
 int main(int argc, char *argv[])
 {
     //twoSpinTest();
-    mostLikelyStateAndEnergy();
+    //mostLikelyState();
+    probableEnergy();
     //phaseTransitions();
     return 0;
 }

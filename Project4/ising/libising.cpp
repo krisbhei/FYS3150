@@ -85,3 +85,27 @@ int ** init_matr(int dim)
 
 } //End: init_matr
 
+void initializeRandom(int dim, int** spins,double & energy, double & magnetization)
+{
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_real_distribution<double> distr(0.0,1.0);
+
+    for (int i = 0; i<dim ; i++)
+    {
+        for (int j = 0; j<dim ; j++)
+        {
+            if(distr(gen) <= .5) spins[i][j] = -1;
+            else                 spins[i][j] = 1;
+            magnetization += (double) spins[i][j];
+        }
+    }
+    for (int i = 0; i<dim ; i++)
+    {
+        for (int j = 0; j<dim ; j++)
+        {
+            energy -= (double) spins[i][j]*(spins[periodic(i,dim,-1)][j] + spins[i][periodic(j,dim,-1)]);
+        }
+    }
+    return;
+} //End: initializeRandom

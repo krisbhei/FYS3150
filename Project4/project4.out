@@ -6,7 +6,8 @@
 \BOOKMARK [2][-]{subsection.3.1}{Analytical solutions}{section.3}% 6
 \BOOKMARK [2][-]{subsection.3.2}{Results after numerically solving for the system}{section.3}% 7
 \BOOKMARK [1][-]{section.4}{Reaching the most likely state}{}% 8
-\BOOKMARK [1][-]{section.5}{Phase transitions}{}% 9
-\BOOKMARK [1][-]{section.6}{Critical temperature}{}% 10
-\BOOKMARK [1][-]{section.7}{Conclusion}{}% 11
-\BOOKMARK [1][-]{section.8}{Appendix A: Selected results for the two-spin system for different total number of Monte Carlo cycles}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{For low temperature}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{Phase transitions}{}% 10
+\BOOKMARK [1][-]{section.6}{Critical temperature}{}% 11
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 12
+\BOOKMARK [1][-]{section.8}{Appendix A: Selected results for the two-spin system for different total number of Monte Carlo cycles}{}% 13

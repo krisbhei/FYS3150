@@ -56,4 +56,20 @@ int ** init_matr(int);
 */
 void initialize(int, int**,double &, double &);
 
+/* void
+ * initializeRandom(int dim, int** spins,double & energy, double & magnetization)
+ *
+ * Sets up the system being at a random state. The function calls the Mersenne Twister
+ * for each spin and checks if the number is less or equal to .5.
+ * If the check is true, then the current spin is set to point up (1).
+ * If false, then the spin points down (-1).
+ *
+ * Input:
+ *  - int dim                : number of spins
+ *  - int ** spins           : the lattice of spins
+ *  - double & energy        : to store the energy of the initialized system
+ *  - double & magnetization : to store the magnetic moment of the initialized system
+*/
+void initializeRandom(int, int**,double &, double &);
+
 #endif // LIBISING_H

@@ -1,13 +1,43 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import shutil,os
+def plotPhase(temp,q,title,xlabel,ylabel):
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel,fontsize=14)
+    plt.plot(temp,q)
+    plt.show()
+    plt.clf()
+
+
+def readPhaseTransitions(filename):
+    with open(filename,'r') as infile:
+        temps = [float(value) for value in infile.readline().split()]
+        num_temps = len(temps)
+        for L in [40,60,100,140]:
+            avgE = np.zeros(num_temps)
+            avgAbsM = np.zeros(num_temps)
+            Cv = np.zeros(num_temps)
+            X = np.zeros(num_temps)
+
+            for i in range(num_temps):
+                values = [float(v) for v in infile.readline().split()]
+                avgE[i] = values[0]
+                Cv[i] = values[1]
+                avgAbsM[i] = values[2]
+                X[i] = values[3]
+
+            plotPhase(temps,avgE,'Mean energy for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\langle \\mathscr{E} \\rangle$')
+            plotPhase(temps,Cv,'Heat capacity for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\mathscr{C}_V $')
+            plotPhase(temps,avgAbsM,'Mean magnetization for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\langle \\mathscr{|M|} \\rangle$')
+            plotPhase(temps,X,'Susceptibility for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\mathscr{X}$')
 
 def plotLikelyState(x,y,temp,trials,quantifier,conf):
 
     plt.ylabel('$\\langle \\mathscr{%s} \\rangle$'%quantifier,fontsize=14)
     plt.xlabel('Number of Monte Carlo cycles')
     plt.ylim([np.min(y)-.001,np.max(y)+.001])
-    plt.title("Finding the most likely state for an initial %s 20$\\times$20spin configuration with \n temperature %s and %d Monte Carlo cycles"%(conf,temp,trials))
+    plt.title("Finding the most likely state for an initial %s 20$\\times$20 spin configuration with \n temperature %s and %d Monte Carlo cycles"%(conf,temp,trials))
     plt.plot(x,y,'k')
     plt.gca().grid(True)
 
@@ -16,7 +46,7 @@ def plotLikelyState(x,y,temp,trials,quantifier,conf):
     plt.clf()
 
 
-def readLikelyState(filename):
+def readLikelyState(filename,ylim=None):
     with open(filename,'r') as infile:
         line = infile.readline().split()
         temp = line[0]; trials = float(line[1])
@@ -46,14 +76,15 @@ def readLikelyState(filename):
             accepted_random[i] = values_random[3]
             i+=1
     #Start: Plot the energies and magnetization
-    plotLikelyState(cycles,energy_non_random,temp,trials,'E','ordered')
-    plotLikelyState(cycles,magnetization_non_random,temp,trials,'|M|','ordered')
-    plotLikelyState(cycles,energy_random,temp,trials,'E','random')
-    plotLikelyState(cycles,magnetization_random,temp,trials,'|M|','random')
+    # plotLikelyState(cycles,energy_non_random,temp,trials,'E','ordered')
+    # plotLikelyState(cycles,magnetization_non_random,temp,trials,'|M|','ordered')
+    # plotLikelyState(cycles,energy_random,temp,trials,'E','random')
+    # plotLikelyState(cycles,magnetization_random,temp,trials,'|M|','random')
     #End: Plot the energies and magnetization
 
     #Start: Plot the accepted number of configurations per 100th step
-    plt.plot(cycles,accepted_non_random,'ko',markersize=1)
+    plt.plot(cycles,accepted_non_random,'k',markersize=1)
+
     plt.title('Number of accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
     plt.ylabel('Percentage of accepted configurations per 100th cycle')
     plt.xlabel('Number of Monte Carlo cycles')
@@ -61,12 +92,14 @@ def readLikelyState(filename):
     plt.savefig('plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
     plt.clf()
     #plt.show()
-    plt.plot(cycles,accepted_random,'ko',markersize=1)
+    if ylim is not None:
+        plt.ylim(ylim)
+    plt.plot(cycles,accepted_random,'k',markersize=1)
     plt.title('Number of accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
     plt.ylabel('Percentage of accepted configurations per 100th cycle')
     plt.xlabel('Number of Monte Carlo cycles')
     plt.gca().grid(True)
-    plt.savefig('plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
+    plt.savefig('plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
     plt.clf()
     #plt.show()
     #End: Plot the accepted number of configurations per 100th step
@@ -78,5 +111,6 @@ if __name__ == "__main__":
     params = {'text.latex.preamble' : [r'\usepackage{mathrsfs}']}
     plt.rcParams.update(params)
 
-    readLikelyState("mostLikelyState_trials=1000000_temp=1.dat")
-    readLikelyState("mostLikelyState_trials=1000000_temp=2.4.dat")
+    #readLikelyState("mostLikelyState_trials=10000000_temp=1.dat",[0.06,.25])
+    #readLikelyState("mostLikelyState_trials=10000000_temp=2.4.dat")
+    readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')
