@@ -1,6 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import shutil,os
+import numpy as np
+import matplotlib.pyplot as plt
+import shutil,os
+
+def readSearchEnergy(filename,ordering):
+    with open(filename,'r') as infile:
+        temp = infile.readline().strip('\n')
+        energies = [float(val) for val in infile.readline().split()]
+        numEnergies = len(energies)
+        hist = [float(infile.readline()) for i in xrange(numEnergies)]
+
+        #We are at variance;
+        varianceE = float(infile.readline())
+
+
+
+    print varianceE
+    plt.title('Number of occurence of possible energies for 20$\\times$20 lattice at \ntemperature T=%s and %s initial ordering'%(temp,ordering))
+    plt.xlabel('Possible energies')
+    plt.ylabel('Number of occurence')
+    plt.plot(energies,hist,'k')
+    plt.xlim([-800,-200])
+    plt.savefig('plot_'+filename[:-4]+'.pdf')
+    plt.show()
+
 def plotPhase(temp,q,title,xlabel,ylabel):
     plt.title(title)
     plt.xlabel(xlabel)
@@ -76,34 +101,44 @@ def readLikelyState(filename,ylim=None):
             accepted_random[i] = values_random[3]
             i+=1
     #Start: Plot the energies and magnetization
-    # plotLikelyState(cycles,energy_non_random,temp,trials,'E','ordered')
-    # plotLikelyState(cycles,magnetization_non_random,temp,trials,'|M|','ordered')
-    # plotLikelyState(cycles,energy_random,temp,trials,'E','random')
-    # plotLikelyState(cycles,magnetization_random,temp,trials,'|M|','random')
+    plotLikelyState(cycles,energy_non_random,temp,trials,'E','ordered')
+    plotLikelyState(cycles,magnetization_non_random,temp,trials,'|M|','ordered')
+    plotLikelyState(cycles,energy_random,temp,trials,'E','random')
+    plotLikelyState(cycles,magnetization_random,temp,trials,'|M|','random')
     #End: Plot the energies and magnetization
 
     #Start: Plot the accepted number of configurations per 100th step
-    plt.plot(cycles,accepted_non_random,'k',markersize=1)
+    #plt.plot(cycles,accepted_non_random,'k',markersize=1)
 
-    plt.title('Number of accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
-    plt.ylabel('Percentage of accepted configurations per 100th cycle')
-    plt.xlabel('Number of Monte Carlo cycles')
-    plt.gca().grid(True)
-    plt.savefig('plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
-    plt.clf()
-    #plt.show()
-    if ylim is not None:
-        plt.ylim(ylim)
-    plt.plot(cycles,accepted_random,'k',markersize=1)
-    plt.title('Number of accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
-    plt.ylabel('Percentage of accepted configurations per 100th cycle')
-    plt.xlabel('Number of Monte Carlo cycles')
-    plt.gca().grid(True)
-    plt.savefig('plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
-    plt.clf()
-    #plt.show()
+    # plt.title('Number of accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
+    # plt.ylabel('Percentage of accepted configurations per 100th cycle')
+    # plt.xlabel('Number of Monte Carlo cycles')
+    # plt.gca().grid(True)
+    # plt.savefig('plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
+    # plt.show()
+    # plt.clf()
+
+    # plt.plot(cycles,accepted_random,'k',markersize=1)
+    # plt.title('Number of accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
+    # plt.ylabel('Percentage of accepted configurations per 100th cycle')
+    # plt.xlabel('Number of Monte Carlo cycles')
+    # plt.gca().grid(True)
+    # plt.savefig('plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
+    # plt.show()
+    # plt.clf()
     #End: Plot the accepted number of configurations per 100th step
+def plotAndReadForLikelyState():
+    readLikelyState("mostLikelyState_trials=1000000_temp=1.dat")
+    readLikelyState("mostLikelyState_trials=1000000_temp=2.4.dat")
 
+def plotAndReadSearchEnergy():
+    temps = [1,2.4]
+    orderings = ['ordered','random']
+    base = 'searchEnergies_temp='
+    for temp in temps:
+        for init in orderings:
+            filename = base + '%.6f'%(temp) + '_%s'%(init)+'.dat'
+            readSearchEnergy(filename,init)
 if __name__ == "__main__":
 
     plt.rc('text',usetex=True)
@@ -111,6 +146,5 @@ if __name__ == "__main__":
     params = {'text.latex.preamble' : [r'\usepackage{mathrsfs}']}
     plt.rcParams.update(params)
 
-    #readLikelyState("mostLikelyState_trials=10000000_temp=1.dat",[0.06,.25])
-    #readLikelyState("mostLikelyState_trials=10000000_temp=2.4.dat")
-    readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')
+    plotAndReadSearchEnergy()
+    #readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')

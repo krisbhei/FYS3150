@@ -14,8 +14,8 @@ CC            = mpicc
 CXX           = /usr/local/bin/mpicxx
 DEFINES       = 
 CFLAGS        = -pipe -O2 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.8 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -stdlib=libc++ -DMPICH_IGNORE_CXX_SEEK -O2 -DMPICH_IGNORE_CXX_SEEK -std=gnu++11 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.8 -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I../ising -I. -I/Users/krisetinehei/Qt/5.7/clang_64/mkspecs/macx-clang
+CXXFLAGS      = -pipe -stdlib=libc++ -O3 -DMPICH_IGNORE_CXX_SEEK -O2 -DMPICH_IGNORE_CXX_SEEK -std=gnu++11 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.8 -Wall -W -fPIC $(DEFINES)
+INCPATH       = -I../ising -I. -isystem /usr/local/include -I/Users/krisetinehei/Qt/5.7/clang_64/mkspecs/macx-clang
 QMAKE         = /Users/krisetinehei/Qt/5.7/clang_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = ising1.0.0
-DISTDIR = /Users/krisetinehei/Documents/Skole/FYS3150/prosjekt/Project1/Project4/build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/.tmp/ising1.0.0
+DISTDIR = /Users/krisetinehei/Documents/Skole/FYS3150/Projects/Project4/build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/.tmp/ising1.0.0
 LINK          = /usr/local/bin/mpicxx
 LFLAGS        = -headerpad_max_install_names -stdlib=libc++ -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.8
 LIBS          = $(SUBLIBS)  
@@ -563,10 +563,10 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../ising/main.cpp ../divlib.h
+main.o: ../ising/main.cpp ../ising/libising.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ising/main.cpp
 
-libising.o: ../ising/libising.cpp 
+libising.o: ../ising/libising.cpp ../ising/libising.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o libising.o ../ising/libising.cpp
 
 ####### Install

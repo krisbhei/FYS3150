@@ -170,7 +170,7 @@ void metropolisOneCycle(int dim, int ** spins,double & energy, double & magnetiz
     }
 }
 
-void metropolisProbability(int ** spins,int dim, int trials, double T, double w[17], double energy, double magnetization,double searchEnergy)
+void metropolisProbability(int ** spins,int dim, int trials, double T, double w[17], double energy, double magnetization,double * searchEnergies,double * hist,int i_max,string filename)
 {
     std::random_device rd;
     std::mt19937_64 gen(rd());
@@ -192,10 +192,10 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
 
     double tol = 1E-5;
     int numCyclesBeforeLikely = 1;
-    //Start: Metropolis for inital configurations
+
+    //Start: Go toward the likely state
     while(((fabs((E - E_Prev))/numCyclesBeforeLikely)*norm > tol) || (((fabs((absM - absM_Prev)))/numCyclesBeforeLikely)*norm > tol))
     {
-        //cout << numCyclesBeforeLikely << endl;
         metropolisOneCycle(dim,spins,energy,magnetization,w);
         E_Prev = E;
         absM_Prev = absM;
@@ -204,17 +204,47 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
         E2 += energy*energy;
         absM += fabs(magnetization);
         ++numCyclesBeforeLikely;
-        cout << numCyclesBeforeLikely << endl;
     }
-    tol = 1E-8;
-    int searchEnergyOccurence = 0;
-    //Start computation to count the number of searchEnergy
-    for(int cycles = numCyclesBeforeLikely ; cycles <= trials ; cycles ++)
+    //End: Go toward the likely state
+
+    cout << numCyclesBeforeLikely << endl;
+    tol = 1E-5;
+
+    double E_min = -2*dim*dim;
+
+    //Start: counting the number of searchEnergy
+    for(int cycles = numCyclesBeforeLikely+1 ; cycles <= trials ; cycles ++)
     {
         metropolisOneCycle(dim,spins,energy,magnetization,w);
-        if(fabs(energy - searchEnergy) < tol) ++searchEnergyOccurence;
+        E += energy;
+        double histIndex = (energy - E_min)/4.;
+        hist[(int)histIndex] += 1;
+
+        E2 += energy*energy;
+        absM += fabs(magnetization);
     }
-    cout << searchEnergyOccurence << endl;
+    //End: counting the number of searchEnergy
+
+    //Start: write to file the computed values
+    ofile.open(filename);
+    ofile << T << endl;
+    for(int i = 0 ; i < i_max ; i ++)ofile << setw(10) << E_min + 4*i;
+    ofile << endl;
+    for(int i = 0 ; i < i_max ; i ++)
+    {
+        ofile << hist[i] << endl;
+        hist[i] = 0;
+    }
+    /*
+    E2 /= trials;
+    E /= trials;
+    */
+    double energyVariance = ( E2- E*E);
+    cout << energyVariance << endl;
+    ofile << energyVariance << endl;
+
+    ofile.close();
+    //End: Write to file
     return;
 }
 
@@ -222,10 +252,27 @@ void probableEnergy()
 {
     const int L = 20;
     int trials = 1E6;
-    double searchEnergies[] = {-2};
-    for (double T = 1.; T <= 2.4 ; T +=1.4)
-    {
 
+    double e_min = -2*L*L;
+    double e_max = 2*L*L;
+    int i_max = (800.-e_min)/4.+1;
+    double * searchEnergies = new double[i_max];
+
+    for(int i = 0 ; i < i_max ; i ++)
+    {
+        searchEnergies[i] = e_min + 4*i;
+    }
+    double * histNonRandom = new double[i_max];
+    double * histRandom = new double[i_max];
+    for(int i = 0 ; i < i_max ; i ++)
+    {
+        histNonRandom[i] = 0;
+        histRandom[i] = 0;
+    }
+
+    for (double T : {1.,2.4})
+    {
+                cout << T << endl;
                 //to count the number of apperance of an energy
                 int counterNonRandom = 0;
                 int counterRandom = 0;
@@ -245,10 +292,13 @@ void probableEnergy()
                 int ** spinsRandom = init_matr(L);
                 initializeRandom(L,spinsRandom,energyRandom,magnetizationRandom);
 
-                metropolisProbability(spinsNonRandom,L,trials,T,w,energyNonRandom,magnetizationNonRandom,-1.996);
-        //ofile.close();
+                string filename = string("searchEnergies");
+                filename += string("_temp=")+to_string(T);
+                metropolisProbability(spinsNonRandom,L,trials,T,w,energyNonRandom,magnetizationNonRandom,searchEnergies,histNonRandom,i_max,filename+string("_ordered.dat"));
+                metropolisProbability(spinsRandom,L,trials,T,w,energyRandom,magnetizationRandom,searchEnergies,histRandom,i_max,filename+string("_random.dat"));
 
     }
+
     return;
 }
 
@@ -356,7 +406,7 @@ void metropolisLikelyState(int dim, int trials, double T)
 void mostLikelyState()
 {
     const int L = 20;
-    int trials = 1E7;
+    int trials = 1E6;
 
     for (double T = 1.; T <= 2.4 ; T +=1.4)
     {
@@ -379,13 +429,12 @@ void mostLikelyState()
     return;
 }
 
-void metropolisParallelized(int** spins,int dim, double T,double expectations[5],int cycleStart,int cycleEnd)
+void metropolisParallelized(int** spins,int dim, double T,double expectations[5],int cycleStart,int cycleEnd,int rank)
 {
     double energy = 0,magnetization = 0;
     initialize(dim,spins,energy,magnetization);
 
-    std::random_device rd;
-    std::mt19937_64 gen(rd());
+    std::mt19937_64 gen(-1-rank);
     std::uniform_real_distribution<double> distr(0.0,1.0);
 
     double w[17];
@@ -420,7 +469,6 @@ void metropolisParallelized(int** spins,int dim, double T,double expectations[5]
         expectations[4] += fabs(magnetization);
 
     }
-
     return;
 }
 void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_processors,double totalExpectations[5])
@@ -437,8 +485,7 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
     double avgAbsM = totalExpectations[4]*normalizing;
     double susceptibility = (avgM2 - avgAbsM*avgAbsM)*norm_numSpins*inverse_temp;
 
-    //cout << heatCapacity << endl;
-    //cout << susceptibility << endl;
+    cout << heatCapacity << setw(10) << susceptibility << setw(10) << endl;
     ofile << avgE*norm_numSpins << setw(10) << heatCapacity << setw(10);
     ofile << avgAbsM*norm_numSpins << setw(10) << susceptibility << endl;
 
@@ -451,11 +498,11 @@ void phaseTransitions()
     MPI_Comm_size(MPI_COMM_WORLD, &num_processors);
     MPI_Comm_rank (MPI_COMM_WORLD, &this_rank);
 
-    double start_T = 2.;
-    double end_T = 2.3;
-    double step_T = .05;
+    double start_T = 2.2;
+    double end_T = 2.45;
+    double step_T = .04;
 
-    int trials = 1E5;
+    int trials = 1E4;
 
     int trialsPrProc = (int)((double)trials/num_processors);
     int this_cycleStart = this_rank*trialsPrProc + 1;
@@ -465,9 +512,11 @@ void phaseTransitions()
     MPI_Bcast (&start_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast (&end_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast (&step_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
+    double critTemps[4];
     if(this_rank == 0)
     {
+        for(int i = 0 ; i<4 ; i++)critTemps[i] = 0;
+
         string filename = string("phaseTransitions");
 
         stringstream ss;
@@ -502,7 +551,7 @@ void phaseTransitions()
                 expectations[i] = 0;
             }
 
-            metropolisParallelized(spins,numSpins,T,expectations,this_cycleStart,this_cycleEnd);
+            metropolisParallelized(spins,numSpins,T,expectations,this_cycleStart,this_cycleEnd,this_rank);
             MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
             if(this_rank == 0)
             {
@@ -517,6 +566,11 @@ void phaseTransitions()
     if(this_rank == 0) ofile.close();
 
     MPI_Finalize();
+    return;
+}
+void extractCriticalTemperature()
+{
+
     return;
 }
 
