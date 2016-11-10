@@ -1,4 +1,6 @@
 ##A small digresion
+This is ment for further selfish use. 
+
 The files here are implemented using the CUDA library.
 The program makes a visualization of how an initial configuration at the ground state
 changes per 2000 MC-cycle for a given temperature and number of spins.
