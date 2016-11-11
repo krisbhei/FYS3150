@@ -358,13 +358,13 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
     double avgAbsM = totalExpectations[4]*normalizing;
     double susceptibility = (avgM2 - avgAbsM*avgAbsM)*norm_numSpins*inverse_temp;
 
-    cout << heatCapacity << setw(10) << susceptibility << setw(10) << endl;
     ofile << avgE*norm_numSpins << setw(10) << heatCapacity << setw(10);
     ofile << avgAbsM*norm_numSpins << setw(10) << susceptibility << endl;
 
 }
 void phaseTransitions()
 {
+    cout << "running Phase" << endl;
     MPI_Init (NULL, NULL);
 
     int num_processors,this_rank;
@@ -405,7 +405,6 @@ void phaseTransitions()
 
     for(int numSpins : {40,60,100,140})
     {
-
 
         for(double T = start_T ; T <= end_T ; T += step_T)
         {
