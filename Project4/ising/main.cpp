@@ -361,7 +361,6 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
     cout << heatCapacity << setw(10) << susceptibility << setw(10) << endl;
     ofile << avgE*norm_numSpins << setw(10) << heatCapacity << setw(10);
     ofile << avgAbsM*norm_numSpins << setw(10) << susceptibility << endl;
-    totalExpectations[0] = heatCapacity;
 
 }
 void phaseTransitions()
@@ -376,7 +375,7 @@ void phaseTransitions()
     double end_T = 2.4;
     double step_T = 0.05;
 
-    int trials = 1E5;
+    int trials = 1E6;
 
     int trialsPrProc = (int)((double)trials/num_processors);
     int this_cycleStart = this_rank*trialsPrProc + 1;
@@ -404,8 +403,9 @@ void phaseTransitions()
         ofile << endl;
     }
 
-    for(int numSpins : {40,140})
+    for(int numSpins : {40,60,100,140})
     {
+
 
         for(double T = start_T ; T <= end_T ; T += step_T)
         {
@@ -418,6 +418,7 @@ void phaseTransitions()
                 totalExpectations[i] = 0;
                 expectations[i] = 0;
             }
+
             double energy = 0,magnetization = 0;
             initialize(numSpins,spins,energy,magnetization);
 
@@ -445,36 +446,38 @@ void extractCriticalTemperature()
     MPI_Comm_size(MPI_COMM_WORLD, &num_processors);
     MPI_Comm_rank (MPI_COMM_WORLD, &this_rank);
 
-    double start_T = 2.2;
-    //double endBeforeCritTemp = 2.2;
 
-    double end_T = 2.4;
-    double step_T = 0.0025;
-
-    int trials = 1E5;
+    int trials = 1E6;
 
     int trialsPrProc = (int)((double)trials/num_processors);
     int this_cycleStart = this_rank*trialsPrProc + 1;
     int this_cycleEnd = (this_rank+1)*trialsPrProc;
     if((this_rank == num_processors - 1) && (this_cycleEnd < trials)) this_cycleEnd = trials;
+    double temp_start = 2.;
+    double temp_end = 2.4;
+    double steps[]= {0.025,0.001,0.025};
 
     if(this_rank == 0)
     {
         string filename = string("criticalTemp");
 
         stringstream ss;
-        ss << setprecision(4) << start_T;
+        ss << setprecision(4) << temp_start;
         filename += string("_Tstart=") + ss.str();
         ss.str(string());
-        ss << setprecision(4) << end_T;
+        ss << setprecision(4) << temp_end;
         filename += string("_Tend=") + ss.str();
         ss.str(string());
-        ss << setprecision(4) << step_T;
-        filename += string("_Tstep=") + ss.str();
 
         filename += string(".dat");
         ofile.open(filename);
-        for(double T = start_T ; T <= end_T ; T += step_T) ofile <<setw(10)<< T;
+        for(int i = 0 ; i < 3 ; i++)
+        {
+           for(double T = temp_start; T <= temp_end ; T += steps[i]) ofile <<setw(10)<< T;
+           temp_start = temp_end;
+           temp_end += .2;
+        }
+
         ofile << endl;
     }
 
@@ -483,42 +486,52 @@ void extractCriticalTemperature()
         double prevHeatC = 0;
         double critTemp = 0;
         if(this_rank == 0) ofile << numSpins << endl;
-        for(double T = start_T ; T < end_T ; T += step_T)
+
+        double start_T = 2.;
+        double end_T = 2.2;
+        for( int i = 0 ; i < 3 ; i++)
         {
-            int ** spins = init_matr(numSpins);
-
-            double expectations[5],totalExpectations[5];
-            for(int i = 0 ; i < 5 ; i ++)
+            for(double T = start_T ; T < end_T ; T += steps[i])
             {
-                totalExpectations[i] = 0;
-                expectations[i] = 0;
-            }
-            double energy = 0, magnetization = 0;
-            initialize(numSpins,spins,energy, magnetization);
+                int ** spins = init_matr(numSpins);
 
-
-           // void metropolis(int** spins,int dim, double T,double expectations[5],double energy, double magnetization,int cycleStart,int cycleEnd,int rank)
-            metropolis(spins,numSpins,T,expectations,energy,magnetization,this_cycleStart,this_cycleEnd,this_rank);
-            MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-            if(this_rank == 0)
-            {
-                writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
-                double heatCapacity = totalExpectations[0];
-                if (heatCapacity > prevHeatC)
+                double expectations[5],totalExpectations[5];
+                for(int i = 0 ; i < 5 ; i ++)
                 {
-                    cout << T << endl;
-                    critTemp = T;
-                    prevHeatC = heatCapacity;
+                    totalExpectations[i] = 0;
+                    expectations[i] = 0;
+                }
+                double energy = 0, magnetization = 0;
+                initialize(numSpins,spins,energy, magnetization);
+
+
+               // void metropolis(int** spins,int dim, double T,double expectations[5],double energy, double magnetization,int cycleStart,int cycleEnd,int rank)
+                metropolis(spins,numSpins,T,expectations,energy,magnetization,this_cycleStart,this_cycleEnd,this_rank);
+                MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+                if(this_rank == 0)
+                {
+                    writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
+                    double normalizing = 1./trialsPrProc/num_processors;
+                    double heatCapacity = ( totalExpectations[1]*normalizing -  totalExpectations[0]* totalExpectations[0]*normalizing*normalizing)/T/T;
+                    if (heatCapacity > prevHeatC)
+                    {
+                        cout << T << endl;
+                        critTemp = T;
+                        prevHeatC = heatCapacity;
+                    }
                 }
             }
+            start_T = end_T;
+            end_T +=.2;
+            if(this_rank == 0)
+            {
+                //cout << critTemp << endl;
+                ofile << critTemp << endl;
+                prevHeatC = 0;
+                critTemp = 0;
+            }
         }
-        if(this_rank == 0)
-        {
-            //cout << critTemp << endl;
-            ofile << critTemp << endl;
-            prevHeatC = 0;
-            critTemp = 0;
-        }
+
     }
     if(this_rank == 0) ofile.close();
 
@@ -531,7 +544,7 @@ int main(int argc, char *argv[])
     //twoSpinTest();
     //mostLikelyState();
     //probableEnergy();
-    //phaseTransitions();
-    extractCriticalTemperature();
+    phaseTransitions();
+    //extractCriticalTemperature();
     return 0;
 }
