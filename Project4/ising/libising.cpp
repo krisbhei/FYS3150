@@ -29,36 +29,50 @@ void initialize(int dim, int** spins,double & energy, double & magnetization)
 
 } //End: initialize
 
-void metropolis(int** spins,int dim, long trials, double T,double expectations[5],double energy, double magnetization)
+void metropolisOneCycle(int dim, int ** spins,double & energy, double & magnetization, double w[17])
 {
     std::random_device rd;
     std::mt19937_64 gen(rd());
+    std::uniform_real_distribution<double> distr(0.0,1.0);
+
+    for(int i = 0 ; i< dim*dim ; i++)
+    {
+        int r_x = (int) (distr(gen)*(double)dim);
+        int r_y = (int) (distr(gen)*(double)dim);
+
+        int deltaEnergy = 2*spins[r_y][r_x]*
+                (spins[r_y][periodic(r_x,dim,-1)] +
+                spins[periodic(r_y,dim,-1)][r_x] +
+                spins[r_y][periodic(r_x,dim,1)] +
+                spins[periodic(r_y,dim,1)][r_x]);
+
+        if( distr(gen) <= w[deltaEnergy + 8])
+        {
+            spins[r_y][r_x] *= -1;
+            magnetization += (double) 2*spins[r_y][r_x];
+            energy += (double) deltaEnergy;
+        }
+    }
+    return;
+}
+
+void metropolis(int** spins,int dim, double T,double expectations[5],double energy, double magnetization,int cycleStart,int cycleEnd,int rank)
+{
+    std::random_device rd;
+    std::mt19937_64 gen;
+
+    if(rank == -1) std::mt19937_64 gen(rd());
+    else std::mt19937_64 gen(150 + 3.1415*rank);
+
     std::uniform_real_distribution<double> distr(0.0,1.0);
 
     double w[17];
     for(int i = 0; i < 17 ; i++) w[i] = 0;
     for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
 
-    for(int cycle = 1 ; cycle <= trials ; cycle ++ )
+    for(int cycle = cycleStart ; cycle <= cycleEnd ; cycle ++ )
     {
-        for(int i = 0 ; i < dim*dim ; i++)
-        {
-            int r_x = (int) (distr(gen)*(double)dim);
-            int r_y = (int) (distr(gen)*(double)dim);
-
-            int deltaEnergy = 2*spins[r_y][r_x]*
-                    (spins[r_y][periodic(r_x,dim,-1)] +
-                    spins[periodic(r_y,dim,-1)][r_x] +
-                    spins[r_y][periodic(r_x,dim,1)] +
-                    spins[periodic(r_y,dim,1)][r_x]);
-
-            if( distr(gen) <= w[deltaEnergy + 8])
-            {
-                spins[r_y][r_x] *= -1;
-                magnetization += (double) 2*spins[r_y][r_x];
-                energy += (double) deltaEnergy;
-            }
-        }
+        metropolisOneCycle(dim,spins,energy,magnetization,w);
 
         expectations[0] += energy;
         expectations[1] += energy*energy;

@@ -26,19 +26,20 @@ def readSearchEnergy(filename,ordering):
     plt.savefig('plot_'+filename[:-4]+'.pdf')
     plt.show()
 
-def plotPhase(temp,q,title,xlabel,ylabel):
+def plotPhase(temp,q,title,xlabel,ylabel,fig_num):
+    plt.figure(fig_num)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel,fontsize=14)
     plt.plot(temp,q)
-    plt.show()
-    plt.clf()
+    plt.hold('on')
 
 
 def readPhaseTransitions(filename):
     with open(filename,'r') as infile:
         temps = [float(value) for value in infile.readline().split()]
         num_temps = len(temps)
+        labels = []
         for L in [40,60,100,140]:
             avgE = np.zeros(num_temps)
             avgAbsM = np.zeros(num_temps)
@@ -51,11 +52,17 @@ def readPhaseTransitions(filename):
                 Cv[i] = values[1]
                 avgAbsM[i] = values[2]
                 X[i] = values[3]
-
-            plotPhase(temps,avgE,'Mean energy for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\langle \\mathscr{E} \\rangle$')
-            plotPhase(temps,Cv,'Heat capacity for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\mathscr{C}_V $')
-            plotPhase(temps,avgAbsM,'Mean magnetization for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\langle \\mathscr{|M|} \\rangle$')
-            plotPhase(temps,X,'Susceptibility for temperature $\\in$ [2,2.3] and %d$\\times$%d spins'%(L,L),'Temperature','$\\mathscr{X}$')
+            print X
+            labels.append('%d$\\times$%d'%(L,L))
+            plotPhase(temps,avgE,'Mean energy for temperature in [2,2.3]','Temperature','$\\langle \\mathscr{E} \\rangle$',1)
+            plotPhase(temps,Cv,'Heat capacity for temperature in [2,2.3]','Temperature','$\\mathscr{C}_V $',2)
+            plotPhase(temps,avgAbsM,'Mean magnetization for temperature in [2,2.3] ','Temperature','$\\langle \\mathscr{|M|} \\rangle$',3)
+            plotPhase(temps,X,'Susceptibility for temperature in [2,2.3]','Temperature','$\\mathscr{X}$',4)
+    print labels
+    for i in xrange(4):
+        plt.figure(i+1)
+        plt.legend(labels)
+        plt.savefig('plot_readPhase%d.pdf'%i)
 
 def plotLikelyState(x,y,temp,trials,quantifier,conf):
 
@@ -146,5 +153,5 @@ if __name__ == "__main__":
     params = {'text.latex.preamble' : [r'\usepackage{mathrsfs}']}
     plt.rcParams.update(params)
 
-    plotAndReadSearchEnergy()
-    #readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')
+    #plotAndReadSearchEnergy()
+    readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')

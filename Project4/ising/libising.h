@@ -15,7 +15,7 @@
  *  - double energy          : energy from the initial configuration
  *  - double magnetization   : magnetic moment from the inital configuration
 */
-void metropolis(int**,int, long, double ,double expectations[5],double, double);
+void metropolis(int**,int, double ,double expectations[5],double, double,int,int,int);
 
 /*  int
  *  periodic(int index, int len, int add)
@@ -71,5 +71,7 @@ void initialize(int, int**,double &, double &);
  *  - double & magnetization : to store the magnetic moment of the initialized system
 */
 void initializeRandom(int, int**,double &, double &);
+
+void metropolisOneCycle(int, int **,double &, double &, double w[17]);
 
 #endif // LIBISING_H
