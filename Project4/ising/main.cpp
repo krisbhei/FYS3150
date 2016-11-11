@@ -426,6 +426,7 @@ void phaseTransitions()
             MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
             if(this_rank == 0)
             {
+                cout << T << endl;
                 writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
 
             }
