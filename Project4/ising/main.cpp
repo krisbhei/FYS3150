@@ -187,8 +187,8 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     double absM_Prev = 0;
     double E2 = 0;
 
-    double E = energy*norm;
-    double absM = magnetization*norm;
+    double E = energy;
+    double absM = magnetization;
 
     double tol = 1E-5;
     int numCyclesBeforeLikely = 1;
@@ -239,7 +239,7 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     E2 /= trials;
     E /= trials;
     */
-    double energyVariance = ( E2- E*E);
+    double energyVariance = ( E2- E*E)/trials;
     cout << energyVariance << endl;
     ofile << energyVariance << endl;
 
@@ -273,12 +273,6 @@ void probableEnergy()
     for (double T : {1.,2.4})
     {
                 cout << T << endl;
-                //to count the number of apperance of an energy
-                int counterNonRandom = 0;
-                int counterRandom = 0;
-
-                double energyVarianceRandom = 0;
-                double energyVarianceNonRandom = 0;
 
                 double w[17];
                 for(int i = 0; i < 17 ; i++) w[i] = 0;
@@ -434,7 +428,7 @@ void metropolisParallelized(int** spins,int dim, double T,double expectations[5]
     double energy = 0,magnetization = 0;
     initialize(dim,spins,energy,magnetization);
 
-    std::mt19937_64 gen(-1-rank);
+    std::mt19937_64 gen(150 + 10*rank);
     std::uniform_real_distribution<double> distr(0.0,1.0);
 
     double w[17];
@@ -471,7 +465,8 @@ void metropolisParallelized(int** spins,int dim, double T,double expectations[5]
     }
     return;
 }
-void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_processors,double totalExpectations[5])
+
+void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_processors,double totalExpectations[5],double & heatCapacityComp, double & critTemp)
 {
     double normalizing = 1./trialsPrProc/num_processors;
     double inverse_temp = 1./T;
@@ -485,6 +480,11 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
     double avgAbsM = totalExpectations[4]*normalizing;
     double susceptibility = (avgM2 - avgAbsM*avgAbsM)*norm_numSpins*inverse_temp;
 
+    if (heatCapacity > heatCapacityComp)
+    {
+        critTemp = T;
+        heatCapacityComp = heatCapacity;
+    }
     cout << heatCapacity << setw(10) << susceptibility << setw(10) << endl;
     ofile << avgE*norm_numSpins << setw(10) << heatCapacity << setw(10);
     ofile << avgAbsM*norm_numSpins << setw(10) << susceptibility << endl;
@@ -498,20 +498,20 @@ void phaseTransitions()
     MPI_Comm_size(MPI_COMM_WORLD, &num_processors);
     MPI_Comm_rank (MPI_COMM_WORLD, &this_rank);
 
-    double start_T = 2.2;
-    double end_T = 2.45;
-    double step_T = .04;
+    double start_T = 2.;
+    double end_T = 2.4;
+    double step_T = 1.05;
 
-    int trials = 1E4;
+    int trials = 1E5;
 
     int trialsPrProc = (int)((double)trials/num_processors);
     int this_cycleStart = this_rank*trialsPrProc + 1;
     int this_cycleEnd = (this_rank+1)*trialsPrProc;
     if((this_rank == num_processors - 1) && (this_cycleEnd < trials)) this_cycleEnd = trials;
 
-    MPI_Bcast (&start_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast (&end_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast (&step_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+//    MPI_Bcast (&start_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+//    MPI_Bcast (&end_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+//    MPI_Bcast (&step_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     double critTemps[4];
     if(this_rank == 0)
     {
@@ -535,10 +535,99 @@ void phaseTransitions()
         ofile << endl;
     }
 
-    int L[] = {40,60,100,140};
-    for(int i = 0 ; i < 4 ; i++)
+    int L[] = {40, 140};
+    for(int i = 0 ; i < 2 ; i++)
     {
         int numSpins = L[i];
+        double heatCapacity = 0;
+        double critTemp = 0;
+        // MPI_Bcast (&numSpins, 1, MPI_INT, 0, MPI_COMM_WORLD);
+        for(double T = start_T ; T <= end_T ; T += step_T)
+        {
+            int ** spins = init_matr(numSpins);
+
+            double expectations[5],totalExpectations[5];
+            for(int i = 0 ; i < 5 ; i ++)
+            {
+                totalExpectations[i] = 0;
+                expectations[i] = 0;
+            }
+
+            metropolisParallelized(spins,numSpins,T,expectations,this_cycleStart,this_cycleEnd,this_rank);
+            MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+            if(this_rank == 0)
+            {
+
+                writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations,heatCapacity,critTemp);
+//                cout << "L : " << numSpins << endl;
+//                cout << "Temp: " << T << endl;
+//                cout << "avg E: " << totalExpectations[0]/numSpins/numSpins/trialsPrProc/num_processors<<endl;
+//                cout << "avg absM: " << totalExpectations[4]/numSpins/numSpins/trialsPrProc/num_processors<< endl;
+            }
+        }
+        if(this_rank == 0)
+        {
+            ofile << critTemp << endl;
+            heatCapacity = 0;
+            critTemp = 0;
+        }
+    }
+    if(this_rank == 0) ofile.close();
+
+    MPI_Finalize();
+    return;
+}
+void extractCriticalTemperature()
+{
+    MPI_Init (NULL, NULL);
+
+    int num_processors,this_rank;
+    MPI_Comm_size(MPI_COMM_WORLD, &num_processors);
+    MPI_Comm_rank (MPI_COMM_WORLD, &this_rank);
+
+    double start_T = 2.2;
+    double end_T = 2.4;
+    double step_T = 0.001;
+
+    int trials = 1E5;
+
+    int trialsPrProc = (int)((double)trials/num_processors);
+    int this_cycleStart = this_rank*trialsPrProc + 1;
+    int this_cycleEnd = (this_rank+1)*trialsPrProc;
+    if((this_rank == num_processors - 1) && (this_cycleEnd < trials)) this_cycleEnd = trials;
+
+    MPI_Bcast (&start_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast (&end_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast (&step_T, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    double critTemps[4];
+    if(this_rank == 0)
+    {
+        for(int i = 0 ; i<4 ; i++)critTemps[i] = 0;
+
+        string filename = string("criticalTemp");
+
+        stringstream ss;
+        ss << setprecision(4) << start_T;
+        filename += string("_Tstart=") + ss.str();
+        ss.str(string());
+        ss << setprecision(4) << end_T;
+        filename += string("_Tend=") + ss.str();
+        ss.str(string());
+        ss << setprecision(4) << step_T;
+        filename += string("_Tstep=") + ss.str();
+
+        filename += string(".dat");
+        ofile.open(filename);
+        for(double T = start_T ; T <= end_T ; T += step_T) ofile <<setw(10)<< T;
+        ofile << endl;
+    }
+
+    int L[] = {40};
+    for(int i = 0 ; i < 1 ; i++)
+    {
+        int numSpins = L[i];
+        double heatCapacity = 0;
+        double critTemp = 0;
         MPI_Bcast (&numSpins, 1, MPI_INT, 0, MPI_COMM_WORLD);
         for(double T = start_T ; T <= end_T ; T += step_T)
         {
@@ -555,12 +644,15 @@ void phaseTransitions()
             MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
             if(this_rank == 0)
             {
-                writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
-//                cout << "L : " << numSpins << endl;
-//                cout << "Temp: " << T << endl;
-//                cout << "avg E: " << totalExpectations[0]/numSpins/numSpins/trialsPrProc/num_processors<<endl;
-//                cout << "avg absM: " << totalExpectations[4]/numSpins/numSpins/trialsPrProc/num_processors<< endl;
+
+                writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations,heatCapacity,critTemp);
             }
+        }
+        if(this_rank == 0)
+        {
+            ofile << critTemp << endl;
+            heatCapacity = 0;
+            critTemp = 0;
         }
     }
     if(this_rank == 0) ofile.close();
@@ -568,17 +660,13 @@ void phaseTransitions()
     MPI_Finalize();
     return;
 }
-void extractCriticalTemperature()
-{
-
-    return;
-}
 
 int main(int argc, char *argv[])
 {
     //twoSpinTest();
     //mostLikelyState();
-    probableEnergy();
-    //phaseTransitions();
+    //probableEnergy();
+    phaseTransitions();
+    //extractCriticalTemperature();
     return 0;
 }

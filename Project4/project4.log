@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  9 NOV 2016 23:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  11 NOV 2016 11:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1397,32 +1397,44 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 239.
 See the caption package documentation for explanation.
 
-(./project4.bbl [8 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_rando
-m_T=1_MC=6.png> <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_random_T
-=1_MC=6.png>]) [9]
+
+! LaTeX Error: Unknown graphics extension: .4_MC=1000000.pdf.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.248 ...tate_|M|_ordered_temp=2.4_MC=1000000.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[8 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_random_T=1_MC=6.png> 
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_random_T=1_MC=6.png>]
+(./project4.bbl) [9]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 265.
+(caption)                particular \caption on input line 272.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 273.
+(caption)                particular \caption on input line 280.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 282.
+(caption)                particular \caption on input line 289.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 291.
+(caption)                particular \caption on input line 298.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 300.
+(caption)                particular \caption on input line 307.
 See the caption package documentation for explanation.
 
 [10]
@@ -1434,12 +1446,12 @@ ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
 <use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_o
 rdered_temp=1_MC=1000000.pdf>
 Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_accepted_ordered_temp=1_MC=1000000.pdf used on input line 307.
+kelyState_accepted_ordered_temp=1_MC=1000000.pdf used on input line 314.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 308.
+(caption)                particular \caption on input line 315.
 See the caption package documentation for explanation.
 
 
@@ -1451,12 +1463,12 @@ random_temp=1_MC=1000000.pdf Graphic file (type pdf)
 <use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_r
 andom_temp=1_MC=1000000.pdf>
 Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_accepted_random_temp=1_MC=1000000.pdf used on input line 309.
+kelyState_accepted_random_temp=1_MC=1000000.pdf used on input line 316.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 310.
+(caption)                particular \caption on input line 317.
 See the caption package documentation for explanation.
 
 
@@ -1468,7 +1480,7 @@ _temp=1_MC=1000000.pdf Graphic file (type pdf)
 <use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_ordered_
 temp=1_MC=1000000.pdf>
 Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_E_ordered_temp=1_MC=1000000.pdf used on input line 314.
+kelyState_E_ordered_temp=1_MC=1000000.pdf used on input line 321.
 (pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
 
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_ordered_te
@@ -1479,7 +1491,7 @@ ed_temp=1_MC=1000000.pdf Graphic file (type pdf)
 <use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_ordere
 d_temp=1_MC=1000000.pdf>
 Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_|M|_ordered_temp=1_MC=1000000.pdf used on input line 318.
+kelyState_|M|_ordered_temp=1_MC=1000000.pdf used on input line 325.
 (pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
 
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_random_temp=
@@ -1490,7 +1502,7 @@ temp=1_MC=1000000.pdf Graphic file (type pdf)
 <use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_random_t
 emp=1_MC=1000000.pdf>
 Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_E_random_temp=1_MC=1000000.pdf used on input line 323.
+kelyState_E_random_temp=1_MC=1000000.pdf used on input line 330.
 (pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
 
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_random_tem
@@ -1501,20 +1513,20 @@ m_temp=1_MC=1000000.pdf Graphic file (type pdf)
 <use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_random
 _temp=1_MC=1000000.pdf>
 Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_|M|_random_temp=1_MC=1000000.pdf used on input line 327.
+kelyState_|M|_random_temp=1_MC=1000000.pdf used on input line 334.
 (pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
 
-Overfull \hbox (23.49425pt too wide) in paragraph at lines 313--330
+Overfull \hbox (23.49425pt too wide) in paragraph at lines 320--337
 []$[]$   $[]$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 313--330
+Underfull \hbox (badness 10000) in paragraph at lines 320--337
 
  []
 
 
-Overfull \hbox (23.49425pt too wide) in paragraph at lines 313--330
+Overfull \hbox (23.49425pt too wide) in paragraph at lines 320--337
 []$   $[]$ 
  []
 
@@ -1547,24 +1559,24 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
 _0_clang_64bit-MPI/plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf): PDF incl
 usion: multiple pdfs with page group included in a single page
 >] [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 334.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 334.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 341.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 341.
  (./project4.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 334.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 334.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 341.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 341.
 Package rerunfilecheck Info: File `project4.out' has not changed.
-(rerunfilecheck)             Checksum: AE2CAB8949CAC877AB4F81896FB9F36F;899.
+(rerunfilecheck)             Checksum: 9F8580258E22E6F7770A704EB133A0D1;913.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 334.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 341.
  ) 
 Here is how much of TeX's memory you used:
- 21054 strings out of 493089
- 382335 string characters out of 6134842
+ 21056 strings out of 493089
+ 382419 string characters out of 6134842
  562301 words of memory out of 5000000
- 24053 multiletter control sequences out of 15000+600000
+ 24054 multiletter control sequences out of 15000+600000
  23560 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,17n,97p,1059b,701s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1592,7 +1604,7 @@ type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
 pe1/public/cm-super/sfrm2488.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
 1/public/cm-super/sfti1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
 urw/ncntrsbk/uncr8a.pfb>
-Output written on project4.pdf (13 pages, 650079 bytes).
+Output written on project4.pdf (13 pages, 650297 bytes).
 PDF statistics:
  403 PDF objects out of 1000 (max. 8388607)
  342 compressed objects within 4 object streams
