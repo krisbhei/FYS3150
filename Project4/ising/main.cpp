@@ -455,7 +455,7 @@ void extractCriticalTemperature()
     if((this_rank == num_processors - 1) && (this_cycleEnd < trials)) this_cycleEnd = trials;
     double temp_start = 2.;
     double temp_end = 2.4;
-    double steps[]= {0.025,0.0025,0.025};
+    double steps[]= {0.025,0.001,0.025};
 
 
 
@@ -486,14 +486,14 @@ void extractCriticalTemperature()
             }
 
             ofile << endl;
+            ofile << numSpins << endl;
         }
-        if(this_rank == 0) ofile << numSpins << endl;
 
-        double start_T = 2.;
-        double end_T = 2.2;
+        double start_Ts[] = {2.1,2.2,2.4};
+        double end_Ts[] = {2.2,2.4,2.5};
         for( int i = 0 ; i < 3 ; i++)
         {
-            for(double T = start_T ; T < end_T ; T += steps[i])
+            for(double T = start_Ts[i] ; T < end_Ts[i] ; T += steps[i])
             {
                 int ** spins = init_matr(numSpins);
 
@@ -523,9 +523,9 @@ void extractCriticalTemperature()
                     }
                 }
             }
+
         }
-        start_T = end_T;
-        end_T +=.2;
+
         if(this_rank == 0)
         {
             //cout << critTemp << endl;
