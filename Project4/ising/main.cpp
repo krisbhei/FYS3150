@@ -455,36 +455,38 @@ void extractCriticalTemperature()
     if((this_rank == num_processors - 1) && (this_cycleEnd < trials)) this_cycleEnd = trials;
     double temp_start = 2.;
     double temp_end = 2.4;
-    double steps[]= {0.025,0.001,0.025};
+    double steps[]= {0.025,0.0025,0.025};
 
-    if(this_rank == 0)
-    {
-        string filename = string("criticalTemp");
 
-        stringstream ss;
-        ss << setprecision(4) << temp_start;
-        filename += string("_Tstart=") + ss.str();
-        ss.str(string());
-        ss << setprecision(4) << temp_end;
-        filename += string("_Tend=") + ss.str();
-        ss.str(string());
-
-        filename += string(".dat");
-        ofile.open(filename);
-        for(int i = 0 ; i < 3 ; i++)
-        {
-           for(double T = temp_start; T <= temp_end ; T += steps[i]) ofile <<setw(10)<< T;
-           temp_start = temp_end;
-           temp_end += .2;
-        }
-
-        ofile << endl;
-    }
 
     for(int numSpins : {40,60,100,140})
     {
         double prevHeatC = 0;
         double critTemp = 0;
+        if(this_rank == 0)
+        {
+            cout << numSpins << endl;
+            string filename = string("criticalTemp");
+
+            stringstream ss;
+            ss << setprecision(4) << temp_start;
+            filename += string("_Tstart=") + ss.str();
+            ss.str(string());
+            ss << setprecision(4) << temp_end;
+            filename += string("_Tend=") + ss.str()+to_string(numSpins);
+            ss.str(string());
+
+            filename += string(".dat");
+            ofile.open(filename);
+            for(int i = 0 ; i < 3 ; i++)
+            {
+               for(double T = temp_start; T <= temp_end ; T += steps[i]) ofile <<setw(10)<< T;
+               temp_start = temp_end;
+               temp_end += .2;
+            }
+
+            ofile << endl;
+        }
         if(this_rank == 0) ofile << numSpins << endl;
 
         double start_T = 2.;
@@ -513,27 +515,27 @@ void extractCriticalTemperature()
                     writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
                     double normalizing = 1./trialsPrProc/num_processors;
                     double heatCapacity = ( totalExpectations[1]*normalizing -  totalExpectations[0]* totalExpectations[0]*normalizing*normalizing)/T/T;
+                    cout << T << endl;
                     if (heatCapacity > prevHeatC)
                     {
-                        cout << T << endl;
                         critTemp = T;
                         prevHeatC = heatCapacity;
                     }
                 }
             }
-            start_T = end_T;
-            end_T +=.2;
-            if(this_rank == 0)
-            {
-                //cout << critTemp << endl;
-                ofile << critTemp << endl;
-                prevHeatC = 0;
-                critTemp = 0;
-            }
+        }
+        start_T = end_T;
+        end_T +=.2;
+        if(this_rank == 0)
+        {
+            //cout << critTemp << endl;
+            ofile << critTemp << endl;
+            ofile.close();
+            prevHeatC = 0;
+            critTemp = 0;
         }
 
     }
-    if(this_rank == 0) ofile.close();
 
     MPI_Finalize();
     return;
@@ -544,7 +546,7 @@ int main(int argc, char *argv[])
     //twoSpinTest();
     //mostLikelyState();
     //probableEnergy();
-    phaseTransitions();
-    //extractCriticalTemperature();
+    //phaseTransitions();
+    extractCriticalTemperature();
     return 0;
 }
