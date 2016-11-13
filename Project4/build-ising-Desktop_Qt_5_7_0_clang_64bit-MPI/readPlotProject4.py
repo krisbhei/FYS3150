@@ -5,25 +5,40 @@ import numpy as np
 import matplotlib.pyplot as plt
 import shutil,os
 
-def readSearchEnergy(filename,ordering):
+def readSearchEnergy(filename,ordering,temp):
     with open(filename,'r') as infile:
         temp = infile.readline().strip('\n')
         energies = [float(val) for val in infile.readline().split()]
         numEnergies = len(energies)
         hist = [float(infile.readline()) for i in xrange(numEnergies)]
 
-        #We are at variance;
-        varianceE = float(infile.readline())
+        #We are at the standard deviation;
+        stdE = float(infile.readline())
 
-
-
-    print varianceE
+    plt.subplots_adjust(hspace=.4)
+    plt.figure(1)
+    plt.subplot(2,1,1)
+    plt.xlim([-2.1,2])
     plt.title('Number of occurence of possible energies for 20$\\times$20 lattice at \ntemperature T=%s and %s initial ordering'%(temp,ordering))
     plt.xlabel('Possible energies')
     plt.ylabel('Number of occurence')
-    plt.plot(energies,hist,'k')
-    plt.xlim([-800,-200])
-    plt.savefig('plot_'+filename[:-4]+'.pdf')
+    markerline, stemlines, baseline = plt.stem(energies, hist,'-')
+    plt.setp(markerline, 'markerfacecolor', 'k','markersize',2)
+    plt.setp(baseline, 'color', 'k', 'linewidth', 2)
+    plt.setp(stemlines,'color','k')
+
+    plt.subplot(2,1,2)
+    plt.xlim([-2.05,-1.9])
+    plt.title('Zoom of the plot above')
+    plt.xlabel('Possible energies')
+    plt.ylabel('Number of occurence')
+    markerline, stemlines, baseline = plt.stem(energies, hist,'-')
+    plt.plot(energies,hist,'k--')
+    plt.setp(markerline, 'markerfacecolor', 'k')
+    plt.setp(baseline, 'color', 'k', 'linewidth', 2)
+    plt.setp(stemlines,'color','k')
+
+    plt.savefig('zoom_-2-1.9_plot_'+filename[:-4]+'.pdf')
     plt.show()
 
 def plotPhase(temp,q,title,xlabel,ylabel,fig_num):
@@ -93,12 +108,14 @@ def plotLikelyState(x,y,temp,trials,quantifier,conf):
 
     #plt.ylim([.9990,.9995])
     #plt.ylim([-1.9975,-1.9965])
-
+    #plt.ylim([-1.25,-1.23])
     #plt.xlim([0,650000])
+    #plt.ylim([.45,.5])
+    plt.ylim([.425,.475])
     plt.gca().grid(True)
     plt.plot(x,y)
     #plt.show()
-    plt.savefig('zoomx_0_zoomy_0_plot_LikelyState_%s_%s_temp=%s_MC=%d.pdf'%(quantifier,conf,temp,trials))
+    plt.savefig('zoomx_0_zoomy_.425+.475_plot_LikelyState_%s_%s_temp=%s_MC=%d.pdf'%(quantifier,conf,temp,trials))
     plt.clf()
 
 
@@ -132,37 +149,39 @@ def readLikelyState(filename,ylim=None):
             accepted_random[i] = values_random[3]
             i+=1
     #Start: Plot the energies and magnetization
-    plotLikelyState(cycles,energy_non_random,temp,trials,'E','ordered')
-    plotLikelyState(cycles,magnetization_non_random,temp,trials,'|M|','ordered')
+    #plotLikelyState(cycles,energy_non_random,temp,trials,'E','ordered')
+    #plotLikelyState(cycles,magnetization_non_random,temp,trials,'|M|','ordered')
     #plotLikelyState(cycles,energy_random,temp,trials,'E','random')
     #plotLikelyState(cycles,magnetization_random,temp,trials,'|M|','random')
     #End: Plot the energies and magnetization
 
     #Start: Plot the accepted number of configurations per 100th step
-    # plt.plot(cycles,accepted_non_random,'k')
-    # plt.title('Number of accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
-    # plt.ylabel('Percentage of accepted configurations per 100th cycle')
-    # plt.xlabel('Number of Monte Carlo cycles')
-    # plt.xlim([0,800000])
-    # plt.gca().grid(True)
-    # plt.savefig('zoom_800000_plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
+    plt.plot(cycles,accepted_non_random)
+    plt.title('Accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
+    plt.ylabel('Percentage of accepted configurations per 100th cycle')
+    plt.xlabel('Number of Monte Carlo cycles')
+    #plt.xlim([0,800000])
+    plt.ylim([26,27])
+    plt.gca().grid(True)
+    plt.savefig('zoomy_26+27_plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
     # plt.show()
-    # plt.clf()
+    plt.clf()
 
-    # plt.plot(cycles,accepted_random)
-    # plt.title('Number of accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
-    # plt.ylabel('Percentage of accepted configurations per 100th cycle')
-    # plt.xlabel('Number of Monte Carlo cycles')
-    # plt.gca().grid(True)
-    # plt.xlim([0,800000])
-    # plt.ylim([0.07,0.105])
-    # plt.savefig('xzoom_800000_yzoom007+0105_plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
-    # plt.show()
+    plt.plot(cycles,accepted_random)
+    plt.title('Accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
+    plt.ylabel('Percentage of accepted configurations per 100th cycle')
+    plt.xlabel('Number of Monte Carlo cycles')
+    plt.gca().grid(True)
+    #plt.xlim([0,800000])
+    #plt.ylim([0.07,0.105])
+    plt.ylim([26.5,27.2])
+    plt.savefig('zoomy_26+27_plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
+    plt.show()
     # plt.clf()
     #End: Plot the accepted number of configurations per 100th step
 def plotAndReadForLikelyState():
     #readLikelyState("mostLikelyState_trials=1000000_temp=1.dat")
-    readLikelyState("mostLikelyState_trials=10000000_temp=2.4.dat")
+    readLikelyState("lmostLikelyState_trials=10000000_temp=2.4.dat")
 
 def plotAndReadSearchEnergy():
     temps = [1,2.4]
@@ -171,13 +190,15 @@ def plotAndReadSearchEnergy():
     for temp in temps:
         for init in orderings:
             filename = base + '%.6f'%(temp) + '_%s'%(init)+'.dat'
-            readSearchEnergy(filename,init)
+            readSearchEnergy(filename,init,temp)
+
+
 if __name__ == "__main__":
 
     plt.rc('text',usetex=True)
     plt.rc('font', family='serif')
     params = {'text.latex.preamble' : [r'\usepackage{mathrsfs}']}
     plt.rcParams.update(params)
-    plotAndReadForLikelyState()
-    #plotAndReadSearchEnergy()
+    #plotAndReadForLikelyState()
+    plotAndReadSearchEnergy()
     #readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')
