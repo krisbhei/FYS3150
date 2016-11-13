@@ -1,13 +1,29 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{The Ising model using the Metropolis algorithm}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{The Metropolis algorithm for the Ising model}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Effective computing of the thermodynamic quantities}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Solving for a 2 \0402 lattice}{}% 5
-\BOOKMARK [2][-]{subsection.3.1}{Analytical solutions}{section.3}% 6
-\BOOKMARK [2][-]{subsection.3.2}{Results after numerically solving for the system}{section.3}% 7
-\BOOKMARK [1][-]{section.4}{Reaching the most likely state}{}% 8
-\BOOKMARK [2][-]{subsection.4.1}{For low temperature}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.2}{For a higher temperature}{section.4}% 10
-\BOOKMARK [1][-]{section.5}{Phase transitions}{}% 11
-\BOOKMARK [1][-]{section.6}{Critical temperature}{}% 12
-\BOOKMARK [1][-]{section.7}{Conclusion}{}% 13
+\BOOKMARK [1][-]{section.2}{Ising model and the Metropolis algorithm; what they give us and how to implement them}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{The Ising model}{section.2}% 3
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Describing the likely behavior of a LL number of atoms}{subsection.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.2}{The Metropolis algorithm}{section.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Idea behind the Metropolis algorithm}{subsection.2.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Using Metropolis in the Ising model}{subsection.2.2}% 7
+\BOOKMARK [2][-]{subsection.2.3}{Effective computing of the Metropolis algorithm for the Ising model}{section.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Computing the energy difference}{subsection.2.3}% 9
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Computing the magnetization}{subsection.2.3}% 10
+\BOOKMARK [1][-]{section.3}{Solving for a 2 \0402 lattice}{}% 11
+\BOOKMARK [2][-]{subsection.3.1}{Analytical solutions}{section.3}% 12
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Energy for each state}{subsection.3.1}% 13
+\BOOKMARK [3][-]{subsubsection.3.1.2}{The partition function}{subsection.3.1}% 14
+\BOOKMARK [3][-]{subsubsection.3.1.3}{Mean energy}{subsection.3.1}% 15
+\BOOKMARK [3][-]{subsubsection.3.1.4}{Heat capacity}{subsection.3.1}% 16
+\BOOKMARK [3][-]{subsubsection.3.1.5}{Magnetic moment}{subsection.3.1}% 17
+\BOOKMARK [3][-]{subsubsection.3.1.6}{Mean magnetization}{subsection.3.1}% 18
+\BOOKMARK [3][-]{subsubsection.3.1.7}{Susceptibility}{subsection.3.1}% 19
+\BOOKMARK [2][-]{subsection.3.2}{Results after numerically solving for the system}{section.3}% 20
+\BOOKMARK [1][-]{section.4}{Reaching the most likely state}{}% 21
+\BOOKMARK [2][-]{subsection.4.1}{For low temperature}{section.4}% 22
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Ordered initial spin configuration}{subsection.4.1}% 23
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Random initial spin configuration}{subsection.4.1}% 24
+\BOOKMARK [2][-]{subsection.4.2}{For a higher temperature}{section.4}% 25
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Initial ordered spin configuration}{subsection.4.2}% 26
+\BOOKMARK [1][-]{section.5}{Phase transitions}{}% 27
+\BOOKMARK [1][-]{section.6}{Critical temperature}{}% 28
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 29

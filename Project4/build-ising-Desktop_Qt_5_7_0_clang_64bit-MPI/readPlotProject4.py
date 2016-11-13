@@ -54,10 +54,10 @@ def readPhaseTransitions(filename):
                 X[i] = values[3]
             print X
             labels.append('%d$\\times$%d'%(L,L))
-            plotPhase(temps,avgE,'Mean energy for temperature in [2,2.3]','Temperature','$\\langle \\mathscr{E} \\rangle$',1)
-            plotPhase(temps,Cv,'Heat capacity for temperature in [2,2.3]','Temperature','$\\mathscr{C}_V $',2)
-            plotPhase(temps,avgAbsM,'Mean magnetization for temperature in [2,2.3] ','Temperature','$\\langle \\mathscr{|M|} \\rangle$',3)
-            plotPhase(temps,X,'Susceptibility for temperature in [2,2.3]','Temperature','$\\mathscr{X}$',4)
+            plotPhase(temps,avgE,'Mean energy for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\langle \\mathscr{E} \\rangle$',1)
+            plotPhase(temps,Cv,'Heat capacity for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\mathscr{C}_V $',2)
+            plotPhase(temps,avgAbsM,'Mean magnetization for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\langle \\mathscr{|M|} \\rangle$',3)
+            plotPhase(temps,X,'Susceptibility for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\mathscr{X}$',4)
     print labels
     for i in xrange(4):
         plt.figure(i+1)

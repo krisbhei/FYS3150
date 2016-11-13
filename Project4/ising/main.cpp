@@ -252,11 +252,6 @@ void metropolisLikelyState(int dim, int trials, double T)
     double norm = 1./dim/dim;
     for(int cycle = 1 ; cycle <= trials ; cycle ++ )
     {
-        double normalizedEnergyNonRandom;
-        double normalizedEnergyRandom;
-        double normalizedMagnetizationNonRandom;
-        double normalizedMagnetizationRandom;
-
         for(int i = 0 ; i < dim*dim ; i++)
         {
             //Start: Spend a MC-cycle at a non random configuration
@@ -297,21 +292,22 @@ void metropolisLikelyState(int dim, int trials, double T)
                 ++acceptedRandom;
             }
             //End: Spend a MC-cycle at a random configuration
-            E_NonRandom += energyNonRandom;
-            E2_NonRandom += energyNonRandom*energyNonRandom;
-            absM_NonRandom += fabs(magnetizationNonRandom);
-
-            E_Random += energyRandom;
-            E2_Random += energyRandom*energyRandom;
-            absM_Random += fabs(magnetizationRandom);
         }
+        E_NonRandom += energyNonRandom;
+        E2_NonRandom += energyNonRandom*energyNonRandom;
+        absM_NonRandom += fabs(magnetizationNonRandom);
+
+        E_Random += energyRandom;
+        E2_Random += energyRandom*energyRandom;
+        absM_Random += fabs(magnetizationRandom);
 
         if (cycle%100 == 0 )
         {
-            ofile << (E_NonRandom/((double)cycle))*norm << setw(10) << (absM_NonRandom/((double)cycle))*norm<< setw(10) << cycle <<setw(10)<< (acceptedNonRandom/((double)cycle))*norm*100;
-            ofile << endl;
-            ofile << (E_Random/((double)cycle))*norm << setw(10) << (absM_Random/((double)cycle))*norm << setw(10) << cycle <<setw(10)<< (acceptedRandom/((double)cycle))*norm*100;
-            ofile << endl;
+            cout << (E_NonRandom/((double) cycle))*norm<< endl;
+//            ofile << (E_NonRandom/((double)cycle))*norm << setw(20) << (absM_NonRandom/((double)cycle))*norm<< setw(20) << cycle <<setw(20)<< (acceptedNonRandom/((double)cycle))*norm*100;
+//            ofile << endl;
+//            ofile << (E_Random/((double)cycle))*norm << setw(20) << (absM_Random/((double)cycle))*norm << setw(20) << cycle <<setw(20)<< (acceptedRandom/((double)cycle))*norm*100;
+//            ofile << endl;
         }
     }
 
@@ -321,12 +317,12 @@ void metropolisLikelyState(int dim, int trials, double T)
 void mostLikelyState()
 {
     const int L = 20;
-    int trials = 1E6;
+    int trials = 1E7;
 
     for (double T = 1.; T <= 2.4 ; T +=1.4)
     {
 
-                string filename = string("mostLikelyState");
+                string filename = string("lmostLikelyState");
                 stringstream ss;
                 ss << setprecision(8) << trials;
                 filename += string("_trials=")+ss.str();
@@ -481,8 +477,6 @@ void extractCriticalTemperature()
             for(int i = 0 ; i < 3 ; i++)
             {
                for(double T = temp_start; T <= temp_end ; T += steps[i]) ofile <<setw(10)<< T;
-               temp_start = temp_end;
-               temp_end += .2;
             }
 
             ofile << endl;
@@ -544,9 +538,9 @@ void extractCriticalTemperature()
 int main(int argc, char *argv[])
 {
     //twoSpinTest();
-    //mostLikelyState();
+    mostLikelyState();
     //probableEnergy();
     //phaseTransitions();
-    extractCriticalTemperature();
+    //extractCriticalTemperature();
     return 0;
 }

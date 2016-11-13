@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  11 NOV 2016 11:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  13 NOV 2016 15:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1019,20 +1019,20 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 (./project4.aux)
 \openout1 = `project4.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1069,7 +1069,7 @@ LaTeX Font Info:    ... okay on input line 54.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box68
-Package hyperref Info: Link coloring OFF on input line 54.
+Package hyperref Info: Link coloring OFF on input line 56.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -1078,9 +1078,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count162
 )
-LaTeX Info: Redefining \ref on input line 54.
-LaTeX Info: Redefining \pageref on input line 54.
-LaTeX Info: Redefining \nameref on input line 54.
+LaTeX Info: Redefining \ref on input line 56.
+LaTeX Info: Redefining \pageref on input line 56.
+LaTeX Info: Redefining \nameref on input line 56.
 
 (./project4.out) (./project4.out)
 \@outlinefile=\write4
@@ -1118,496 +1118,519 @@ e
 \c@lstlisting=\count169
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 54.
+(lastpage)             ! on input line 56.
 
 ABD: EveryShipout initializing macros
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--62
+Underfull \hbox (badness 10000) in paragraph at lines 63--69
 
  []
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 65.
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--69
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--69
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\\' on input line 70.
+
+[1
+
+{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
+ine 74.
+
+Overfull \hbox (6.11853pt too wide) in paragraph at lines 74--74
+\T1/cmr/m/n/12 ing;spør  
+ []
+
+
+Overfull \hbox (6.11853pt too wide) in paragraph at lines 74--74
+\T1/cmr/m/n/12 ing;spør  
+ []
+
+
+Overfull \hbox (6.11853pt too wide) in paragraph at lines 74--74
+\T1/cmr/m/n/12 ing;spør  
+ []
+
+
+Overfull \hbox (6.11853pt too wide) in paragraph at lines 74--74
+\T1/cmr/m/n/12 ing;spør  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 76.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 65.
+LaTeX Font Info:    Try loading font information for U+msb on input line 76.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 65.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 76.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-) [1
+)
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
 
-{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+ []
+
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 87.
 See the caption package documentation for explanation.
 
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 90.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\times' on input line 90.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 90.
+
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 121--124
-
- []
-
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 125.
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 125--125
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (12.90166pt too wide) in paragraph at lines 125--125
-\T1/cmr/m/n/12 Metropo- 
- []
-
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 125--125
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (12.90166pt too wide) in paragraph at lines 125--125
-\T1/cmr/m/n/12 Metropo- 
- []
-
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 125--125
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (12.90166pt too wide) in paragraph at lines 125--125
-\T1/cmr/m/n/12 Metropo- 
- []
-
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 125--125
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (12.90166pt too wide) in paragraph at lines 125--125
-\T1/cmr/m/n/12 Metropo- 
- []
-
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 126--126
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (0.50607pt too wide) in paragraph at lines 126--126
-\T1/cmr/m/n/12 verdier  
- []
-
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 126--126
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (0.50607pt too wide) in paragraph at lines 126--126
-\T1/cmr/m/n/12 verdier  
- []
-
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 126--126
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (0.50607pt too wide) in paragraph at lines 126--126
-\T1/cmr/m/n/12 verdier  
- []
-
-
-Overfull \hbox (2.20282pt too wide) in paragraph at lines 126--126
-[][][][]\T1/cmr/m/n/12 beskriv 
- []
-
-
-Overfull \hbox (0.50607pt too wide) in paragraph at lines 126--126
-\T1/cmr/m/n/12 verdier  
- []
-
-
-LaTeX Warning: Marginpar on page 3 moved.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 127.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\times' on input line 127.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 127.
-
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 156.
+(caption)                particular \caption on input line 105.
 See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:twospin' on page 3 undefined on input line 159.
 
 [3]
-Overfull \hbox (6.11858pt too wide) in paragraph at lines 189--189
-[][][][]\T1/cmr/m/n/12 fortsett!  
+Underfull \hbox (badness 10000) in paragraph at lines 144--147
+
  []
 
 
-Overfull \hbox (6.11858pt too wide) in paragraph at lines 189--189
-[][][][]\T1/cmr/m/n/12 fortsett!  
+Underfull \hbox (badness 10000) in paragraph at lines 144--147
+
  []
 
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 148.
 
-Overfull \hbox (6.11858pt too wide) in paragraph at lines 189--189
-[][][][]\T1/cmr/m/n/12 fortsett!  
- []
-
-
-Overfull \hbox (6.11858pt too wide) in paragraph at lines 189--189
-[][][][]\T1/cmr/m/n/12 fortsett!  
- []
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 148.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 200.
+(caption)                particular \caption on input line 160.
 See the caption package documentation for explanation.
+
+
+Package Fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
+less on input line 160.
 
 [4]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 209.
+(caption)                particular \caption on input line 175.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 212--215
+Underfull \hbox (badness 10000) in paragraph at lines 177--179
+
+ []
+
+[5] [6]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 234.
+See the caption package documentation for explanation.
+
+[7]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 255.
+
+ (/usr/local/texlive/2015/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+Underfull \hbox (badness 10000) in paragraph at lines 253--256
+
+ []
+
+
+Overfull \hbox (17.55725pt too wide) in paragraph at lines 253--256
+\T1/cmr/m/n/12 The ef-fec-tive way of cal-cu-lat-ing these val-ues has been im-
+ple-mented in the func-tion \T1/cmtt/m/n/12 metropolisOneCycle
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 256.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\times' on input line 256.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 256.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 285.
+See the caption package documentation for explanation.
+
+[8] [9] [10]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 391.
+See the caption package documentation for explanation.
+
+[11]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 432.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 441.
+See the caption package documentation for explanation.
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 444--447
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 444--447
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 448--451
 
  []
 
 
 Package Fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
-less on input line 220.
+less on input line 456.
 
-[5]
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_ordered_T=1_MC=6.png, id
-=138, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_ordered_T=1_MC=6.pn
-g Graphic file (type png)
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 457--458
 
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_ordered_T=1_MC=6.png
->
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_
-ordered_T=1_MC=6.png used on input line 221.
-(pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
+ []
 
 
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 222.
-See the caption package documentation for explanation.
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyState_E_
+ordered_temp=1_MC=1000000.pdf, id=282, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelySta
+te_E_ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
 
-
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_ordered_T=1_MC=6.png, id
-=140, 799.3062pt x 543.4704pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_ordered_T=1_MC=6.pn
-g Graphic file (type png)
-
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_ordered_T=1_MC=6.png
->
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_
-ordered_T=1_MC=6.png used on input line 223.
-(pdftex.def)             Requested size: 359.68446pt x 244.5594pt.
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyStat
+e_E_ordered_temp=1_MC=1000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_60
+0000_plot_LikelyState_E_ordered_temp=1_MC=1000000.pdf used on input line 459.
+(pdftex.def)             Requested size: 375.79955pt x 281.84966pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 224.
+(caption)                particular \caption on input line 460.
 See the caption package documentation for explanation.
 
 
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_ordered_zoom.png, id=141, 
-860.013pt x 503.7219pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_ordered_zoom.png Grap
-hic file (type png)
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyState_|M
+|_ordered_temp=1_MC=1000000.pdf, id=283, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelySta
+te_|M|_ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
 
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_ordered_zoom.png>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_or
-dered_zoom.png used on input line 225.
-(pdftex.def)             Requested size: 430.00545pt x 251.86032pt.
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyStat
+e_|M|_ordered_temp=1_MC=1000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_60
+0000_plot_LikelyState_|M|_ordered_temp=1_MC=1000000.pdf used on input line 461.
+
+(pdftex.def)             Requested size: 375.79955pt x 281.84966pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 226.
+(caption)                particular \caption on input line 462.
 See the caption package documentation for explanation.
 
-[6 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_ordered_T=1_MC=6.png>
- <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_ordered_T=1_MC=6.png>]
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_random_zoom.png, id=151, 5
-78.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_random_zoom.png Graph
-ic file (type png)
+[14 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyStat
+e_E_ordered_temp=1_MC=1000000.pdf>]
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_800000_plot_LikelyState_ac
+cepted_ordered_temp=1_MC=1000000.pdf, id=319, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_800000_plot_LikelySta
+te_accepted_ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
 
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_random_zoom.png>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_ra
-ndom_zoom.png used on input line 231.
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_800000_plot_LikelyStat
+e_accepted_ordered_temp=1_MC=1000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_80
+0000_plot_LikelyState_accepted_ordered_temp=1_MC=1000000.pdf used on input line
+ 466.
 (pdftex.def)             Requested size: 317.98898pt x 238.49173pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 232.
+(caption)                particular \caption on input line 467.
 See the caption package documentation for explanation.
 
-[7 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_ordered_zoom.png> <./bu
-ild-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_random_zoom.png>]
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_random_T=1_MC=6.png, id=
-162, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_random_T=1_MC=6.png
- Graphic file (type png)
 
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_random_T=1_MC=6.png>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_
-random_T=1_MC=6.png used on input line 236.
-(pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
+Underfull \hbox (badness 10000) in paragraph at lines 469--471
+
+ []
+
+[15 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyStat
+e_|M|_ordered_temp=1_MC=1000000.pdf> <./build-ising-Desktop_Qt_5_7_0_clang_64bi
+t-MPI/zoom_800000_plot_LikelyState_accepted_ordered_temp=1_MC=1000000.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
+_0_clang_64bit-MPI/zoom_800000_plot_LikelyState_accepted_ordered_temp=1_MC=1000
+000.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
+e
+>]
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy_-2-
+1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf, id=354, 578.16pt x 433.62
+pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoom
+y_-2-1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf Graphic file (type pd
+f)
+
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy
+_-2-1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplot
+s_zoomx_600000_zoomy_-2-1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf us
+ed on input line 474.
+(pdftex.def)             Requested size: 375.79955pt x 281.84966pt.
+
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 237.
+(caption)                particular \caption on input line 475.
 See the caption package documentation for explanation.
 
 
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_random_T=1_MC=6.png, id=
-163, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_random_T=1_MC=6.png
- Graphic file (type png)
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy_.97
++1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf, id=355, 578.16pt x 433.62
+pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoom
+y_.97+1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf Graphic file (type pd
+f)
 
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_random_T=1_MC=6.png>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_
-random_T=1_MC=6.png used on input line 238.
-(pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy
+_.97+1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplot
+s_zoomx_600000_zoomy_.97+1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf us
+ed on input line 476.
+(pdftex.def)             Requested size: 375.79955pt x 281.84966pt.
+
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 239.
+(caption)                particular \caption on input line 477.
 See the caption package documentation for explanation.
 
+[16 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy
+_-2-1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf>]
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105_plot
+_LikelyState_accepted_random_temp=1_MC=1000000.pdf, id=379, 578.16pt x 433.62pt
+>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105
+_plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf Graphic file (type pdf)
 
-! LaTeX Error: Unknown graphics extension: .4_MC=1000000.pdf.
 
-See the LaTeX manual or LaTeX Companion for explanation.
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105_
+plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_8
+00000_yzoom007+0105_plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf used
+ on input line 481.
+(pdftex.def)             Requested size: 317.98898pt x 238.49173pt.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 482.
+See the caption package documentation for explanation.
+
+[17 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy
+_.97+1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf>]
+
+LaTeX Warning: File `{zoom_600000_plot_LikelyState_E_ordered_temp=2.4_MC=100000
+00}.pdf' not found on input line 493.
+
+
+! Package pdftex.def Error: File `zoom_600000_plot_LikelyState_E_ordered_temp=2
+.4_MC=10000000.pdf' not found.
+
+See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.248 ...tate_|M|_ordered_temp=2.4_MC=1000000.pdf}
+l.493 ...tate_E_ordered_temp=2.4_MC=10000000}.pdf}
                                                   
+Using draft setting for this image.
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-[8 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_E_random_T=1_MC=6.png> 
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_M_random_T=1_MC=6.png>]
-(./project4.bbl) [9]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 272.
+(caption)                particular \caption on input line 494.
 See the caption package documentation for explanation.
 
 
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 280.
-See the caption package documentation for explanation.
+LaTeX Warning: File `{zoom_600000_plot_LikelyState_|M|_ordered_temp=2.4_MC=1000
+0000}.pdf' not found on input line 495.
+
+
+! Package pdftex.def Error: File `zoom_600000_plot_LikelyState_|M|_ordered_temp
+=2.4_MC=10000000.pdf' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.495 ...te_|M|_ordered_temp=2.4_MC=10000000}.pdf}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 289.
+(caption)                particular \caption on input line 496.
 See the caption package documentation for explanation.
 
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 298.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 307.
-See the caption package documentation for explanation.
-
-[10]
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_order
-ed_temp=1_MC=1000000.pdf, id=195, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_
-ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
-
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_o
-rdered_temp=1_MC=1000000.pdf>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_accepted_ordered_temp=1_MC=1000000.pdf used on input line 314.
-(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
-
-
-Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 315.
-See the caption package documentation for explanation.
-
-
+[18 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105_
+plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf>]
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_rando
-m_temp=1_MC=1000000.pdf, id=196, 578.16pt x 433.62pt>
+m_temp=2.4_MC=1000000.pdf, id=438, 578.16pt x 433.62pt>
 File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_
-random_temp=1_MC=1000000.pdf Graphic file (type pdf)
+random_temp=2.4_MC=1000000.pdf Graphic file (type pdf)
 
 <use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_r
-andom_temp=1_MC=1000000.pdf>
+andom_temp=2.4_MC=1000000.pdf>
 Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_accepted_random_temp=1_MC=1000000.pdf used on input line 316.
+kelyState_accepted_random_temp=2.4_MC=1000000.pdf used on input line 500.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 317.
+(caption)                particular \caption on input line 501.
 See the caption package documentation for explanation.
 
 
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_ordered_temp
-=1_MC=1000000.pdf, id=197, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_ordered
-_temp=1_MC=1000000.pdf Graphic file (type pdf)
-
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_ordered_
-temp=1_MC=1000000.pdf>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_E_ordered_temp=1_MC=1000000.pdf used on input line 321.
-(pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
-
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_ordered_te
-mp=1_MC=1000000.pdf, id=198, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_order
-ed_temp=1_MC=1000000.pdf Graphic file (type pdf)
-
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_ordere
-d_temp=1_MC=1000000.pdf>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_|M|_ordered_temp=1_MC=1000000.pdf used on input line 325.
-(pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
-
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_random_temp=
-1_MC=1000000.pdf, id=199, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_random_
-temp=1_MC=1000000.pdf Graphic file (type pdf)
-
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_random_t
-emp=1_MC=1000000.pdf>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_E_random_temp=1_MC=1000000.pdf used on input line 330.
-(pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
-
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_random_tem
-p=1_MC=1000000.pdf, id=200, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_rando
-m_temp=1_MC=1000000.pdf Graphic file (type pdf)
-
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_random
-_temp=1_MC=1000000.pdf>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_|M|_random_temp=1_MC=1000000.pdf used on input line 334.
-(pdftex.def)             Requested size: 260.16959pt x 195.1272pt.
-
-Overfull \hbox (23.49425pt too wide) in paragraph at lines 320--337
-[]$[]$   $[]$
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+[][][][]\T1/cmr/m/n/12 kommet 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 320--337
-
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+[][][][]\T1/cmr/m/n/12 kommet 
  []
 
 
-Overfull \hbox (23.49425pt too wide) in paragraph at lines 320--337
-[]$   $[]$ 
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+[][][][]\T1/cmr/m/n/12 kommet 
  []
+
+
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+[][][][]\T1/cmr/m/n/12 kommet 
+ []
+
+(./project4.bbl [19 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Likely
+State_accepted_random_temp=2.4_MC=1000000.pdf>]) [20]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 528.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 536.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 545.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 554.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 563.
+See the caption package documentation for explanation.
 
 
 AED: lastpage setting LastPage
-[11 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_o
-rdered_temp=1_MC=1000000.pdf> <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/p
-lot_LikelyState_accepted_random_temp=1_MC=1000000.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
-_0_clang_64bit-MPI/plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf): PDF
- inclusion: multiple pdfs with page group included in a single page
->] [12 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_order
-ed_temp=1_MC=1000000.pdf> <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_
-LikelyState_|M|_ordered_temp=1_MC=1000000.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
-_0_clang_64bit-MPI/plot_LikelyState_|M|_ordered_temp=1_MC=1000000.pdf): PDF inc
-lusion: multiple pdfs with page group included in a single page
-> <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_E_random_tem
-p=1_MC=1000000.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
-_0_clang_64bit-MPI/plot_LikelyState_E_random_temp=1_MC=1000000.pdf): PDF inclus
-ion: multiple pdfs with page group included in a single page
-> <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_|M|_random_t
-emp=1_MC=1000000.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
-_0_clang_64bit-MPI/plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf): PDF incl
-usion: multiple pdfs with page group included in a single page
->] [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 341.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 341.
+[21]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 566.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 566.
  (./project4.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 341.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 341.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 566.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 566.
 Package rerunfilecheck Info: File `project4.out' has not changed.
-(rerunfilecheck)             Checksum: 9F8580258E22E6F7770A704EB133A0D1;913.
+(rerunfilecheck)             Checksum: BE8921FD3168D0F6026A86B3FE33233A;2311.
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 341.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 566.
  ) 
 Here is how much of TeX's memory you used:
- 21056 strings out of 493089
- 382419 string characters out of 6134842
- 562301 words of memory out of 5000000
- 24054 multiletter control sequences out of 15000+600000
- 23560 words of font info for 72 fonts, out of 8000000 for 9000
+ 21136 strings out of 493089
+ 383510 string characters out of 6134842
+ 559475 words of memory out of 5000000
+ 24094 multiletter control sequences out of 15000+600000
+ 26657 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,17n,97p,1059b,701s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,17n,97p,1195b,701s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
-/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
-ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
-al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local
-/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/te
-xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texli
-ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
-2015/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2015/tex
-mf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2015/texmf
--dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2015/texmf-d
-ist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2015/texmf-dis
-t/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2015/texmf-dist/
-fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2015/texmf-dist/fo
-nts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2015/texmf-dist/font
-s/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/
-type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/cm-super/sfrm2488.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/public/cm-super/sfti1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
-urw/ncntrsbk/uncr8a.pfb>
-Output written on project4.pdf (13 pages, 650297 bytes).
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
+sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></us
+r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/
+local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
+l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/
+texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/tex
+live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
+015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015/tex
+mf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2015/texmf-dist/
+fonts/type1/public/rsfs/rsfs7.pfb></usr/local/texlive/2015/texmf-dist/fonts/typ
+e1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
+/public/cm-super/sfbx1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/p
+ublic/cm-super/sfbx1440.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pub
+lic/cm-super/sfbx1728.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publi
+c/cm-super/sfrm0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
+cm-super/sfrm1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm
+-super/sfrm1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-s
+uper/sfrm1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-sup
+er/sfrm2488.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super
+/sfti1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/s
+ftt1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sft
+t1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.p
+fb>
+Output written on project4.pdf (21 pages, 689060 bytes).
 PDF statistics:
- 403 PDF objects out of 1000 (max. 8388607)
- 342 compressed objects within 4 object streams
- 65 named destinations out of 1000 (max. 500000)
- 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 589 PDF objects out of 1000 (max. 8388607)
+ 521 compressed objects within 6 object streams
+ 95 named destinations out of 1000 (max. 500000)
+ 280 words of extra memory for PDF output out of 10000 (max. 10000000)
 

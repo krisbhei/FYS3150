@@ -4,45 +4,45 @@ The top-level auxiliary file: project4.aux
 The style file: plain.bst
 Database file #1: ref.bib
 Warning--empty publisher in lectureNotes
-You've used 1 entry,
+You've used 2 entries,
             2118 wiz_defined-function locations,
-            502 strings with 4072 characters,
-and the built_in function-call counts, 236 in all, are:
-= -- 18
-> -- 7
+            507 strings with 4201 characters,
+and the built_in function-call counts, 442 in all, are:
+= -- 37
+> -- 14
 < -- 0
-+ -- 3
-- -- 2
-* -- 12
-:= -- 46
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 3
++ -- 7
+- -- 4
+* -- 17
+:= -- 80
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 7
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 12
-empty$ -- 23
-format.name$ -- 2
-if$ -- 46
+cite$ -- 3
+duplicate$ -- 19
+empty$ -- 45
+format.name$ -- 4
+if$ -- 91
 int.to.chr$ -- 0
-int.to.str$ -- 1
+int.to.str$ -- 2
 missing$ -- 2
-newline$ -- 8
-num.names$ -- 2
-pop$ -- 9
+newline$ -- 13
+num.names$ -- 4
+pop$ -- 17
 preamble$ -- 1
-purify$ -- 3
+purify$ -- 6
 quote$ -- 0
-skip$ -- 6
+skip$ -- 14
 stack$ -- 0
-substring$ -- 5
-swap$ -- 1
+substring$ -- 11
+swap$ -- 2
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 2
+type$ -- 6
 warning$ -- 1
-while$ -- 2
-width$ -- 2
-write$ -- 11
+while$ -- 4
+width$ -- 3
+write$ -- 20
 (There was 1 warning)

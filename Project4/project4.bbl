@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{isingIntro}
+Lubetzky E.
+\newblock The static and stochastic ising models.
+\newblock \url{http://cims.nyu.edu/~eyal/talks/stanford_col_ising.pdf}.
+
 \bibitem{lectureNotes}
 M.~Hjorth-Jensen.
 \newblock {\em Computational physics, lecture notes}.
