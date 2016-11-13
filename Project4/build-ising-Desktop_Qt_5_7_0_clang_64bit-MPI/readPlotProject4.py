@@ -72,16 +72,33 @@ def readPhaseTransitions(filename):
         plt.savefig('plot_readPhase%d.pdf'%i)
 
 def plotLikelyState(x,y,temp,trials,quantifier,conf):
-
+    # plt.subplots_adjust(hspace=.4)
+    # plt.subplot(2,1,1)
+    # plt.ylabel('$\\langle \\mathscr{%s} \\rangle$'%quantifier,fontsize=14)
+    # plt.xlabel('Number of Monte Carlo cycles')
+    # plt.ylim([np.min(y)-.001,np.max(y)+.001])
+    plt.title("Finding the most likely state for an initial %s 20$\\times$20 spin configuration with \n temperature %s and %d Monte Carlo cycles"%(conf,temp,trials))
+    #
+    # plt.plot(x,y)
+    # plt.gca().grid(True)
+    #
+    # plt.xlim([0,650000])
+    # plt.ylim([-2,-1.95])
+    # #plt.ylim([.97,1])
+    #
+    # plt.subplot(2,1,2)
     plt.ylabel('$\\langle \\mathscr{%s} \\rangle$'%quantifier,fontsize=14)
     plt.xlabel('Number of Monte Carlo cycles')
-    plt.ylim([np.min(y)-.001,np.max(y)+.001])
-    plt.title("Finding the most likely state for an initial %s 20$\\times$20 spin configuration with \n temperature %s and %d Monte Carlo cycles"%(conf,temp,trials))
-    plt.plot(x,y,'k')
-    plt.gca().grid(True)
+    #plt.title("Zoom of the plot above")
 
+    #plt.ylim([.9990,.9995])
+    #plt.ylim([-1.9975,-1.9965])
+
+    #plt.xlim([0,650000])
+    plt.gca().grid(True)
+    plt.plot(x,y)
     #plt.show()
-    plt.savefig('plot_LikelyState_%s_%s_temp=%s_MC=%d.pdf'%(quantifier,conf,temp,trials))
+    plt.savefig('zoomx_0_zoomy_0_plot_LikelyState_%s_%s_temp=%s_MC=%d.pdf'%(quantifier,conf,temp,trials))
     plt.clf()
 
 
@@ -117,33 +134,35 @@ def readLikelyState(filename,ylim=None):
     #Start: Plot the energies and magnetization
     plotLikelyState(cycles,energy_non_random,temp,trials,'E','ordered')
     plotLikelyState(cycles,magnetization_non_random,temp,trials,'|M|','ordered')
-    plotLikelyState(cycles,energy_random,temp,trials,'E','random')
-    plotLikelyState(cycles,magnetization_random,temp,trials,'|M|','random')
+    #plotLikelyState(cycles,energy_random,temp,trials,'E','random')
+    #plotLikelyState(cycles,magnetization_random,temp,trials,'|M|','random')
     #End: Plot the energies and magnetization
 
     #Start: Plot the accepted number of configurations per 100th step
-    #plt.plot(cycles,accepted_non_random,'k',markersize=1)
-
+    # plt.plot(cycles,accepted_non_random,'k')
     # plt.title('Number of accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
     # plt.ylabel('Percentage of accepted configurations per 100th cycle')
     # plt.xlabel('Number of Monte Carlo cycles')
+    # plt.xlim([0,800000])
     # plt.gca().grid(True)
-    # plt.savefig('plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
+    # plt.savefig('zoom_800000_plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
     # plt.show()
     # plt.clf()
 
-    # plt.plot(cycles,accepted_random,'k',markersize=1)
+    # plt.plot(cycles,accepted_random)
     # plt.title('Number of accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
     # plt.ylabel('Percentage of accepted configurations per 100th cycle')
     # plt.xlabel('Number of Monte Carlo cycles')
     # plt.gca().grid(True)
-    # plt.savefig('plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
+    # plt.xlim([0,800000])
+    # plt.ylim([0.07,0.105])
+    # plt.savefig('xzoom_800000_yzoom007+0105_plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
     # plt.show()
     # plt.clf()
     #End: Plot the accepted number of configurations per 100th step
 def plotAndReadForLikelyState():
-    readLikelyState("mostLikelyState_trials=1000000_temp=1.dat")
-    readLikelyState("mostLikelyState_trials=1000000_temp=2.4.dat")
+    #readLikelyState("mostLikelyState_trials=1000000_temp=1.dat")
+    readLikelyState("mostLikelyState_trials=10000000_temp=2.4.dat")
 
 def plotAndReadSearchEnergy():
     temps = [1,2.4]
@@ -159,6 +178,6 @@ if __name__ == "__main__":
     plt.rc('font', family='serif')
     params = {'text.latex.preamble' : [r'\usepackage{mathrsfs}']}
     plt.rcParams.update(params)
-
+    plotAndReadForLikelyState()
     #plotAndReadSearchEnergy()
-    readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')
+    #readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')
