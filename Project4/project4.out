@@ -24,6 +24,9 @@
 \BOOKMARK [3][-]{subsubsection.4.1.2}{Random initial spin configuration}{subsection.4.1}% 24
 \BOOKMARK [2][-]{subsection.4.2}{For a higher temperature}{section.4}% 25
 \BOOKMARK [3][-]{subsubsection.4.2.1}{Initial ordered spin configuration}{subsection.4.2}% 26
-\BOOKMARK [1][-]{section.5}{Phase transitions}{}% 27
-\BOOKMARK [1][-]{section.6}{Critical temperature}{}% 28
-\BOOKMARK [1][-]{section.7}{Conclusion}{}% 29
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Random ordered spin configuration}{subsection.4.2}% 27
+\BOOKMARK [1][-]{section.5}{Probability distribution}{}% 28
+\BOOKMARK [1][-]{section.6}{Phase transitions}{}% 29
+\BOOKMARK [2][-]{subsection.6.1}{Parallelization using MPI}{section.6}% 30
+\BOOKMARK [1][-]{section.7}{Critical temperature}{}% 31
+\BOOKMARK [1][-]{section.8}{Conclusion}{}% 32

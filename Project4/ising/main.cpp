@@ -68,7 +68,7 @@ void twoSpinTest()
 {
     const int L = 2;
     const double T = 1.0;
-    double trials[] = {1E2,1E3,1E4,1E5};//,1E6,1E7,1E8};
+    double trials[] = {1E12};//{1E2,1E3,1E4,1E5};//,1E6,1E7,1E8};
     for (double trial : trials)
     {
         int ** spins = init_matr(L);
@@ -95,7 +95,6 @@ void twoSpinTest()
     return;
 }
 
-
 void metropolisProbability(int ** spins,int dim, int trials, double T, double w[17], double energy, double magnetization,double * searchEnergies,double * hist,int i_max,string filename)
 {
     std::random_device rd;
@@ -103,6 +102,11 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     std::uniform_real_distribution<double> distr(0.0,1.0);
 
     double norm = 1./dim/dim;
+
+    double normalizedEnergyNonRandom=0;
+    double normalizedEnergyRandom=0;
+    double normalizedMagnetizationNonRandom=0;
+    double normalizedMagnetizationRandom=0;
 
     double E_Prev = 0;
     double absM_Prev = 0;
@@ -146,33 +150,33 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     }
     //End: counting the number of searchEnergy
 
-
     //Start: write to file the computed values
     ofile.open(filename);
     ofile << T << endl;
-    for(int i = 0 ; i < i_max ; i ++)ofile << setw(10) << E_min + 4*i;
+    for(int i = 0 ; i < i_max ; i ++)ofile << setw(10) << (E_min + 4*i)*norm;
     ofile << endl;
-
     for(int i = 0 ; i < i_max ; i ++)
     {
         ofile << hist[i] << endl;
         hist[i] = 0;
     }
 
-    double energySTD = sqrt(( E2- E*E)/trials);
+    E2 /= trials;
+    E /= trials;
+
+    double energySTD = sqrt(E2- E*E);
     cout << energySTD << endl;
     ofile << energySTD << endl;
 
     ofile.close();
     //End: Write to file
-
     return;
 }
 
 void probableEnergy()
 {
     const int L = 20;
-    int trials = 1E6;
+    int trials = 1E7;
 
     double e_min = -2*L*L;
     double e_max = 2*L*L;
@@ -193,7 +197,7 @@ void probableEnergy()
 
     for (double T : {1.,2.4})
     {
-                cout << T << endl;
+                //cout << T << endl;
 
                 double w[17];
                 for(int i = 0; i < 17 ; i++) w[i] = 0;
@@ -303,11 +307,10 @@ void metropolisLikelyState(int dim, int trials, double T)
 
         if (cycle%100 == 0 )
         {
-            cout << (E_NonRandom/((double) cycle))*norm<< endl;
-//            ofile << (E_NonRandom/((double)cycle))*norm << setw(20) << (absM_NonRandom/((double)cycle))*norm<< setw(20) << cycle <<setw(20)<< (acceptedNonRandom/((double)cycle))*norm*100;
-//            ofile << endl;
-//            ofile << (E_Random/((double)cycle))*norm << setw(20) << (absM_Random/((double)cycle))*norm << setw(20) << cycle <<setw(20)<< (acceptedRandom/((double)cycle))*norm*100;
-//            ofile << endl;
+            ofile << (E_NonRandom/((double)cycle))*norm << setw(20) << (absM_NonRandom/((double)cycle))*norm<< setw(20) << cycle <<setw(20)<< (acceptedNonRandom/((double)cycle))*norm*100;
+            ofile << endl;
+            ofile << (E_Random/((double)cycle))*norm << setw(20) << (absM_Random/((double)cycle))*norm << setw(20) << cycle <<setw(20)<< (acceptedRandom/((double)cycle))*norm*100;
+            ofile << endl;
         }
     }
 
@@ -319,7 +322,7 @@ void mostLikelyState()
     const int L = 20;
     int trials = 1E7;
 
-    for (double T = 1.; T <= 2.4 ; T +=1.4)
+    for (double T = 2.4; T <= 2.4 ; T +=1.4)
     {
 
                 string filename = string("lmostLikelyState");
@@ -360,7 +363,6 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
 }
 void phaseTransitions()
 {
-    cout << "running Phase" << endl;
     MPI_Init (NULL, NULL);
 
     int num_processors,this_rank;
@@ -369,7 +371,7 @@ void phaseTransitions()
 
     double start_T = 2.;
     double end_T = 2.4;
-    double step_T = 0.05;
+    double step_T = 0.015;
 
     int trials = 1E6;
 
@@ -422,7 +424,6 @@ void phaseTransitions()
             MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
             if(this_rank == 0)
             {
-                cout << T << endl;
                 writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
 
             }
@@ -509,7 +510,7 @@ void extractCriticalTemperature()
                     writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
                     double normalizing = 1./trialsPrProc/num_processors;
                     double heatCapacity = ( totalExpectations[1]*normalizing -  totalExpectations[0]* totalExpectations[0]*normalizing*normalizing)/T/T;
-                    cout << T << endl;
+                   // cout << T << endl;
                     if (heatCapacity > prevHeatC)
                     {
                         critTemp = T;
@@ -537,8 +538,8 @@ void extractCriticalTemperature()
 
 int main(int argc, char *argv[])
 {
-    //twoSpinTest();
-    mostLikelyState();
+    twoSpinTest();
+    //mostLikelyState();
     //probableEnergy();
     //phaseTransitions();
     //extractCriticalTemperature();

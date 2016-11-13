@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  13 NOV 2016 15:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  13 NOV 2016 22:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1223,9 +1223,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 144--147
 
  []
 
+
+Package Fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
+less on input line 147.
+
+[4]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 148.
 
-(/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
+ (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
@@ -1236,11 +1241,6 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 160.
 See the caption package documentation for explanation.
 
-
-Package Fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
-less on input line 160.
-
-[4]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 175.
@@ -1302,12 +1302,13 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 432.
 See the caption package documentation for explanation.
 
+[12]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 441.
 See the caption package documentation for explanation.
 
-[12]
+
 Underfull \hbox (badness 10000) in paragraph at lines 444--447
 
  []
@@ -1322,10 +1323,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 448--451
 
  []
 
-
-Package Fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
-less on input line 456.
-
 [13]
 Underfull \hbox (badness 10000) in paragraph at lines 457--458
 
@@ -1333,7 +1330,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 457--458
 
 
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyState_E_
-ordered_temp=1_MC=1000000.pdf, id=282, 578.16pt x 433.62pt>
+ordered_temp=1_MC=1000000.pdf, id=293, 578.16pt x 433.62pt>
 File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelySta
 te_E_ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
 
@@ -1349,8 +1346,12 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 See the caption package documentation for explanation.
 
 
+Package Fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
+less on input line 460.
+
+[14]
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyState_|M
-|_ordered_temp=1_MC=1000000.pdf, id=283, 578.16pt x 433.62pt>
+|_ordered_temp=1_MC=1000000.pdf, id=301, 578.16pt x 433.62pt>
 File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelySta
 te_|M|_ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
 
@@ -1366,10 +1367,16 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 462.
 See the caption package documentation for explanation.
 
-[14 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyStat
-e_E_ordered_temp=1_MC=1000000.pdf>]
+[15 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyStat
+e_E_ordered_temp=1_MC=1000000.pdf> <./build-ising-Desktop_Qt_5_7_0_clang_64bit-
+MPI/zoom_600000_plot_LikelyState_|M|_ordered_temp=1_MC=1000000.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
+_0_clang_64bit-MPI/zoom_600000_plot_LikelyState_|M|_ordered_temp=1_MC=1000000.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
+>]
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_800000_plot_LikelyState_ac
-cepted_ordered_temp=1_MC=1000000.pdf, id=319, 578.16pt x 433.62pt>
+cepted_ordered_temp=1_MC=1000000.pdf, id=353, 578.16pt x 433.62pt>
 File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_800000_plot_LikelySta
 te_accepted_ordered_temp=1_MC=1000000.pdf Graphic file (type pdf)
 
@@ -1390,15 +1397,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 469--471
 
  []
 
-[15 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_600000_plot_LikelyStat
-e_|M|_ordered_temp=1_MC=1000000.pdf> <./build-ising-Desktop_Qt_5_7_0_clang_64bi
-t-MPI/zoom_800000_plot_LikelyState_accepted_ordered_temp=1_MC=1000000.pdf
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
-_0_clang_64bit-MPI/zoom_800000_plot_LikelyState_accepted_ordered_temp=1_MC=1000
-000.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
-e
->]
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy_-2-
 1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf, id=354, 578.16pt x 433.62
 pt>
@@ -1418,9 +1417,10 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 475.
 See the caption package documentation for explanation.
 
-
+[16 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_800000_plot_LikelyStat
+e_accepted_ordered_temp=1_MC=1000000.pdf>]
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy_.97
-+1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf, id=355, 578.16pt x 433.62
++1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf, id=372, 578.16pt x 433.62
 pt>
 File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoom
 y_.97+1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf Graphic file (type pd
@@ -1438,10 +1438,18 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 477.
 See the caption package documentation for explanation.
 
-[16 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy
-_-2-1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf>]
+[17 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy
+_-2-1.95_plot_LikelyState_E_random_temp=1_MC=1000000.pdf> <./build-ising-Deskto
+p_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy_.97+1_plot_LikelyState_|
+M|_random_temp=1_MC=1000000.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
+_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy_.97+1_plot_LikelyState_|M|_rando
+m_temp=1_MC=1000000.pdf): PDF inclusion: multiple pdfs with page group included
+ in a single page
+>]
 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105_plot
-_LikelyState_accepted_random_temp=1_MC=1000000.pdf, id=379, 578.16pt x 433.62pt
+_LikelyState_accepted_random_temp=1_MC=1000000.pdf, id=423, 578.16pt x 433.62pt
 >
 File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105
 _plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf Graphic file (type pdf)
@@ -1459,25 +1467,19 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 482.
 See the caption package documentation for explanation.
 
-[17 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/subplots_zoomx_600000_zoomy
-_.97+1_plot_LikelyState_|M|_random_temp=1_MC=1000000.pdf>]
+[18 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105_
+plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf>]
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_plot_L
+ikelyState_E_ordered_temp=2.4_MC=10000000.pdf, id=448, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_p
+lot_LikelyState_E_ordered_temp=2.4_MC=10000000.pdf Graphic file (type pdf)
 
-LaTeX Warning: File `{zoom_600000_plot_LikelyState_E_ordered_temp=2.4_MC=100000
-00}.pdf' not found on input line 493.
-
-
-! Package pdftex.def Error: File `zoom_600000_plot_LikelyState_E_ordered_temp=2
-.4_MC=10000000.pdf' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.493 ...tate_E_ordered_temp=2.4_MC=10000000}.pdf}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_pl
+ot_LikelyState_E_ordered_temp=2.4_MC=10000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0
+_zoomy_-1.25-1.23_plot_LikelyState_E_ordered_temp=2.4_MC=10000000.pdf used on i
+nput line 493.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
@@ -1485,117 +1487,216 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: File `{zoom_600000_plot_LikelyState_|M|_ordered_temp=2.4_MC=1000
-0000}.pdf' not found on input line 495.
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_.45+.5_plot_Likel
+yState_|M|_ordered_temp=2.4_MC=10000000.pdf, id=449, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_.45+.5_plot_
+LikelyState_|M|_ordered_temp=2.4_MC=10000000.pdf Graphic file (type pdf)
 
-
-! Package pdftex.def Error: File `zoom_600000_plot_LikelyState_|M|_ordered_temp
-=2.4_MC=10000000.pdf' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.495 ...te_|M|_ordered_temp=2.4_MC=10000000}.pdf}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_.45+.5_plot_L
+ikelyState_|M|_ordered_temp=2.4_MC=10000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0
+_zoomy_.45+.5_plot_LikelyState_|M|_ordered_temp=2.4_MC=10000000.pdf used on inp
+ut line 495.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 496.
 See the caption package documentation for explanation.
 
-[18 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/xzoom_800000_yzoom007+0105_
-plot_LikelyState_accepted_random_temp=1_MC=1000000.pdf>]
-<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_rando
-m_temp=2.4_MC=1000000.pdf, id=438, 578.16pt x 433.62pt>
-File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_
-random_temp=2.4_MC=1000000.pdf Graphic file (type pdf)
+[19 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_pl
+ot_LikelyState_E_ordered_temp=2.4_MC=10000000.pdf> <./build-ising-Desktop_Qt_5_
+7_0_clang_64bit-MPI/zoomx_0_zoomy_.45+.5_plot_LikelyState_|M|_ordered_temp=2.4_
+MC=10000000.pdf
 
-<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_LikelyState_accepted_r
-andom_temp=2.4_MC=1000000.pdf>
-Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Li
-kelyState_accepted_random_temp=2.4_MC=1000000.pdf used on input line 500.
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
+_0_clang_64bit-MPI/zoomx_0_zoomy_.45+.5_plot_LikelyState_|M|_ordered_temp=2.4_M
+C=10000000.pdf): PDF inclusion: multiple pdfs with page group included in a sin
+gle page
+>]
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelyState_ac
+cepted_ordered_temp=2.4_MC=10000000.pdf, id=498, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelySta
+te_accepted_ordered_temp=2.4_MC=10000000.pdf Graphic file (type pdf)
+
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelyStat
+e_accepted_ordered_temp=2.4_MC=10000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_2
+6+27_plot_LikelyState_accepted_ordered_temp=2.4_MC=10000000.pdf used on input l
+ine 501.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 501.
+(caption)                particular \caption on input line 502.
 See the caption package documentation for explanation.
 
 
-Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_plot_L
+ikelyState_E_random_temp=2.4_MC=10000000.pdf, id=499, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_p
+lot_LikelyState_E_random_temp=2.4_MC=10000000.pdf Graphic file (type pdf)
+
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_pl
+ot_LikelyState_E_random_temp=2.4_MC=10000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0
+_zoomy_-1.25-1.23_plot_LikelyState_E_random_temp=2.4_MC=10000000.pdf used on in
+put line 508.
+(pdftex.def)             Requested size: 317.98898pt x 238.49173pt.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 509.
+See the caption package documentation for explanation.
+
+
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_.425+.475_plot_Li
+kelyState_|M|_random_temp=2.4_MC=10000000.pdf, id=500, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_.425+.475_pl
+ot_LikelyState_|M|_random_temp=2.4_MC=10000000.pdf Graphic file (type pdf)
+
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_.425+.475_plo
+t_LikelyState_|M|_random_temp=2.4_MC=10000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0
+_zoomy_.425+.475_plot_LikelyState_|M|_random_temp=2.4_MC=10000000.pdf used on i
+nput line 510.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 511.
+See the caption package documentation for explanation.
+
+[20 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelyStat
+e_accepted_ordered_temp=2.4_MC=10000000.pdf> <./build-ising-Desktop_Qt_5_7_0_cl
+ang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_plot_LikelyState_E_random_temp=2.4_MC=10
+000000.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
+_0_clang_64bit-MPI/zoomx_0_zoomy_-1.25-1.23_plot_LikelyState_E_random_temp=2.4_
+MC=10000000.pdf): PDF inclusion: multiple pdfs with page group included in a si
+ngle page
+>]
+Underfull \hbox (badness 10000) in paragraph at lines 513--514
+
+ []
+
+
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelyState_ac
+cepted_random_temp=2.4_MC=10000000.pdf, id=546, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelySta
+te_accepted_random_temp=2.4_MC=10000000.pdf Graphic file (type pdf)
+
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelyStat
+e_accepted_random_temp=2.4_MC=10000000.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomy_2
+6+27_plot_LikelyState_accepted_random_temp=2.4_MC=10000000.pdf used on input li
+ne 515.
+(pdftex.def)             Requested size: 317.98898pt x 238.49173pt.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 516.
+See the caption package documentation for explanation.
+
+[21 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoomx_0_zoomy_.425+.475_plo
+t_LikelyState_|M|_random_temp=2.4_MC=10000000.pdf> <./build-ising-Desktop_Qt_5_
+7_0_clang_64bit-MPI/zoomy_26+27_plot_LikelyState_accepted_random_temp=2.4_MC=10
+000000.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./build-ising-Desktop_Qt_5_7
+_0_clang_64bit-MPI/zoomy_26+27_plot_LikelyState_accepted_random_temp=2.4_MC=100
+00000.pdf): PDF inclusion: multiple pdfs with page group included in a single p
+age
+>]
+Underfull \hbox (badness 10000) in paragraph at lines 523--525
+
+ []
+
+
+<./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_-2-1.9_plot_searchEnergies
+_temp=1.000000_ordered.pdf, id=590, 578.16pt x 433.62pt>
+File: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_-2-1.9_plot_searchEne
+rgies_temp=1.000000_ordered.pdf Graphic file (type pdf)
+
+<use ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_-2-1.9_plot_searchEner
+gies_temp=1.000000_ordered.pdf>
+Package pdftex.def Info: ./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_-2
+-1.9_plot_searchEnergies_temp=1.000000_ordered.pdf used on input line 533.
+(pdftex.def)             Requested size: 375.79955pt x 281.84966pt.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 534.
+See the caption package documentation for explanation.
+
+[22]
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 537--537
 [][][][]\T1/cmr/m/n/12 kommet 
  []
 
 
-Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 537--537
 [][][][]\T1/cmr/m/n/12 kommet 
  []
 
 
-Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 537--537
 [][][][]\T1/cmr/m/n/12 kommet 
  []
 
 
-Overfull \hbox (6.37964pt too wide) in paragraph at lines 503--503
+Overfull \hbox (6.37964pt too wide) in paragraph at lines 537--537
 [][][][]\T1/cmr/m/n/12 kommet 
  []
 
-(./project4.bbl [19 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/plot_Likely
-State_accepted_random_temp=2.4_MC=1000000.pdf>]) [20]
+(./project4.bbl) [23 <./build-ising-Desktop_Qt_5_7_0_clang_64bit-MPI/zoom_-2-1.
+9_plot_searchEnergies_temp=1.000000_ordered.pdf>]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 528.
+(caption)                particular \caption on input line 557.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 536.
+(caption)                particular \caption on input line 565.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 545.
+(caption)                particular \caption on input line 574.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 554.
+(caption)                particular \caption on input line 583.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 563.
+(caption)                particular \caption on input line 592.
 See the caption package documentation for explanation.
 
 
 AED: lastpage setting LastPage
-[21]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 566.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 566.
+[24]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 595.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 595.
  (./project4.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 566.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 566.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 595.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 595.
 Package rerunfilecheck Info: File `project4.out' has not changed.
-(rerunfilecheck)             Checksum: BE8921FD3168D0F6026A86B3FE33233A;2311.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 566.
+(rerunfilecheck)             Checksum: 3E5F412C784086138B3E458BCA6A6A9E;2539.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 595.
  ) 
 Here is how much of TeX's memory you used:
- 21136 strings out of 493089
- 383510 string characters out of 6134842
- 559475 words of memory out of 5000000
- 24094 multiletter control sequences out of 15000+600000
+ 21178 strings out of 493089
+ 386997 string characters out of 6134842
+ 558532 words of memory out of 5000000
+ 24122 multiletter control sequences out of 15000+600000
  26657 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,17n,97p,1195b,701s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,18n,97p,1195b,701s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
 /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
@@ -1627,10 +1728,10 @@ er/sfrm2488.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super
 ftt1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sft
 t1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.p
 fb>
-Output written on project4.pdf (21 pages, 689060 bytes).
+Output written on project4.pdf (24 pages, 1099375 bytes).
 PDF statistics:
- 589 PDF objects out of 1000 (max. 8388607)
- 521 compressed objects within 6 object streams
- 95 named destinations out of 1000 (max. 500000)
- 280 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 747 PDF objects out of 1000 (max. 8388607)
+ 667 compressed objects within 7 object streams
+ 105 named destinations out of 1000 (max. 500000)
+ 334 words of extra memory for PDF output out of 10000 (max. 10000000)
 
