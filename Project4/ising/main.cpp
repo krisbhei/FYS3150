@@ -103,11 +103,6 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
 
     double norm = 1./dim/dim;
 
-    double normalizedEnergyNonRandom=0;
-    double normalizedEnergyRandom=0;
-    double normalizedMagnetizationNonRandom=0;
-    double normalizedMagnetizationRandom=0;
-
     double E_Prev = 0;
     double absM_Prev = 0;
     double E2 = 0;
@@ -132,7 +127,7 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     }
     //End: Go toward the likely state
 
-    cout << numCyclesBeforeLikely << endl;
+   // cout << numCyclesBeforeLikely << endl;
     tol = 1E-5;
 
     double E_min = -2*dim*dim;
@@ -157,7 +152,7 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     ofile << endl;
     for(int i = 0 ; i < i_max ; i ++)
     {
-        ofile << hist[i] << endl;
+        ofile << hist[i]*norm << endl;
         hist[i] = 0;
     }
 
