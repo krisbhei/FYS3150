@@ -48,7 +48,9 @@
 \newlabel{sec:metropolisIsing}{{2.2.2}{6}{Using Metropolis in the Ising model}{subsubsection.2.2.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Effective computing of the Metropolis algorithm for the Ising model}{7}{subsection.2.3}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Computing the energy difference}{7}{subsubsection.2.3.1}}
+\newlabel{sec:compEnergyDiff}{{2.3.1}{7}{Computing the energy difference}{subsubsection.2.3.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Example of how changing one spin does not change the values of the neighbors. This means that the neighbors,$s_{i_{k}}, s_{j_{k}}$, around $s_{i_{l'}}$ and its flipped counterpart $s_{j_{l'}}$ respectively have the same values , i.e $s_{i_{k}} = s_{j_{k}}$. \relax }}{7}{figure.4}}
+\newlabel{eq:energyDiff}{{8}{8}{Computing the energy difference}{equation.2.8}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Computing the magnetization}{8}{subsubsection.2.3.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Solving for a 2 $\times $ 2 lattice}{8}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Analytical solutions}{9}{subsection.3.1}}
@@ -57,20 +59,21 @@
 \newlabel{fig:states}{{5}{9}{Examples of possible states. Here we have included the states that differs the most from each other. The remaining states have either opposite directions of the spins or have one spin interchanged with another spin.\relax }{figure.5}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Energy for each state}{9}{subsubsection.3.1.1}}
 \newlabel{sec:energies}{{3.1.1}{9}{Energy for each state}{subsubsection.3.1.1}{}}
-\newlabel{eq:etwospin}{{8}{9}{Energy for each state}{equation.3.8}{}}
+\newlabel{eq:etwospin}{{9}{9}{Energy for each state}{equation.3.9}{}}
+\newlabel{eq:energyAll}{{10}{9}{Energy for each state}{equation.3.10}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}The partition function}{10}{subsubsection.3.1.2}}
-\newlabel{eq:exactPartition}{{9}{10}{The partition function}{equation.3.9}{}}
+\newlabel{eq:exactPartition}{{11}{10}{The partition function}{equation.3.11}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Mean energy}{10}{subsubsection.3.1.3}}
-\newlabel{eq:exactMeanE}{{10}{10}{Mean energy}{equation.3.10}{}}
-\newlabel{eq:exactMeanE2}{{11}{10}{Mean energy}{equation.3.11}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Heat capacity}{10}{subsubsection.3.1.4}}
-\newlabel{eq:exactHeatCapacity}{{12}{11}{Heat capacity}{equation.3.12}{}}
+\newlabel{eq:exactMeanE}{{12}{10}{Mean energy}{equation.3.12}{}}
+\newlabel{eq:exactMeanE2}{{13}{10}{Mean energy}{equation.3.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Heat capacity}{11}{subsubsection.3.1.4}}
+\newlabel{eq:exactHeatCapacity}{{14}{11}{Heat capacity}{equation.3.14}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.5}Magnetic moment}{11}{subsubsection.3.1.5}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Table of the computed values of the magnetic moment within a $2 \times 2$ lattice. \relax }}{11}{table.2}}
 \newlabel{tab:magneticMoments}{{2}{11}{Table of the computed values of the magnetic moment within a $2 \times 2$ lattice. \relax }{table.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.6}Mean magnetization}{12}{subsubsection.3.1.6}}
-\newlabel{eq:exactMeanMag}{{13}{12}{Mean magnetization}{equation.3.13}{}}
-\newlabel{eq:exactMeanMag2}{{14}{12}{Mean magnetization}{equation.3.14}{}}
+\newlabel{eq:exactMeanMag}{{15}{12}{Mean magnetization}{equation.3.15}{}}
+\newlabel{eq:exactMeanMag2}{{16}{12}{Mean magnetization}{equation.3.16}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.7}Susceptibility}{12}{subsubsection.3.1.7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Results after numerically solving for the system}{12}{subsection.3.2}}
 \newlabel{sec:numCycles}{{3.2}{12}{Results after numerically solving for the system}{subsection.3.2}{}}
@@ -94,6 +97,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Plot of the percentage of the accepted spin configurations per 100th cycle. The plot has been scaled such that we can compare it with figure \ref  {fig:acceptedOrderedT1}.\relax }}{18}{figure.11}}
 \newlabel{fig:acceptedRandomT1}{{11}{18}{Plot of the percentage of the accepted spin configurations per 100th cycle. The plot has been scaled such that we can compare it with figure \ref {fig:acceptedOrderedT1}.\relax }{figure.11}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}For a higher temperature}{18}{subsection.4.2}}
+\newlabel{sec:highTemp}{{4.2}{18}{For a higher temperature}{subsection.4.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Initial ordered spin configuration}{19}{subsubsection.4.2.1}}
 \@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The mean energy calculated over $10^7$ cycles. Here we have zoomed in the plot generated in \texttt  {readPlotProject4.py} and calculated the mean energy to be for each spin per cycle.\relax }}{19}{figure.12}}
 \@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces The mean magnetization calculated over $10^6$ cycles. Here we have zoomed in the plot generated in \texttt  {readPlotProject4.py} and calculated the mean energy to be for each spin per cycle.\relax }}{19}{figure.13}}
@@ -102,27 +106,32 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces The mean energy calculated over $10^7$ cycles. Here we have zoomed in the plot generated in \texttt  {readPlotProject4.py} and calculated the mean energy to be for each spin per cycle.\relax }}{20}{figure.15}}
 \@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces The mean magnetization calculated over $10^6$ cycles. Here we have zoomed in the plot generated in \texttt  {readPlotProject4.py} and calculated the mean energy to be for each spin per cycle.\relax }}{21}{figure.16}}
 \@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Percentage of accepted configurations over $10^7$ number of cycles for a random initial state.\relax }}{21}{figure.17}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Probability distribution}{22}{section.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}The probability density function}{22}{section.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces The samples of the probability density functionat temperature equal to 1.The energies has been normalized to be for every spin.\relax }}{23}{figure.18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Samples of the distribution function for a temperature at $2.4$.\relax }}{24}{figure.19}}
+\@writefile{lol}{\contentsline {lstlisting}{./build\textendash ising\textendash Desktop\textunderscore Qt\textunderscore 5\textunderscore 7\textunderscore 0\textunderscore clang\textunderscore 64bit\textendash MPI/searchEnergies\textunderscore temp=2.400000\textunderscore ordered.dat}{24}{lstlisting.-1}}
+\@writefile{lol}{\contentsline {lstlisting}{./build\textendash ising\textendash Desktop\textunderscore Qt\textunderscore 5\textunderscore 7\textunderscore 0\textunderscore clang\textunderscore 64bit\textendash MPI/searchEnergies\textunderscore temp=1.000000\textunderscore ordered.dat}{24}{lstlisting.-2}}
 \citation{*}
 \bibdata{ref}
 \bibcite{isingIntro}{1}
 \bibcite{lectureNotes}{2}
 \bibstyle{plain}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces The samples of the probability distribution function at temperature equal to 1.The energies has been normalized to be for every spin.\relax }}{23}{figure.18}}
-\@writefile{tdo}{\contentsline {todo}{kommet hit}{23}{section*.2}}
-\pgfsyspdfmark {pgfid6}{3552215}{24652803}
-\pgfsyspdfmark {pgfid9}{38786990}{24669729}
-\pgfsyspdfmark {pgfid10}{40212398}{24398913}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Phase transitions}{23}{section.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Parallelization using MPI}{23}{subsection.6.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Critical temperature}{23}{section.7}}
-\newlabel{sec:ctemp}{{7}{23}{Critical temperature}{section.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{23}{section.8}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Results after computing the two spin system using $10^2$ Monte Carlo cycles.\relax }}{24}{table.5}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Results after computing the two spin system using $10^3$ Monte Carlo cycles.\relax }}{24}{table.6}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Results after computing the two spin system using $10^5$ Monte Carlo cycles. \relax }}{24}{table.7}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Results after computing the two spin system using $10^6$ Monte Carlo cycles. \relax }}{24}{table.8}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Results after computing the two spin system using $10^7$ Monte Carlo cycles.\relax }}{24}{table.9}}
-\newlabel{LastPage}{{}{24}{}{page.24}{}}
-\xdef\lastpage@lastpage{24}
-\xdef\lastpage@lastpageHy{24}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Phase transitions}{25}{section.6}}
+\@writefile{tdo}{\contentsline {todo}{kommet hit}{25}{section*.2}}
+\pgfsyspdfmark {pgfid6}{3552215}{45335255}
+\pgfsyspdfmark {pgfid9}{38786990}{45352181}
+\pgfsyspdfmark {pgfid10}{40212398}{45081365}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Parallelization using MPI}{25}{subsection.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Critical temperature}{25}{section.7}}
+\newlabel{sec:ctemp}{{7}{25}{Critical temperature}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{25}{section.8}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Results after computing the two spin system using $10^2$ Monte Carlo cycles.\relax }}{26}{table.5}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Results after computing the two spin system using $10^3$ Monte Carlo cycles.\relax }}{26}{table.6}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Results after computing the two spin system using $10^5$ Monte Carlo cycles. \relax }}{26}{table.7}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Results after computing the two spin system using $10^6$ Monte Carlo cycles. \relax }}{26}{table.8}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Results after computing the two spin system using $10^7$ Monte Carlo cycles.\relax }}{26}{table.9}}
+\newlabel{calcEnergy}{{18}{27}{Appendix B: Calculating for all the possible energies}{equation.8.18}{}}
+\newlabel{eq:allEnergies}{{19}{27}{Appendix B: Calculating for all the possible energies}{equation.8.19}{}}
+\newlabel{LastPage}{{}{27}{}{page.27}{}}
+\xdef\lastpage@lastpage{27}
+\xdef\lastpage@lastpageHy{27}

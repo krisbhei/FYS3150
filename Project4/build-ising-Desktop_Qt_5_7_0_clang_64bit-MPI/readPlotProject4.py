@@ -28,7 +28,7 @@ def readSearchEnergy(filename,ordering,temp):
     plt.setp(stemlines,'color','k')
 
     plt.subplot(2,1,2)
-    plt.xlim([-2.05,-1.9])
+    plt.xlim([-1.7,-0.9])
     plt.title('Zoom of the plot above')
     plt.xlabel('Possible energies')
     plt.ylabel('Number of occurence')
@@ -185,7 +185,7 @@ def plotAndReadForLikelyState():
 
 def plotAndReadSearchEnergy():
     temps = [1,2.4]
-    orderings = ['ordered','random']
+    orderings = ['ordered']
     base = 'searchEnergies_temp='
     for temp in temps:
         for init in orderings:

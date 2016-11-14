@@ -162,10 +162,11 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     }
 
     E2 /= trials;
+
     E /= trials;
 
     double energySTD = sqrt(E2- E*E);
-    cout << energySTD << endl;
+    //cout << energySTD << endl;
     ofile << energySTD << endl;
 
     ofile.close();
@@ -176,7 +177,7 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
 void probableEnergy()
 {
     const int L = 20;
-    int trials = 1E7;
+    int trials = 1E6;
 
     double e_min = -2*L*L;
     double e_max = 2*L*L;
@@ -188,12 +189,7 @@ void probableEnergy()
         searchEnergies[i] = e_min + 4*i;
     }
     double * histNonRandom = new double[i_max];
-    double * histRandom = new double[i_max];
-    for(int i = 0 ; i < i_max ; i ++)
-    {
-        histNonRandom[i] = 0;
-        histRandom[i] = 0;
-    }
+    for(int i = 0 ; i < i_max ; i ++) histNonRandom[i] = 0;
 
     for (double T : {1.,2.4})
     {
@@ -207,15 +203,9 @@ void probableEnergy()
                 double energyNonRandom = 0, magnetizationNonRandom = 0;
                 initialize(L,spinsNonRandom,energyNonRandom, magnetizationNonRandom);
 
-                double energyRandom = 0, magnetizationRandom = 0;
-                int ** spinsRandom = init_matr(L);
-                initializeRandom(L,spinsRandom,energyRandom,magnetizationRandom);
-
                 string filename = string("searchEnergies");
                 filename += string("_temp=")+to_string(T);
                 metropolisProbability(spinsNonRandom,L,trials,T,w,energyNonRandom,magnetizationNonRandom,searchEnergies,histNonRandom,i_max,filename+string("_ordered.dat"));
-                metropolisProbability(spinsRandom,L,trials,T,w,energyRandom,magnetizationRandom,searchEnergies,histRandom,i_max,filename+string("_random.dat"));
-
     }
 
     return;
@@ -450,11 +440,11 @@ void extractCriticalTemperature()
     int this_cycleStart = this_rank*trialsPrProc + 1;
     int this_cycleEnd = (this_rank+1)*trialsPrProc;
     if((this_rank == num_processors - 1) && (this_cycleEnd < trials)) this_cycleEnd = trials;
-    double temp_start = 2.;
-    double temp_end = 2.4;
+
+
     double steps[]= {0.025,0.001,0.025};
-
-
+    double start_Ts[] = {2.1,2.2,2.4};
+    double end_Ts[] = {2.2,2.4,2.5};
 
     for(int numSpins : {40,60,100,140})
     {
@@ -466,26 +456,24 @@ void extractCriticalTemperature()
             string filename = string("criticalTemp");
 
             stringstream ss;
-            ss << setprecision(4) << temp_start;
+            ss << setprecision(4) << start_Ts[0];
             filename += string("_Tstart=") + ss.str();
             ss.str(string());
-            ss << setprecision(4) << temp_end;
-            filename += string("_Tend=") + ss.str()+to_string(numSpins);
+            ss << setprecision(4) << end_Ts[2];
+            filename += string("_Tend=") + ss.str()+string("_")+to_string(numSpins);
             ss.str(string());
 
             filename += string(".dat");
             ofile.open(filename);
             for(int i = 0 ; i < 3 ; i++)
             {
-               for(double T = temp_start; T <= temp_end ; T += steps[i]) ofile <<setw(10)<< T;
+               for(double T = start_Ts[i]; T < end_Ts[i] ; T += steps[i]) ofile <<setw(10)<< T;
             }
 
             ofile << endl;
             ofile << numSpins << endl;
         }
 
-        double start_Ts[] = {2.1,2.2,2.4};
-        double end_Ts[] = {2.2,2.4,2.5};
         for( int i = 0 ; i < 3 ; i++)
         {
             for(double T = start_Ts[i] ; T < end_Ts[i] ; T += steps[i])
@@ -510,7 +498,7 @@ void extractCriticalTemperature()
                     writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
                     double normalizing = 1./trialsPrProc/num_processors;
                     double heatCapacity = ( totalExpectations[1]*normalizing -  totalExpectations[0]* totalExpectations[0]*normalizing*normalizing)/T/T;
-                   // cout << T << endl;
+                    cout << T << endl;
                     if (heatCapacity > prevHeatC)
                     {
                         critTemp = T;
@@ -523,7 +511,7 @@ void extractCriticalTemperature()
 
         if(this_rank == 0)
         {
-            //cout << critTemp << endl;
+            cout << critTemp << endl;
             ofile << critTemp << endl;
             ofile.close();
             prevHeatC = 0;
@@ -538,10 +526,10 @@ void extractCriticalTemperature()
 
 int main(int argc, char *argv[])
 {
-    twoSpinTest();
+    //twoSpinTest();
     //mostLikelyState();
     //probableEnergy();
     //phaseTransitions();
-    //extractCriticalTemperature();
+    extractCriticalTemperature();
     return 0;
 }
