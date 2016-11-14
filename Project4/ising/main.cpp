@@ -302,15 +302,96 @@ void metropolisLikelyState(int dim, int trials, double T)
     return;
 }
 
+void metropolisAccepted(int dim, int trials, double T)
+{
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_real_distribution<double> distr(0.0,1.0);
+
+    double w[17];
+    for(int i = 0; i < 17 ; i++) w[i] = 0;
+    for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
+
+    int ** spinsNonRandom = init_matr(dim);
+
+    double energyNonRandom = 0, magnetizationNonRandom = 0;
+
+    initialize(dim,spinsNonRandom,energyNonRandom, magnetizationNonRandom);
+
+    int acceptedNonRandom = 0;
+
+    double norm = 1./dim/dim;
+    for(int cycle = 1 ; cycle <= trials ; cycle ++ )
+    {
+        for(int i = 0 ; i < dim*dim ; i++)
+        {
+            //Start: Spend a MC-cycle at a non random configuration
+            int r_x = (int) (distr(gen)*(double)dim);
+            int r_y = (int) (distr(gen)*(double)dim);
+
+            int deltaEnergy = 2*spinsNonRandom[r_y][r_x]*
+                    (spinsNonRandom[r_y][periodic(r_x,dim,-1)] +
+                    spinsNonRandom[periodic(r_y,dim,-1)][r_x] +
+                    spinsNonRandom[r_y][periodic(r_x,dim,1)] +
+                    spinsNonRandom[periodic(r_y,dim,1)][r_x]);
+
+            if( distr(gen) <= w[deltaEnergy + 8])
+            {
+                spinsNonRandom[r_y][r_x] *= -1;
+                magnetizationNonRandom += (double) 2*spinsNonRandom[r_y][r_x];
+                energyNonRandom += (double) deltaEnergy;
+
+                ++acceptedNonRandom;
+            }
+            //End: Spend a MC-cycle at a non random configuration
+        }
+
+        if (cycle%100 == 0 )
+        {
+            ofile << (acceptedNonRandom/((double)cycle))*norm*100 << endl;
+        }
+    }
+
+    return;
+}
+
+void acceptedTemp()
+{
+    const int L = 20;
+    int trials = 1E6;
+    double temps[] = {1.5,2,2.4,3};
+    for (double T : temps)
+    {
+
+                string filename = string("acceptedTemp");
+                stringstream ss;
+                ss << setprecision(8) << trials;
+                filename += string("_trials=")+ss.str();
+                ss.str(string());
+                ss << setprecision(8) << T;
+                filename+=string("_temp=")+ss.str();
+                filename += string(".dat");
+
+                ofile.open(filename);
+                ofile << T << setw(10) << trials << endl;
+                for(int i = 100; i < trials ; i+=100) ofile << setw(10) << i;
+                ofile << endl;
+                metropolisAccepted(L,trials,T);
+                ofile.close();
+
+    }
+    return;
+}
+
 void mostLikelyState()
 {
     const int L = 20;
-    int trials = 1E7;
+    int trials = 1E6;
 
-    for (double T = 2.4; T <= 2.4 ; T +=1.4)
+    for (double T = 1.; T <= 2.4 ; T +=1.4)
     {
 
-                string filename = string("lmostLikelyState");
+                string filename = string("mostLikelyState");
                 stringstream ss;
                 ss << setprecision(8) << trials;
                 filename += string("_trials=")+ss.str();
@@ -346,6 +427,119 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
     ofile << avgAbsM*norm_numSpins << setw(10) << susceptibility << endl;
 
 }
+void takeTimeSerial(int L,int numRuns,int trials)
+{
+    double T = 1;
+
+    string filename = string("takeTimeSerial");
+    filename+=string("_L=")+to_string(L)+string(".dat");
+    ofile.open(filename);
+
+    double totalTime = 0;
+    double timeStart = clock();
+
+    for(int i = 0 ; i<numRuns ; i++)
+    {
+
+                int ** spins = init_matr(L);
+
+                double expectations[5],totalExpectations[5];
+                for(int i = 0 ; i < 5 ; i ++)
+                {
+                    totalExpectations[i] = 0;
+                    expectations[i] = 0;
+                }
+
+                double energy = 0,magnetization = 0;
+                initialize(L,spins,energy,magnetization);
+
+                metropolis(spins,L,T,expectations,energy,magnetization,0,trials,-1);
+
+                    double timeEnd = clock();
+                    double timeTaken = timeEnd - timeStart-totalTime;
+                    cout << timeTaken/CLOCKS_PER_SEC << endl;
+                    ofile << "Time after run "<<i<<":"<< timeTaken/CLOCKS_PER_SEC << endl;
+                    totalTime += timeTaken;
+
+
+
+
+    }
+        totalTime/=CLOCKS_PER_SEC;
+        cout << totalTime/numRuns << endl;
+        ofile << "Average time: "<<totalTime/numRuns << endl;
+        ofile.close();
+
+
+    return;
+
+}
+
+void takeTimeMPI(int L,int numRuns,int trials)
+{
+    double T = 1;
+
+    int num_processors,this_rank;
+    MPI_Comm_size(MPI_COMM_WORLD, &num_processors);
+    MPI_Comm_rank (MPI_COMM_WORLD, &this_rank);
+
+    int trialsPrProc = (int)((double)trials/num_processors);
+    int this_cycleStart = this_rank*trialsPrProc + 1;
+    int this_cycleEnd = (this_rank+1)*trialsPrProc;
+    if((this_rank == num_processors - 1) && (this_cycleEnd < trials)) this_cycleEnd = trials;
+
+    if(this_rank == 0)
+    {
+        string filename = string("takeTimeMPI");
+        filename+=string("_L=")+to_string(L)+string(".dat");
+        ofile.open(filename);
+    }
+    double totalTime = 0;
+    double timeStart = MPI_Wtime();
+    for(int i = 0 ; i<numRuns ; i++)
+    {
+
+
+                int ** spins = init_matr(L);
+
+                double expectations[5],totalExpectations[5];
+                for(int i = 0 ; i < 5 ; i ++)
+                {
+                    totalExpectations[i] = 0;
+                    expectations[i] = 0;
+                }
+
+                double energy = 0,magnetization = 0;
+                initialize(L,spins,energy,magnetization);
+
+                metropolis(spins,L,T,expectations,energy,magnetization,this_cycleStart,this_cycleEnd,this_rank);
+
+                MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+                if(this_rank == 0)
+                {
+                    double timeEnd = MPI_Wtime();
+                    double timeTaken = timeEnd - timeStart-totalTime;
+                    cout << timeTaken << endl;
+                    ofile << "Time after run "<<i<<":"<< timeTaken << endl;
+                    totalTime += timeTaken;
+
+                }
+
+
+
+    }
+
+    if(this_rank == 0)
+    {
+        cout << totalTime/numRuns << endl;
+        ofile << "Average time: "<< totalTime/numRuns << endl;
+        ofile.close();
+    }
+
+    return;
+
+}
+
 void phaseTransitions()
 {
     MPI_Init (NULL, NULL);
@@ -417,7 +611,6 @@ void phaseTransitions()
     }
     if(this_rank == 0) ofile.close();
 
-    MPI_Finalize();
     return;
 }
 void extractCriticalTemperature()
@@ -523,8 +716,21 @@ int main(int argc, char *argv[])
 {
     //twoSpinTest();
     //mostLikelyState();
+    //acceptedTemp();
     //probableEnergy();
     //phaseTransitions();
-    extractCriticalTemperature();
+    //extractCriticalTemperature();
+
+    //Take times:
+    int numRuns = 5;
+    int trials = 1E6;
+    //MPI_Init (NULL, NULL);
+    for(int L : {40,60,140})
+    {
+        takeTimeSerial(L,numRuns,trials);
+        //takeTimeMPI(L,numRuns,trials);
+    }
+    //MPI_Finalize();
+
     return 0;
 }

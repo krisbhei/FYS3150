@@ -41,13 +41,11 @@ def readSearchEnergy(filename,ordering,temp):
     plt.savefig('zoom_-2-1.9_plot_'+filename[:-4]+'.pdf')
     plt.show()
 
-def plotPhase(temp,q,title,xlabel,ylabel,fig_num):
-    plt.figure(fig_num)
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel,fontsize=14)
-    plt.plot(temp,q)
-    plt.hold('on')
+def plotPhase(temp,q,title,xlabel,ylabel,fig_num,ax):
+    ax.title(title)
+    ax.xlabel(xlabel)
+    ax.ylabel(ylabel,fontsize=14)
+    ax.plot(temp,q)
 
 
 def readPhaseTransitions(filename):
@@ -156,27 +154,27 @@ def readLikelyState(filename,ylim=None):
     #End: Plot the energies and magnetization
 
     #Start: Plot the accepted number of configurations per 100th step
-    plt.plot(cycles,accepted_non_random)
-    plt.title('Accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
-    plt.ylabel('Percentage of accepted configurations per 100th cycle')
-    plt.xlabel('Number of Monte Carlo cycles')
-    #plt.xlim([0,800000])
-    plt.ylim([26,27])
-    plt.gca().grid(True)
-    plt.savefig('zoomy_26+27_plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
+    # plt.plot(cycles,accepted_non_random)
+    # plt.title('Accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
+    # plt.ylabel('Percentage of accepted configurations per 100th cycle')
+    # plt.xlabel('Number of Monte Carlo cycles')
+    # #plt.xlim([0,800000])
+    # plt.ylim([26,27])
+    # plt.gca().grid(True)
+    # plt.savefig('zoomy_26+27_plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
+    # # plt.show()
+    # plt.clf()
+    #
+    # plt.plot(cycles,accepted_random)
+    # plt.title('Accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
+    # plt.ylabel('Percentage of accepted configurations per 100th cycle')
+    # plt.xlabel('Number of Monte Carlo cycles')
+    # plt.gca().grid(True)
+    # #plt.xlim([0,800000])
+    # #plt.ylim([0.07,0.105])
+    # plt.ylim([26.5,27.2])
+    # plt.savefig('zoomy_26+27_plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
     # plt.show()
-    plt.clf()
-
-    plt.plot(cycles,accepted_random)
-    plt.title('Accepted configurations for \nan initial random spin configuration at temperature = %s '%temp)
-    plt.ylabel('Percentage of accepted configurations per 100th cycle')
-    plt.xlabel('Number of Monte Carlo cycles')
-    plt.gca().grid(True)
-    #plt.xlim([0,800000])
-    #plt.ylim([0.07,0.105])
-    plt.ylim([26.5,27.2])
-    plt.savefig('zoomy_26+27_plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
-    plt.show()
     # plt.clf()
     #End: Plot the accepted number of configurations per 100th step
 def plotAndReadForLikelyState():

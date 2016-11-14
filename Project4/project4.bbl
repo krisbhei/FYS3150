@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{superUseful}
+Simons B.
+\newblock Phase transition and collective phenomena chapter 1.
+\newblock \url{http://www.tcm.phy.cam.ac.uk/~bds10/phase/introduction.pdf}.
+
 \bibitem{isingIntro}
 Lubetzky E.
 \newblock The static and stochastic ising models.
