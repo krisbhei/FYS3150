@@ -724,13 +724,13 @@ int main(int argc, char *argv[])
     //Take times:
     int numRuns = 5;
     int trials = 1E6;
-    //MPI_Init (NULL, NULL);
+    MPI_Init (NULL, NULL);
     for(int L : {40,60,140})
     {
-        takeTimeSerial(L,numRuns,trials);
-        //takeTimeMPI(L,numRuns,trials);
+        //takeTimeSerial(L,numRuns,trials);
+        takeTimeMPI(L,numRuns,trials);
     }
-    //MPI_Finalize();
+    MPI_Finalize();
 
     return 0;
 }
