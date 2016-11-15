@@ -5,33 +5,137 @@ import numpy as np
 import matplotlib.pyplot as plt
 import shutil,os
 
+def findA(critTemp,Ls):
+    #start: find the a's
+    a = np.zeros(shape=(4,3))
+    i = 0
+    for temp in critTemp:
+        for _i in xrange(3):
+            j = (i+1+_i)%4
+            dividend = 1./( (1./Ls[i])-(1./Ls[j]) )
+            a[i,_i] = (temp - critTemp[j])*dividend
+        i += 1
+    #End: find the a's
+    _a = np.sum(np.sum(a))/12.
+    computedCritTemp = np.sum([critTemp[i] - _a/float(Ls[i]) for i in xrange(4)])/4.
+
+    return _a,a,computedCritTemp
+
+def critTemp():
+    Ls = [40,60,100,140]
+    critTemp = np.zeros(len(Ls))
+    critI = 0
+    # plt.xlabel('Temperature')
+    # plt.ylabel('$\mathscr{C}_V$',fontsize=14)
+    # plt.xlim([2.18,2.42])
+    # plt.title('Heat capacity for temperatures in [2.1,2.5] for different sizes of lattices')
+
+    labels = []
+    critTempsSusIndex = 0
+    maxSus = 0
+    critTempsSus = np.zeros(len(Ls))
+    for L in Ls:
+        filename = 'new_criticalTemp_Tstart=2.1_Tend=2.5_%d.dat'%L
+        with open(filename,'r') as infile:
+            temps = [float(T) for T in infile.readline().split()]
+            T_len = len(temps)
+            heatCapasity = np.zeros(T_len)
+            susceptibility = np.zeros(T_len)
+            magnetization = np.zeros(T_len)
+            infile.readline()
+
+            for i in xrange(T_len):
+                values = infile.readline().split()
+                heatCapasity[i] = float(values[1])
+                susceptibility[i] = float(values[3])
+                if susceptibility[i] > maxSus:
+                    maxSus = susceptibility[i]
+                    critTempsSusIndex = i
+                magnetization[i] = float(values[2])
+
+            critTempsSus[critI] = temps[critTempsSusIndex]
+            critTemp[critI] = float(infile.readline())
+            critI += 1
+    #     plt.plot(temps,heatCapasity)
+    #     labels.append('$%d\\times%d$'%(L,L))
+    #     plt.hold('on')
+    # plt.legend(labels)
+    # plt.savefig('all_plot_'+filename[:-4]+'.pdf')
+    # plt.clf()
+
+
+    _a,a,_critTemp = findA(critTemp,Ls)
+    testEqualCritTemp(critTemp,critTempSus,Ls)
+
+    print _critTemp
+    print findA(critTempsSus,Ls)[-1]
+
+
+    # xis = np.zeros(4)
+    # for i in xrange(4):
+    #     xis[i] = 1./abs(computedCritTemp - critTemp[i])
+    #
+    # __a = np.zeros(shape=(4,3))
+    #
+    # i = 0
+    # for x in xis:
+    #     for _i in xrange(3):
+    #         j = (i+1+_i)%4
+    #         dividend = 1./( (1./Ls[i])-(1./Ls[j]) )
+    #         __a[i,_i] = (x - xis[j])*dividend
+    #     i += 1
+    #
+    # newA = np.sum(np.sum(__a))/12.
+    #
+    # computedCritTemp2 = np.sum([critTemp[i] - newA/float(Ls[i]) for i in xrange(4)])/4.
+    # print computedCritTemp2
+
+
+    #Write the values of the critical temperatures and different a's in a table in latex format
+    with open('tableCritTemp.txt','w') as outfile:
+        outfile.write('%.5f '%critTemp[0])
+        for i in xrange(3):
+            outfile.write('& %.5f '%critTemp[i+1])
+        outfile.write('\\\\ \\hline\n\n')
+
+        for i in xrange(4):
+            outfile.write('$%d - L_j$ '%Ls[i])
+            for j in xrange(3):
+                outfile.write('& %.5f '%(a[i,j]))
+            outfile.write('\\\\ \\hline\n')
+        outfile.write('%.5f'%(_a))
+    #End: write table in Latex format
+
+    #Start: compute
 def readSearchEnergy(filename,ordering,temp):
     with open(filename,'r') as infile:
         temp = infile.readline().strip('\n')
         energies = [float(val) for val in infile.readline().split()]
         numEnergies = len(energies)
-        hist = [float(infile.readline()) for i in xrange(numEnergies)]
+        hist = np.array([float(infile.readline()) for i in xrange(numEnergies)])
 
         #We are at the standard deviation;
         stdE = float(infile.readline())
 
+    hist /= np.sum(hist)
     plt.subplots_adjust(hspace=.4)
     plt.figure(1)
     plt.subplot(2,1,1)
     plt.xlim([-2.1,2])
     plt.title('Number of occurence of possible energies for 20$\\times$20 lattice at \ntemperature T=%s and %s initial ordering'%(temp,ordering))
     plt.xlabel('Possible energies')
-    plt.ylabel('Number of occurence')
+    plt.ylabel('Probability of occurence')
     markerline, stemlines, baseline = plt.stem(energies, hist,'-')
     plt.setp(markerline, 'markerfacecolor', 'k','markersize',2)
     plt.setp(baseline, 'color', 'k', 'linewidth', 2)
     plt.setp(stemlines,'color','k')
 
     plt.subplot(2,1,2)
-    plt.xlim([-1.7,-0.9])
+    #plt.xlim([-2.1,-1.9])  #For low temperature
+    plt.xlim([-1.7,-.9])   #For high temperature
     plt.title('Zoom of the plot above')
     plt.xlabel('Possible energies')
-    plt.ylabel('Number of occurence')
+    plt.ylabel('Probability of occurence')
     markerline, stemlines, baseline = plt.stem(energies, hist,'-')
     plt.plot(energies,hist,'k--')
     plt.setp(markerline, 'markerfacecolor', 'k')
@@ -41,12 +145,13 @@ def readSearchEnergy(filename,ordering,temp):
     plt.savefig('zoom_-2-1.9_plot_'+filename[:-4]+'.pdf')
     plt.show()
 
-def plotPhase(temp,q,title,xlabel,ylabel,fig_num,ax):
-    ax.title(title)
-    ax.xlabel(xlabel)
-    ax.ylabel(ylabel,fontsize=14)
-    ax.plot(temp,q)
-
+def plotPhase(temp,q,title,xlabel,ylabel,l,fig_num):
+    plt.figure(fig_num)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel,fontsize=14)
+    plt.plot(temp,q)
+    plt.hold('on')
 
 def readPhaseTransitions(filename):
     with open(filename,'r') as infile:
@@ -65,25 +170,27 @@ def readPhaseTransitions(filename):
                 Cv[i] = values[1]
                 avgAbsM[i] = values[2]
                 X[i] = values[3]
-            print X
+
             labels.append('%d$\\times$%d'%(L,L))
-            plotPhase(temps,avgE,'Mean energy for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\langle \\mathscr{E} \\rangle$',1)
-            plotPhase(temps,Cv,'Heat capacity for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\mathscr{C}_V $',2)
-            plotPhase(temps,avgAbsM,'Mean magnetization for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\langle \\mathscr{|M|} \\rangle$',3)
-            plotPhase(temps,X,'Susceptibility for temperature in [2,2.3] for different L$\times$L lattices','Temperature','$\\mathscr{X}$',4)
-    print labels
-    for i in xrange(4):
-        plt.figure(i+1)
-        ax = plt.subplot(111)
-        box = ax.get_position()
-        ax.set_position([box.x0, box.y0 + box.height * 0.1,
-                 box.width, box.height * 0.9])
-
-        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
-          fancybox=True, shadow=True, ncol=5)
-        plt.legend(labels)
-        plt.savefig('plot_readPhase%d.pdf'%i)
-
+            legend = '%d$\\times$%d'%(L,L)
+            plotPhase(temps,avgE,'Mean energy for temperature in [2,2.3] for different L$\\times$L lattices','Temperature','$\\langle \\mathscr{E} \\rangle$',legend,0)
+            plotPhase(temps,Cv,'Heat capacity for temperature in [2,2.3] for different L$\\times$L lattices','Temperature','$\\mathscr{C}_V $',legend,1)
+            plotPhase(temps,avgAbsM,'Mean magnetization for temperature in [2,2.3] for different L$\\times$L lattices','Temperature','$\\langle \\mathscr{|M|} \\rangle$',legend,2)
+            plotPhase(temps,X,'Susceptibility for temperature in [2,2.3] for different L$\\times$L lattices','Temperature','$\\mathscr{X}$',legend,3)
+    plt.figure(0)
+    plt.legend(labels,loc='upper left')
+    plt.savefig('1plot_readPhase0.pdf')
+    plt.figure(1)
+    plt.legend(labels,loc='upper left')
+    plt.savefig('1plot_readPhase1.pdf')
+    plt.figure(2)
+    plt.legend(labels)
+    plt.savefig('1plot_readPhase2.pdf')
+    plt.figure(3)
+    plt.legend(labels,loc='upper left')
+    plt.savefig('1plot_readPhase3.pdf')
+    #plt.savefig('plot_readPhase%d.pdf'%i)
+    #plt.show()
 def plotLikelyState(x,y,temp,trials,quantifier,conf):
     # plt.subplots_adjust(hspace=.4)
     # plt.subplot(2,1,1)
@@ -154,15 +261,16 @@ def readLikelyState(filename,ylim=None):
     #End: Plot the energies and magnetization
 
     #Start: Plot the accepted number of configurations per 100th step
-    # plt.plot(cycles,accepted_non_random)
-    # plt.title('Accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
-    # plt.ylabel('Percentage of accepted configurations per 100th cycle')
-    # plt.xlabel('Number of Monte Carlo cycles')
-    # #plt.xlim([0,800000])
-    # plt.ylim([26,27])
-    # plt.gca().grid(True)
-    # plt.savefig('zoomy_26+27_plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
-    # # plt.show()
+    plt.plot(cycles,accepted_non_random)
+    plt.title('Accepted configurations for \nan initial ordered spin configuration at temperature = %s '%temp)
+    plt.ylabel('Percentage of accepted configurations per 100th cycle')
+    plt.xlabel('Number of Monte Carlo cycles')
+    plt.xlim([0,800000])
+    #plt.ylim([26,27])
+    plt.ylim([26.75,27.25])
+    plt.gca().grid(True)
+    plt.savefig('zoomy_26.75+27.25_plot_LikelyState_accepted_ordered_temp=%s_MC=%d.pdf'%(temp,trials))
+    # plt.show()
     # plt.clf()
     #
     # plt.plot(cycles,accepted_random)
@@ -170,15 +278,17 @@ def readLikelyState(filename,ylim=None):
     # plt.ylabel('Percentage of accepted configurations per 100th cycle')
     # plt.xlabel('Number of Monte Carlo cycles')
     # plt.gca().grid(True)
-    # #plt.xlim([0,800000])
+    # plt.xlim([0,800000])
     # #plt.ylim([0.07,0.105])
-    # plt.ylim([26.5,27.2])
-    # plt.savefig('zoomy_26+27_plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
+    # #plt.ylim([26.5,27.2])
+    # plt.ylim([0,30])
+
+    plt.savefig('zoomy_30_plot_LikelyState_accepted_random_temp=%s_MC=%d.pdf'%(temp,trials))
     # plt.show()
     # plt.clf()
     #End: Plot the accepted number of configurations per 100th step
 def plotAndReadForLikelyState():
-    #readLikelyState("mostLikelyState_trials=1000000_temp=1.dat")
+    readLikelyState("mostLikelyState_trials=1000000_temp=1.dat")
     readLikelyState("lmostLikelyState_trials=10000000_temp=2.4.dat")
 
 def plotAndReadSearchEnergy():
@@ -199,4 +309,5 @@ if __name__ == "__main__":
     plt.rcParams.update(params)
     #plotAndReadForLikelyState()
     plotAndReadSearchEnergy()
-    #readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.3_Tstep=0.05.dat')
+    #readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.4_Tstep=0.015.dat')
+    #critTemp()
