@@ -14,6 +14,21 @@
 using namespace std;
 ofstream ofile;
 
+
+/* void
+ * writeExpectedValuesTwoSpin(int dim, double temp, double expectations[5],long trials)
+ *
+ * Writes the computed and analytical values per spin after a simulation on a 2 by 2 grid.
+ * Assumes quadratic lattice.
+ *
+ * Input:
+ *  - int dim : Size of the lattice along one dimension
+ *  - double temp : The temperature the lattice wasexposed to
+ *  - double expectations[5] : To store the expectation values
+ *  - long trials : The total number of Monte Carlo cycles
+*/
+void writeExpectedValuesTwoSpin(int, double, double expectations[5],long);
+
 void writeExpectedValuesTwoSpin(int dim, double temp, double expectations[5],long trials)
 {
     //Start: Initialize computed values
@@ -68,7 +83,7 @@ void twoSpinTest()
 {
     const int L = 2;
     const double T = 1.0;
-    double trials[] = {1E12};//{1E2,1E3,1E4,1E5};//,1E6,1E7,1E8};
+    double trials[] = {1E2,1E3,1E4,1E5,1E6,1E7,1E8};
     for (double trial : trials)
     {
         int ** spins = init_matr(L);
@@ -91,15 +106,14 @@ void twoSpinTest()
         writeExpectedValuesTwoSpin(L,T,expectations,trial);
         ofile.close();
     }
-    cout << "End twoSpin test" << endl;
     return;
 }
 
 void metropolisProbability(int ** spins,int dim, int trials, double T, double w[17], double energy, double magnetization,double * searchEnergies,double * hist,int i_max,string filename)
 {
-    std::random_device rd;
-    std::mt19937_64 gen(rd());
-    std::uniform_real_distribution<double> distr(0.0,1.0);
+    random_device rd;
+    mt19937_64 gen(rd());
+    uniform_real_distribution<double> distr(0.0,1.0);
 
     double norm = 1./dim/dim;
 
@@ -161,7 +175,6 @@ void metropolisProbability(int ** spins,int dim, int trials, double T, double w[
     E /= trials;
 
     double energySTD = sqrt(E2- E*E);
-    //cout << energySTD << endl;
     ofile << energySTD << endl;
 
     ofile.close();
@@ -176,7 +189,7 @@ void probableEnergy()
 
     double e_min = -2*L*L;
     double e_max = 2*L*L;
-    int i_max = (800.-e_min)/4.+1;
+    int i_max = (e_max-e_min)/4.+1;
     double * searchEnergies = new double[i_max];
 
     for(int i = 0 ; i < i_max ; i ++)
@@ -188,19 +201,18 @@ void probableEnergy()
 
     for (double T : {1.,2.4})
     {
-                //cout << T << endl;
 
-                double w[17];
-                for(int i = 0; i < 17 ; i++) w[i] = 0;
-                for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
+        double w[17];
+        for(int i = 0; i < 17 ; i++) w[i] = 0;
+        for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
 
-                int ** spinsNonRandom = init_matr(L);
-                double energyNonRandom = 0, magnetizationNonRandom = 0;
-                initialize(L,spinsNonRandom,energyNonRandom, magnetizationNonRandom);
+        int ** spinsNonRandom = init_matr(L);
+        double energyNonRandom = 0, magnetizationNonRandom = 0;
+        initialize(L,spinsNonRandom,energyNonRandom, magnetizationNonRandom);
 
-                string filename = string("searchEnergies");
-                filename += string("_temp=")+to_string(T);
-                metropolisProbability(spinsNonRandom,L,trials,T,w,energyNonRandom,magnetizationNonRandom,searchEnergies,histNonRandom,i_max,filename+string("_ordered.dat"));
+        string filename = string("searchEnergies");
+        filename += string("_temp=")+to_string(T);
+        metropolisProbability(spinsNonRandom,L,trials,T,w,energyNonRandom,magnetizationNonRandom,searchEnergies,histNonRandom,i_max,filename+string("_ordered.dat"));
     }
 
     return;
@@ -208,9 +220,9 @@ void probableEnergy()
 
 void metropolisLikelyState(int dim, int trials, double T)
 {
-    std::random_device rd;
-    std::mt19937_64 gen(rd());
-    std::uniform_real_distribution<double> distr(0.0,1.0);
+    random_device rd;
+    mt19937_64 gen(rd());
+    uniform_real_distribution<double> distr(0.0,1.0);
 
     double w[17];
     for(int i = 0; i < 17 ; i++) w[i] = 0;
@@ -298,88 +310,6 @@ void metropolisLikelyState(int dim, int trials, double T)
             ofile << endl;
         }
     }
-
-    return;
-}
-
-void metropolisAccepted(int dim, int trials, double T)
-{
-    std::random_device rd;
-    std::mt19937_64 gen(rd());
-    std::uniform_real_distribution<double> distr(0.0,1.0);
-
-    double w[17];
-    for(int i = 0; i < 17 ; i++) w[i] = 0;
-    for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
-
-    int ** spinsNonRandom = init_matr(dim);
-
-    double energyNonRandom = 0, magnetizationNonRandom = 0;
-
-    initialize(dim,spinsNonRandom,energyNonRandom, magnetizationNonRandom);
-
-    int acceptedNonRandom = 0;
-
-    double norm = 1./dim/dim;
-    for(int cycle = 1 ; cycle <= trials ; cycle ++ )
-    {
-        for(int i = 0 ; i < dim*dim ; i++)
-        {
-            //Start: Spend a MC-cycle at a non random configuration
-            int r_x = (int) (distr(gen)*(double)dim);
-            int r_y = (int) (distr(gen)*(double)dim);
-
-            int deltaEnergy = 2*spinsNonRandom[r_y][r_x]*
-                    (spinsNonRandom[r_y][periodic(r_x,dim,-1)] +
-                    spinsNonRandom[periodic(r_y,dim,-1)][r_x] +
-                    spinsNonRandom[r_y][periodic(r_x,dim,1)] +
-                    spinsNonRandom[periodic(r_y,dim,1)][r_x]);
-
-            if( distr(gen) <= w[deltaEnergy + 8])
-            {
-                spinsNonRandom[r_y][r_x] *= -1;
-                magnetizationNonRandom += (double) 2*spinsNonRandom[r_y][r_x];
-                energyNonRandom += (double) deltaEnergy;
-
-                ++acceptedNonRandom;
-            }
-            //End: Spend a MC-cycle at a non random configuration
-        }
-
-        if (cycle%100 == 0 )
-        {
-            ofile << (acceptedNonRandom/((double)cycle))*norm*100 << endl;
-        }
-    }
-
-    return;
-}
-
-void acceptedTemp()
-{
-    const int L = 20;
-    int trials = 1E6;
-    double temps[] = {1.5,2,2.4,3};
-    for (double T : temps)
-    {
-
-                string filename = string("acceptedTemp");
-                stringstream ss;
-                ss << setprecision(8) << trials;
-                filename += string("_trials=")+ss.str();
-                ss.str(string());
-                ss << setprecision(8) << T;
-                filename+=string("_temp=")+ss.str();
-                filename += string(".dat");
-
-                ofile.open(filename);
-                ofile << T << setw(10) << trials << endl;
-                for(int i = 100; i < trials ; i+=100) ofile << setw(10) << i;
-                ofile << endl;
-                metropolisAccepted(L,trials,T);
-                ofile.close();
-
-    }
     return;
 }
 
@@ -391,25 +321,25 @@ void mostLikelyState()
     for (double T = 1.; T <= 2.4 ; T +=1.4)
     {
 
-                string filename = string("mostLikelyState");
-                stringstream ss;
-                ss << setprecision(8) << trials;
-                filename += string("_trials=")+ss.str();
-                ss.str(string());
-                ss << setprecision(8) << T;
-                filename+=string("_temp=")+ss.str();
-                filename += string(".dat");
+        string filename = string("mostLikelyState");
+        stringstream ss;
+        ss << setprecision(8) << trials;
+        filename += string("_trials=")+ss.str();
+        ss.str(string());
+        ss << setprecision(8) << T;
+        filename+=string("_temp=")+ss.str();
+        filename += string(".dat");
 
-                ofile.open(filename);
-                ofile << T << setw(10) << trials << endl;
-                metropolisLikelyState(L,trials,T);
-                ofile.close();
+        ofile.open(filename);
+        ofile << T << setw(10) << trials << endl;
+        metropolisLikelyState(L,trials,T);
+        ofile.close();
 
     }
     return;
 }
 
-void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_processors,double totalExpectations[5])
+void writeExpectedValuesToFile(double T,int numSpins,int trialsPrProc,int num_processors,double totalExpectations[5])
 {
     double normalizing = 1./trialsPrProc/num_processors;
     double inverse_temp = 1./T;
@@ -425,8 +355,8 @@ void writeExpectedValuesPhase(double T,int numSpins,int trialsPrProc,int num_pro
 
     ofile << avgE*norm_numSpins << setw(10) << heatCapacity << setw(10);
     ofile << avgAbsM*norm_numSpins << setw(10) << susceptibility << endl;
-
 }
+
 void takeTimeSerial(int L,int numRuns,int trials)
 {
     double T = 1;
@@ -441,35 +371,29 @@ void takeTimeSerial(int L,int numRuns,int trials)
     for(int i = 0 ; i<numRuns ; i++)
     {
 
-                int ** spins = init_matr(L);
+        int ** spins = init_matr(L);
 
-                double expectations[5],totalExpectations[5];
-                for(int i = 0 ; i < 5 ; i ++)
-                {
-                    totalExpectations[i] = 0;
-                    expectations[i] = 0;
-                }
+        double expectations[5],totalExpectations[5];
+        for(int i = 0 ; i < 5 ; i ++)
+        {
+            totalExpectations[i] = 0;
+            expectations[i] = 0;
+        }
 
-                double energy = 0,magnetization = 0;
-                initialize(L,spins,energy,magnetization);
+        double energy = 0,magnetization = 0;
+        initialize(L,spins,energy,magnetization);
 
-                metropolis(spins,L,T,expectations,energy,magnetization,0,trials,-1);
+        metropolis(spins,L,T,expectations,energy,magnetization,0,trials,-1);
 
-                    double timeEnd = clock();
-                    double timeTaken = timeEnd - timeStart-totalTime;
-                    cout << timeTaken/CLOCKS_PER_SEC << endl;
-                    ofile << "Time after run "<<i<<":"<< timeTaken/CLOCKS_PER_SEC << endl;
-                    totalTime += timeTaken;
-
-
-
+        double timeEnd = clock();
+        double timeTaken = timeEnd - timeStart-totalTime;
+        ofile << "Time after run "<<i<<":"<< timeTaken/CLOCKS_PER_SEC << endl;
+        totalTime += timeTaken;
 
     }
-        totalTime/=CLOCKS_PER_SEC;
-        cout << totalTime/numRuns << endl;
-        ofile << "Average time: "<<totalTime/numRuns << endl;
-        ofile.close();
-
+    totalTime/=CLOCKS_PER_SEC;
+    ofile << "Average time: "<<totalTime/numRuns << endl;
+    ofile.close();
 
     return;
 
@@ -498,40 +422,34 @@ void takeTimeMPI(int L,int numRuns,int trials)
     double timeStart = MPI_Wtime();
     for(int i = 0 ; i<numRuns ; i++)
     {
+        int ** spins = init_matr(L);
 
+        double expectations[5],totalExpectations[5];
+        for(int i = 0 ; i < 5 ; i ++)
+        {
+            totalExpectations[i] = 0;
+            expectations[i] = 0;
+        }
 
-                int ** spins = init_matr(L);
+        double energy = 0,magnetization = 0;
+        initialize(L,spins,energy,magnetization);
 
-                double expectations[5],totalExpectations[5];
-                for(int i = 0 ; i < 5 ; i ++)
-                {
-                    totalExpectations[i] = 0;
-                    expectations[i] = 0;
-                }
+        metropolis(spins,L,T,expectations,energy,magnetization,this_cycleStart,this_cycleEnd,this_rank);
 
-                double energy = 0,magnetization = 0;
-                initialize(L,spins,energy,magnetization);
+        MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+        if(this_rank == 0)
+        {
+            double timeEnd = MPI_Wtime();
+            double timeTaken = timeEnd - timeStart-totalTime;
+            ofile << "Time after run "<<i<<":"<< timeTaken << endl;
+            totalTime += timeTaken;
 
-                metropolis(spins,L,T,expectations,energy,magnetization,this_cycleStart,this_cycleEnd,this_rank);
-
-                MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-                if(this_rank == 0)
-                {
-                    double timeEnd = MPI_Wtime();
-                    double timeTaken = timeEnd - timeStart-totalTime;
-                    cout << timeTaken << endl;
-                    ofile << "Time after run "<<i<<":"<< timeTaken << endl;
-                    totalTime += timeTaken;
-
-                }
-
-
+        }
 
     }
 
     if(this_rank == 0)
     {
-        cout << totalTime/numRuns << endl;
         ofile << "Average time: "<< totalTime/numRuns << endl;
         ofile.close();
     }
@@ -603,7 +521,7 @@ void phaseTransitions()
             MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
             if(this_rank == 0)
             {
-                writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
+                writeExpectedValuesToFile(T,numSpins,trialsPrProc,num_processors,totalExpectations);
 
             }
         }
@@ -613,6 +531,38 @@ void phaseTransitions()
 
     return;
 }
+void metropolisSkip(int ** spins,int numSpins,double T,double expectations[5],double energy,double magnetization,int this_cycleStart,int this_cycleEnd,int this_rank)
+{
+    std::random_device rd;
+    std::mt19937_64 gen;
+
+    if(rank == -1) std::mt19937_64 gen(rd());
+    else std::mt19937_64 gen(150 + 3.1415*rank);
+
+    std::uniform_real_distribution<double> distr(0.0,1.0);
+
+    double w[17];
+    for(int i = 0; i < 17 ; i++) w[i] = 0;
+    for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
+    int numCycles = cycle;
+    while(numCycles <= 500000) //We saw in the report that we needed a certain number of MC cycles to reach the likely state
+                               //just to be sure, we have set the number of total cycles to be 500000.
+    {
+        metropolisOneCycle(dim,spins,energy,magnetization,w);
+    }
+    for(int cycle = numCycles ; cycle <= cycleEnd ; cycle ++ )
+    {
+        metropolisOneCycle(dim,spins,energy,magnetization,w);
+
+        expectations[0] += energy;
+        expectations[1] += energy*energy;
+        expectations[2] += magnetization;
+        expectations[3] += magnetization*magnetization;
+        expectations[4] += fabs(magnetization);
+    }
+    return;
+}
+
 void extractCriticalTemperature()
 {
     MPI_Init (NULL, NULL);
@@ -677,13 +627,11 @@ void extractCriticalTemperature()
                 double energy = 0, magnetization = 0;
                 initialize(numSpins,spins,energy, magnetization);
 
-
-               // void metropolis(int** spins,int dim, double T,double expectations[5],double energy, double magnetization,int cycleStart,int cycleEnd,int rank)
-                metropolis(spins,numSpins,T,expectations,energy,magnetization,this_cycleStart,this_cycleEnd,this_rank);
+                metropolisSkip(spins,numSpins,T,expectations,energy,magnetization,this_cycleStart,this_cycleEnd,this_rank);
                 MPI_Reduce(&expectations,&totalExpectations,5,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
                 if(this_rank == 0)
                 {
-                    writeExpectedValuesPhase(T,numSpins,trialsPrProc,num_processors,totalExpectations);
+                    writeExpectedValuesToFile(T,numSpins,trialsPrProc,num_processors,totalExpectations);
                     double normalizing = 1./trialsPrProc/num_processors;
                     double heatCapacity = ( totalExpectations[1]*normalizing -  totalExpectations[0]* totalExpectations[0]*normalizing*normalizing)/T/T;
                     cout << T << endl;
@@ -699,7 +647,6 @@ void extractCriticalTemperature()
 
         if(this_rank == 0)
         {
-            cout << critTemp << endl;
             ofile << critTemp << endl;
             ofile.close();
             prevHeatC = 0;
@@ -716,10 +663,9 @@ int main(int argc, char *argv[])
 {
     //twoSpinTest();
     //mostLikelyState();
-    //acceptedTemp();
     //probableEnergy();
     //phaseTransitions();
-    //extractCriticalTemperature();
+    extractCriticalTemperature();
 
     //Take times:
     int numRuns = 5;
@@ -727,8 +673,11 @@ int main(int argc, char *argv[])
     MPI_Init (NULL, NULL);
     for(int L : {40,60,140})
     {
-        //takeTimeSerial(L,numRuns,trials);
-        takeTimeMPI(L,numRuns,trials);
+        //Either serial or parallelzied must be outcommented since they demand different number
+        //of processors when running
+
+        //takeTimeSerial(L,numRuns,trials);   //number of processors must be 1
+        //takeTimeMPI(L,numRuns,trials);
     }
     MPI_Finalize();
 

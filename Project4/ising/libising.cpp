@@ -123,3 +123,4 @@ void initializeRandom(int dim, int** spins,double & energy, double & magnetizati
     }
     return;
 } //End: initializeRandom
+

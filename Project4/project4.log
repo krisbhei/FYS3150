@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  16 NOV 2016 00:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.23)  16 NOV 2016 09:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1228,7 +1228,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 181--183
 
  []
 
-[5] [6]
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
+
+ []
+
+[6]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 236.
@@ -1852,7 +1857,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 642--1
 
  []
 
-[28]) [29]
+[28]
+Underfull \hbox (badness 3407) in paragraph at lines 4--6
+[]\T1/cmr/m/n/12 Classes of ma-gen-tic ma-te-ri-als.  []$\T1/cmtt/m/n/12 http :
+ / / www . irm . umn . edu / hg2m / hg2m _ b / hg2m _ b . html #
+ []
+
+) [29]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 658.
@@ -1891,10 +1902,10 @@ Package rerunfilecheck Info: File `project4.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 740.
  ) 
 Here is how much of TeX's memory you used:
- 21650 strings out of 493089
- 393357 string characters out of 6134842
- 618235 words of memory out of 5000000
- 24487 multiletter control sequences out of 15000+600000
+ 21654 strings out of 493089
+ 393391 string characters out of 6134842
+ 618291 words of memory out of 5000000
+ 24489 multiletter control sequences out of 15000+600000
  27340 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,17n,97p,4113b,1806s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1930,10 +1941,10 @@ fti1200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sft
 t1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sftt1
 200.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb
 >
-Output written on project4.pdf (31 pages, 1230941 bytes).
+Output written on project4.pdf (31 pages, 1232646 bytes).
 PDF statistics:
- 997 PDF objects out of 1000 (max. 8388607)
- 898 compressed objects within 9 object streams
- 181 named destinations out of 1000 (max. 500000)
+ 1004 PDF objects out of 1200 (max. 8388607)
+ 904 compressed objects within 10 object streams
+ 183 named destinations out of 1000 (max. 500000)
  340 words of extra memory for PDF output out of 10000 (max. 10000000)
 

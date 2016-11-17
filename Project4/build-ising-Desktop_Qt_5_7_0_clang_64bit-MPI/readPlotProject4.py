@@ -25,10 +25,10 @@ def critTemp():
     Ls = [40,60,100,140]
     critTemp = np.zeros(len(Ls))
     critI = 0
-    # plt.xlabel('Temperature')
-    # plt.ylabel('$\mathscr{C}_V$',fontsize=14)
-    # plt.xlim([2.18,2.42])
-    # plt.title('Heat capacity for temperatures in [2.1,2.5] for different sizes of lattices')
+    plt.xlabel('Temperature')
+    plt.ylabel('$\mathscr{C}_V$',fontsize=14)
+    plt.xlim([2.18,2.42])
+    plt.title('Heat capacity for temperatures in [2.1,2.5] for different sizes of lattices')
 
     labels = []
     critTempsSusIndex = 0
@@ -56,16 +56,15 @@ def critTemp():
             critTempsSus[critI] = temps[critTempsSusIndex]
             critTemp[critI] = float(infile.readline())
             critI += 1
-    #     plt.plot(temps,heatCapasity)
-    #     labels.append('$%d\\times%d$'%(L,L))
-    #     plt.hold('on')
-    # plt.legend(labels)
-    # plt.savefig('all_plot_'+filename[:-4]+'.pdf')
+        plt.plot(temps,heatCapasity)
+        labels.append('$%d\\times%d$'%(L,L))
+        plt.hold('on')
+    plt.legend(labels)
+    plt.savefig('1all_plot_'+filename[:-4]+'.pdf')
     # plt.clf()
 
 
     _a,a,_critTemp = findA(critTemp,Ls)
-    testEqualCritTemp(critTemp,critTempSus,Ls)
 
     print _critTemp
     print findA(critTempsSus,Ls)[-1]
@@ -92,7 +91,7 @@ def critTemp():
 
 
     #Write the values of the critical temperatures and different a's in a table in latex format
-    with open('tableCritTemp.txt','w') as outfile:
+    with open('1tableCritTemp.txt','w') as outfile:
         outfile.write('%.5f '%critTemp[0])
         for i in xrange(3):
             outfile.write('& %.5f '%critTemp[i+1])
@@ -308,6 +307,6 @@ if __name__ == "__main__":
     params = {'text.latex.preamble' : [r'\usepackage{mathrsfs}']}
     plt.rcParams.update(params)
     #plotAndReadForLikelyState()
-    plotAndReadSearchEnergy()
+    #plotAndReadSearchEnergy()
     #readPhaseTransitions('phaseTransitions_Tstart=2_Tend=2.4_Tstep=0.015.dat')
-    #critTemp()
+    critTemp()

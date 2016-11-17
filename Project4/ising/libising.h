@@ -2,18 +2,21 @@
 #define LIBISING_H
 
 /* void
- * metropolis(int** spins,int dim, long trials, double T,double expectations[5],double energy, double magnetization)
+ * void metropolis(int** spins,int dim, double T,double expectations[5],double energy, double magnetization,int cycleStart,int cycleEnd,int rank)
  *
  * Runs the metropolis algorithm for a given number of trials. Computes the expectationvalues after each sweep thorugh the lattice.
+ * Starts the Monte Carlo simulation from cycleStart to cycleEnd(inclusive).
  *
  * Input:
  *  - int ** spins           : configuration of the system
  *  - int dim                : number of spins
- *  - long trials            : number of total trials
  *  - double T               : temperature to calculate the energy
  *  - double expectations[5] : array to store the expectation values
  *  - double energy          : energy from the initial configuration
  *  - double magnetization   : magnetic moment from the inital configuration
+ *  - int cycleStart         : From which Monte Carlo cycle should start. Used in the parallelized code.
+ *  - int cycleEnd           : To which the Monte Carlo simulation should end (inclusive).
+ *  - int rank               : Which number a process has when running the parallelized code.
 */
 void metropolis(int**,int, double ,double expectations[5],double, double,int,int,int);
 
@@ -72,6 +75,19 @@ void initialize(int, int**,double &, double &);
 */
 void initializeRandom(int, int**,double &, double &);
 
+/* void
+ * metropolisOneCycle(int dim, int ** spins,double & energy, double & magnetization, double w[17])
+ *
+ * Performs one Monte Carlo cycle through the lattice of spins in the Metropolis aglortihm.
+ *
+ * Input:
+ *  - int dim      : Number of spins
+ *  - int ** spins : the lattice of spins
+ *  - double & energy : energy of the whole system
+ *  - double & magnetization : magnetic moment of the system
+ *  - double w[17] : Array with the energy differences to compare with when deciding to accept or not a spin flip.
+*/
 void metropolisOneCycle(int, int **,double &, double &, double w[17]);
+
 
 #endif // LIBISING_H
