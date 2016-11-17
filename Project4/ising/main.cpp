@@ -536,23 +536,23 @@ void metropolisSkip(int ** spins,int numSpins,double T,double expectations[5],do
     std::random_device rd;
     std::mt19937_64 gen;
 
-    if(rank == -1) std::mt19937_64 gen(rd());
-    else std::mt19937_64 gen(150 + 3.1415*rank);
+    if(this_rank == -1) std::mt19937_64 gen(rd());
+    else std::mt19937_64 gen(150 + 3.1415*this_rank);
 
     std::uniform_real_distribution<double> distr(0.0,1.0);
 
     double w[17];
     for(int i = 0; i < 17 ; i++) w[i] = 0;
     for(int i = -8; i < 9 ; i+=4) w[i+8] = exp(-((double)i)/T);
-    int numCycles = cycle;
+    int numCycles = this_cycleStart;
     while(numCycles <= 500000) //We saw in the report that we needed a certain number of MC cycles to reach the likely state
                                //just to be sure, we have set the number of total cycles to be 500000.
     {
-        metropolisOneCycle(dim,spins,energy,magnetization,w);
+        metropolisOneCycle(numSpins,spins,energy,magnetization,w);
     }
-    for(int cycle = numCycles ; cycle <= cycleEnd ; cycle ++ )
+    for(int cycle = numCycles ; cycle <= this_cycleEnd ; cycle ++ )
     {
-        metropolisOneCycle(dim,spins,energy,magnetization,w);
+        metropolisOneCycle(numSpins,spins,energy,magnetization,w);
 
         expectations[0] += energy;
         expectations[1] += energy*energy;
@@ -665,7 +665,7 @@ int main(int argc, char *argv[])
     //mostLikelyState();
     //probableEnergy();
     //phaseTransitions();
-    extractCriticalTemperature();
+    //extractCriticalTemperature();
 
     //Take times:
     int numRuns = 5;
